@@ -1,0 +1,46 @@
+<div class="absolute bg-gradient-to-r from-black/70 via-black/50 to-transparent w-full p-2">
+    <app-home-button />
+</div>
+<div class="flex flex-col items-center justify-center h-screen lg:py-0 gap-5">
+    <div class="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-center text-xl font-medium md:text-2xl text-white">
+                Inicia Sesión
+            </h1>
+            <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                    <input type="email" name="email" id="email"
+                        class=" rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white"
+                        placeholder="usuario@correo.com" formControlName="email">
+                    @if (isRequired('email')) {
+                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
+                    }
+                    @if (isEmailRequired()) {
+                    <small class="text-rose-500 text-xs">El correo debe ser valido</small>
+                    }
+                </div>
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
+                    <input type="password" name="password" id="password" placeholder="••••••••"
+                        class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
+                        formControlName="password">
+                    @if (isRequired('password')) {
+                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
+                    }
+                    @if (passwordLong()) {
+                    <small class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6 caracteres</small>
+                    }
+                </div>
+                <button type="submit"
+                    class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
+                    Ingresar
+                </button>
+                <p class="text-sm font-light text-gray-400 ">
+                    No tienes cuenta aún? <a (click)="redirectToRegister()"
+                        class="font-medium hover:cursor-pointer hover:text-violet-500 hover:underline transition-colors">Registrate!</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

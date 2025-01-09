@@ -1,0 +1,5 @@
+<div class="flex flex-col gap-4 overflow-y-scroll w-full">
+    @for (user of usersList(); track $index) {
+    <app-user-card [user]="user" />
+    }
+</div>

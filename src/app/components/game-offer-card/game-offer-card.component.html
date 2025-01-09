@@ -1,0 +1,23 @@
+<div class="bg-slate-900 rounded-xl border-2 flex flex-col hover:scale-110 transition-all">
+    <a routerLink="/game/{{offer.game.id}}">
+        <img src="img/{{offer.game.name}}_card.jpg" alt="{{offer.game.name}} card image"
+            class="object-cover w-full h-56 rounded-t-xl" style="object-position: 20%;">
+        <div class="h-36 mt-1 px-4 flex flex-col justify-between pt-1 pb-2">
+            <div>
+                <h3 class="font-semibold mb-2 text-center border-b-2">{{ offer.game.name }}</h3>
+                <div class="mb-2 text-sm text-gray-400">
+                    <p>{{ offer.game.developer }}</p>
+                    <p>{{formatDate(offer.game.release_date)}}</p>
+                </div>
+            </div>
+            <p class="text-sm text-green-400">{{ offer.discount }}% de descuento</p>
+        </div>
+    </a>
+    <div class="grid grid-cols-2 text-center items-center border-t-2 h-16">
+        <p class="text-xl font-bold">${{ getDiscount() }}</p>
+        <button (click)="waza()"
+            class="bg-gradient-to-b from-white via-gray-200 to-gray-500 hover:bg-gradient-to-t text-black w-full h-full rounded-lg rounded-t-none rounded-l-none">
+            Agregar al carrito
+        </button>
+    </div>
+</div>

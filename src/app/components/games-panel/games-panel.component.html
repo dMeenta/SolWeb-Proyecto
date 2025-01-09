@@ -1,0 +1,8 @@
+<div class="w-[99.7vw] bg-gradient-to-t from-slate-900 via-violet-800 to-slate-900 my-5 py-3">
+    <div style="scrollbar-width: none;"
+        class="w-full max-h-80 overflow-y-auto my-4 py-4 px-9 lg:px-16 flex flex-col gap-2">
+        @for (game of games; track $index) {
+        <app-game-card [game]="game" />
+        }
+    </div>
+</div>

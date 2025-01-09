@@ -1,0 +1,4 @@
+.selected {
+    border: 3px solid #4caf50; /* Cambia el color y grosor del borde */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.6); /* Sombra opcional */
+  }

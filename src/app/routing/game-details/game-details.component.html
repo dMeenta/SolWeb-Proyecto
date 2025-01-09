@@ -1,0 +1,43 @@
+<img src="img/{{game.name}}_wallpaper.jpg"
+    class="object-cover mt-3 w-7/12 md:w-9/12 lg:w-10/12 h-max-[20vh] lg:max-h-[75vh]  z-0 absolute"
+    style="object-position: 50% 20%;" alt="{{game.name}}">
+<div
+    class="relative bg-gradient-to-t from-violet-950 via-violet-900/20 to-slate-900 mt-3 px-6 py-3 z-10 h-[55vh] lg:h-[65vh] flex flex-col justify-between">
+    <div>
+        <p class="text-sm text-slate-400 mb-2 hidden sm:block">
+            <a href="" class=" hover:text-white transition-colors">Todos los juegos</a>
+            >
+            @for (cat of game.categories; track $index) {
+            <a routerLink="/categories/{{cat.id}}" class="hover:text-white transition-colors">{{cat.name}}</a>
+            @if ($index < game.categories.length-1) {<span> - </span>}
+                }
+                >
+                <a routerLink="/" class="hover:text-white transition-colors">{{game.developer}}</a>
+                >
+                <a href="" class="hover:text-white transition-colors">{{game.name}}</a>
+        </p>
+        <h2 class="text-xl md:text-2xl xl:text-3xl">{{game.name}}</h2>
+        <p class="italic text-sm">{{game.developer}} -
+            {{gameYear()}}
+        </p>
+    </div>
+    <p class="text-sm lg:text-base">{{game.description}}
+    </p>
+</div>
+<div class="relative px-6 py-2 bg-gradient-to-b from-violet-950 to-slate-900 text-slate-400 z-10">
+    <p class="mb-1">Categorías:</p>
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-1">
+        @for (cat of game.categories; track $index) {
+        <app-category [category]="cat" />
+        }
+    </div>
+    <div class="flex items-center mt-6">
+        <div class="rounded-lg rounded-r-none border-2 border-r-0 px-6 py-2 w-48 text-center bg-slate-950">
+            <p class="text-xl text-white">{{ game.price ? 'S/ '+game.price : 'Gratis!' }}</p>
+        </div>
+        <button
+            class="bg-gradient-to-b from-white via-gray-200 to-gray-500 hover:bg-gradient-to-t text-black px-6 py-2 sm:py-3 text-xs sm:text-base">
+            Agregar al carrito
+        </button>
+    </div>
+</div>

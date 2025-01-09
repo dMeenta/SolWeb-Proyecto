@@ -1,0 +1,80 @@
+<div class="absolute bg-gradient-to-r from-black/70 via-black/50 to-transparent w-full p-2">
+    <app-home-button />
+</div>
+<div class="flex flex-col items-center justify-center h-screen lg:py-0 gap-5">
+    @if (!next) {
+    <div class="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-center text-xl font-medium md:text-2xl text-white">
+                Registrate!
+            </h1>
+            <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                    <input type="email" name="email" id="email"
+                        class=" rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white"
+                        placeholder="usuario@correo.com" formControlName="email">
+                    @if (isRequired('email')) {
+                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
+                    }
+                    @if (isEmailRequired()) {
+                    <small class="text-rose-500 text-xs">El correo debe ser valido</small>
+                    }
+                </div>
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
+                    <input type="password" name="password" id="password" placeholder="••••••••"
+                        class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
+                        formControlName="password">
+                    @if (isRequired('password')) {
+                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
+                    }
+                    @if (passwordLong()) {
+                    <small class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6 caracteres</small>
+                    }
+                </div>
+                <button type="submit"
+                    class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
+                    Registrarse
+                </button>
+            </form>
+            <div class="flex text-sm font-light text-gray-400 gap-2">
+                <p class="">
+                    Tienes cuenta?
+                </p>
+                <a (click)="redirectToLogin()"
+                    class="font-medium hover:cursor-pointer hover:text-violet-500 transition-colors">Iniciar
+                    sesión!</a>
+            </div>
+        </div>
+    </div>
+    }@else {
+    <form class="w-2/4 flex flex-col gap-4" [formGroup]="form_2" (ngSubmit)="submit()">
+        <input hidden type="email" formControlName="email" name="email" id="email">
+        <div class="grid grid-cols-4 h-[150px]">
+            @for (image of profileUrls; track $index) {
+            <div class="flex flex-col justify-center items-center">
+                <label for="{{image}}" class="relative inline-block">
+                    <img [ngClass]="{'selected': isSelected(image)}" src="img/{{image}}.jpg"
+                        class="rounded-full h-[150px] w-[150px] object-cover" style="object-position: 50% 0%;"></label>
+                <input hidden (change)="onRadioChange($event)" type="radio" name="profile_url" value="{{image}}"
+                    id="{{image}}" formControlName="profile_url">
+            </div>
+            }
+        </div>
+        <div>
+            <label for="username" class="block mb-2 font-medium text-white">Username</label>
+            <input type="text" name="username" id="username" placeholder="Ingresa tu usuario"
+                class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
+                formControlName="username">
+            @if (isRequired('username')) {
+            <small class="text-rose-500 text-xs">Este campo es requerido</small>
+            }
+        </div>
+        <button type="submit"
+            class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
+            Guardar
+        </button>
+    </form>
+    }
+</div>
