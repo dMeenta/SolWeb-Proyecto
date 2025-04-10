@@ -1,6 +1,6 @@
 @if (!shouldHideLayout) {
 <header
-    class="sticky z-40 top-0 bg-gradient-to-t from-slate-900 to-slate-950 py-3 grid grid-rows-2 lg:grid-rows-1 grid-cols-2 lg:grid-cols-6 px-0 lg:px-3 items-center">
+    class="sticky z-40 top-0 bg-linear-to-t from-slate-900 to-slate-950 py-3 grid grid-rows-2 lg:grid-rows-1 grid-cols-2 lg:grid-cols-6 px-0 lg:px-3 items-center">
     <div class="flex justify-center row-start-1">
         <app-home-button />
     </div>
@@ -28,7 +28,7 @@
 </header>
 }
 @if (shouldHideLayout) {
-<main class="w-screen h-screen bg-gradient-to-b from-violet-900 via-violet-950 to-slate-950">
+<main class="w-screen h-screen bg-linear-to-b from-violet-900 via-violet-950 to-slate-950">
     <router-outlet></router-outlet>
 </main>
 }@else {
