@@ -5,11 +5,10 @@ import { GamesService } from '../../services/games.service';
 import { Game } from '../../models/Game';
 
 @Component({
-  selector: 'app-game-details',
-  standalone: true,
-  imports: [CategoryComponent, RouterLink],
-  templateUrl: './game-details.component.html',
-  styleUrl: './game-details.component.css',
+    selector: 'app-game-details',
+    imports: [CategoryComponent, RouterLink],
+    templateUrl: './game-details.component.html',
+    styleUrl: './game-details.component.css'
 })
 export class GameDetailsComponent implements OnInit {
   game!: Game;

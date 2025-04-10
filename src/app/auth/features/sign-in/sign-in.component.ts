@@ -20,10 +20,9 @@ interface FormSignIn {
   password: FormControl<string | null>;
 }
 @Component({
-  selector: 'app-sign-in',
-  standalone: true,
-  imports: [ReactiveFormsModule, HomeButtonComponent],
-  templateUrl: './sign-in.component.html',
+    selector: 'app-sign-in',
+    imports: [ReactiveFormsModule, HomeButtonComponent],
+    templateUrl: './sign-in.component.html'
 })
 export default class SignInComponent {
   constructor(private router: Router) {}

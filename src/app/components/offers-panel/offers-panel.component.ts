@@ -5,11 +5,10 @@ import { GamesService } from '../../services/games.service';
 import { Game } from '../../models/Game';
 
 @Component({
-  selector: 'app-offers-panel',
-  standalone: true,
-  imports: [GameOfferCardComponent],
-  templateUrl: './offers-panel.component.html',
-  styleUrl: './offers-panel.component.css',
+    selector: 'app-offers-panel',
+    imports: [GameOfferCardComponent],
+    templateUrl: './offers-panel.component.html',
+    styleUrl: './offers-panel.component.css'
 })
 export class OffersPanelComponent {
   @Input() offers!: Offers[];

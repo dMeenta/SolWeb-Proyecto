@@ -7,11 +7,10 @@ import { Category } from '../../models/Category';
 import { GameCardComponent } from '../../components/game-card/game-card.component';
 
 @Component({
-  selector: 'app-category-page',
-  standalone: true,
-  imports: [GameCardComponent],
-  templateUrl: './category-page.component.html',
-  styleUrl: './category-page.component.css',
+    selector: 'app-category-page',
+    imports: [GameCardComponent],
+    templateUrl: './category-page.component.html',
+    styleUrl: './category-page.component.css'
 })
 export class CategoryPageComponent implements OnInit {
   gamesByCategoryArray!: Game[];

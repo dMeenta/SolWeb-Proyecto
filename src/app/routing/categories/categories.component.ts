@@ -4,11 +4,10 @@ import { Category } from '../../models/Category';
 import { CategoryCardComponent } from '../../components/category-card/category-card.component';
 
 @Component({
-  selector: 'app-categories',
-  standalone: true,
-  imports: [CategoryCardComponent],
-  templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css',
+    selector: 'app-categories',
+    imports: [CategoryCardComponent],
+    templateUrl: './categories.component.html',
+    styleUrl: './categories.component.css'
 })
 export class CategoriesComponent implements OnInit {
   categoriesArray!: Category[];

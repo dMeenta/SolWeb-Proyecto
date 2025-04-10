@@ -7,11 +7,10 @@ import { OffersService } from '../../services/offers.service';
 import { Offers } from '../../models/Offers';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [OffersPanelComponent, GamesPanelComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+    selector: 'app-home',
+    imports: [OffersPanelComponent, GamesPanelComponent],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   gamesArray!: Game[];

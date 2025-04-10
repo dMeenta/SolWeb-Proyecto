@@ -3,11 +3,10 @@ import { Router, RouterLink } from '@angular/router';
 import { Offers } from '../../models/Offers';
 
 @Component({
-  selector: 'app-game-offer-card',
-  standalone: true,
-  imports: [RouterLink],
-  templateUrl: './game-offer-card.component.html',
-  styleUrl: './game-offer-card.component.css',
+    selector: 'app-game-offer-card',
+    imports: [RouterLink],
+    templateUrl: './game-offer-card.component.html',
+    styleUrl: './game-offer-card.component.css'
 })
 export class GameOfferCardComponent {
   @Input() offer!: Offers;
