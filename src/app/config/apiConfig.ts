@@ -10,6 +10,12 @@ export const apiConf = {
       logout: '/auth/logout',
       resetPassword: '/auth/reset-password',
       register: '/auth/register',
+      delete: (uid: string) => `/auth/${uid}`,
+    },
+    users: {
+      profile: (uid: string) => `/users/profile/${uid}`,
+      create: '/users',
+      list: '/users',
     },
   },
 };
