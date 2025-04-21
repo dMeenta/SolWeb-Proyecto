@@ -4,14 +4,15 @@ import { GameDetailsComponent } from './routing/game-details/game-details.compon
 import { CategoriesComponent } from './routing/categories/categories.component';
 import { CategoryPageComponent } from './routing/category-page/category-page.component';
 import { privateGuard } from './core/auth.guard';
+import { AuthLayoutComponent } from './auth/features/auth-layout/auth-layout.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [privateGuard()],
   },
   {
-    canActivateChild: [],
     path: 'auth',
     loadChildren: () => import('./auth/features/auth.routes'),
   },
