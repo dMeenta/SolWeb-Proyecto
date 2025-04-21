@@ -1,20 +1,29 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthStateService } from '../shared/auth-state.service';
-import { map } from 'rxjs';
 
 export function privateGuard(): CanActivateFn {
   return () => {
     const router = inject(Router);
-    const authState = inject(AuthStateService);
-    return authState.authState$.pipe(
-      map((state) => {
-        if (!state) {
-          router.navigateByUrl('auth/sign-up');
-          return false;
-        }
-        return true;
-      })
-    );
+    const token = localStorage.getItem('token'); // o 'accessToken', según cómo lo guardaste
+
+    if (!token) {
+      router.navigateByUrl('/auth/sign-in');
+      return false;
+    }
+
+    return true;
+  };
+}
+
+export function publicGuard(): CanActivateFn {
+  return () => {
+    const router = inject(Router);
+    const token = localStorage.getItem('token'); // o 'accessToken', según cómo lo guardaste
+
+    if (token) {
+      router.navigateByUrl('/');
+      return false;
+    }
+    return true;
   };
 }
