@@ -1,7 +1,7 @@
 import { Form, FormGroup } from '@angular/forms';
 
 export function isRequired(
-  field: 'email' | 'password' | 'username' | 'profile_url',
+  field: 'email' | 'password' | 'username' | 'profilePicture',
   form: FormGroup
 ) {
   let control = form.get(field);

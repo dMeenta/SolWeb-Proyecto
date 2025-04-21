@@ -12,17 +12,17 @@ import {
   passwordLong,
 } from '../../utils/validators';
 import { toast } from 'ngx-sonner';
-import { HomeButtonComponent } from '../../../components/home-button/home-button.component';
 import { Router } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 interface FormSignIn {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
 }
 @Component({
-    selector: 'app-sign-in',
-    imports: [ReactiveFormsModule, HomeButtonComponent],
-    templateUrl: './sign-in.component.html'
+  selector: 'app-sign-in',
+  imports: [ReactiveFormsModule, NgIf],
+  templateUrl: './sign-in.component.html',
 })
 export default class SignInComponent {
   constructor(private router: Router) {}
@@ -54,15 +54,16 @@ export default class SignInComponent {
 
   async submit() {
     if (!this.form.valid) return;
+
     try {
       const { email, password } = this.form.value;
 
       if (!email || !password) return;
 
-      await this._authService.signIn({ email, password }).then(() => {
-        this.router.navigateByUrl('/');
-        toast.success(`Inicio de sesión correcto.`);
-      });
+      await this._authService.signIn({ email, password });
+
+      this.router.navigateByUrl('/');
+      toast.success(`Inicio de sesión exitoso.`);
     } catch (error) {
       toast.error('Hubo un error al iniciar sesión. Intentelo nuevamente.');
     }

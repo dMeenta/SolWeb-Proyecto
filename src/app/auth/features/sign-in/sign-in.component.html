@@ -1,8 +1,6 @@
-<div class="absolute bg-linear-to-r from-black/70 via-black/50 to-transparent w-full p-2">
-    <app-home-button />
-</div>
-<div class="flex flex-col items-center justify-center h-screen lg:py-0 gap-5">
-    <div class="w-full rounded-lg shadow-sm border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
+<div
+    class="place-self-center w-full max-w-11/12 sm:max-w-2/3 lg:max-w-2/5 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6">
+    <div class="w-full rounded-lg shadow-sm border md:mt-0 xl:p-0 bg-gray-800 border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-center text-xl font-medium md:text-2xl text-white">
                 Inicia Sesión
@@ -13,24 +11,17 @@
                     <input type="email" name="email" id="email"
                         class=" rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white"
                         placeholder="usuario@correo.com" formControlName="email">
-                    @if (isRequired('email')) {
-                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
-                    }
-                    @if (isEmailRequired()) {
-                    <small class="text-rose-500 text-xs">El correo debe ser valido</small>
-                    }
+                    <small *ngIf="isRequired('email')" class="text-rose-500 text-xs">Este campo es requerido</small>
+                    <small *ngIf="isEmailRequired()" class="text-rose-500 text-xs">El correo debe ser valido</small>
                 </div>
                 <div>
                     <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
                     <input type="password" name="password" id="password" placeholder="••••••••"
                         class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
                         formControlName="password">
-                    @if (isRequired('password')) {
-                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
-                    }
-                    @if (passwordLong()) {
-                    <small class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6 caracteres</small>
-                    }
+                    <small *ngIf="isRequired('password')" class="text-rose-500 text-xs">Este campo es requerido</small>
+                    <small *ngIf="passwordLong()" class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6
+                        caracteres</small>
                 </div>
                 <button type="submit"
                     class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">

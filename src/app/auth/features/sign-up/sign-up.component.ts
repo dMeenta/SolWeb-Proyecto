@@ -12,47 +12,45 @@ import {
 } from '../../utils/validators';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../data-access/auth.service';
-import { HomeButtonComponent } from '../../../components/home-button/home-button.component';
-import { NgClass } from '@angular/common';
-import {
-  User,
-  UserCreate,
-  UsersService,
-} from '../../data-access/users.service';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { UsersService } from '../../data-access/users.service';
 import { Router } from '@angular/router';
+import { UserMSQL } from '../../../models/UserMSQL';
+import ApiResponse from '../../../models/ApiResponse';
+import { firstValueFrom } from 'rxjs';
 
-interface FormSignUp {
+interface SignUpForm {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
-}
-
-interface FormCreateUser {
-  uid: FormControl<string | null>;
-  email: FormControl<string | null>;
   username: FormControl<string | null>;
-  profile_url: FormControl<string | null>;
+  profilePicture: FormControl<string | null>;
+  biography: FormControl<string | null>;
 }
 
 @Component({
-    selector: 'app-sign-up',
-    imports: [ReactiveFormsModule, HomeButtonComponent, NgClass],
-    templateUrl: './sign-up.component.html',
-    styleUrl: './sign-up.component.css'
+  selector: 'app-sign-up',
+  imports: [ReactiveFormsModule, NgClass, NgIf, NgFor],
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css',
 })
 export default class SignUpComponent {
   selectedImage: string = '';
+
   onRadioChange(event: any): void {
     this.selectedImage = event.target.id;
   }
+
   isSelected(image: string): boolean {
     return this.selectedImage === image;
   }
+
   constructor(private router: Router) {}
 
   private formBuilder = inject(FormBuilder);
-  private _authService = inject(AuthService);
   private _userService = inject(UsersService);
-  next: boolean = false;
+  private _authService = inject(AuthService);
+
+  next: boolean = true;
   profileUrls = [
     'profile_isagi',
     'profile_bachira',
@@ -60,19 +58,39 @@ export default class SignUpComponent {
     'profile_chigiri',
   ];
 
-  isRequired(field: 'email' | 'password' | 'username' | 'profile_url') {
-    return isRequired(field, this.form);
+  isRequired(field: 'email' | 'password' | 'username' | 'profilePicture') {
+    return isRequired(field, this.signUpForm);
   }
 
   passwordLong() {
-    return passwordLong(this.form);
+    return passwordLong(this.signUpForm);
   }
 
   isEmailRequired() {
-    return hasEmailError(this.form);
+    return hasEmailError(this.signUpForm);
   }
 
-  form = this.formBuilder.group<FormSignUp>({
+  redirectToLogin() {
+    this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  goToNextPage() {
+    this.next = true;
+  }
+
+  goToPreviousPage() {
+    this.next = false;
+  }
+
+  canGoNext(): boolean {
+    const email = this.signUpForm.get('email');
+    const password = this.signUpForm.get('password');
+
+    if (!email || !password) return false;
+    return email.valid && password.valid;
+  }
+
+  signUpForm = this.formBuilder.group<SignUpForm>({
     email: this.formBuilder.control('', [
       Validators.required,
       Validators.email,
@@ -81,58 +99,53 @@ export default class SignUpComponent {
       Validators.required,
       Validators.minLength(6),
     ]),
-  });
-
-  form_2 = this.formBuilder.group<FormCreateUser>({
-    uid: this.formBuilder.control('', [Validators.required]),
-    email: this.formBuilder.control('', [Validators.required]),
     username: this.formBuilder.control('', [Validators.required]),
-    profile_url: this.formBuilder.control('', [Validators.required]),
+    profilePicture: this.formBuilder.control('', [Validators.required]),
+    biography: this.formBuilder.control(''),
   });
-
-  redirectToLogin() {
-    this.router.navigateByUrl('/sign-in');
-  }
 
   async submit() {
-    if (this.next == false) {
-      if (!this.form.valid) return;
-      try {
-        const { email, password } = this.form.value;
+    if (!this.signUpForm.valid) return;
 
-        if (!email || !password) return;
+    const { email, password, username, profilePicture, biography } =
+      this.signUpForm.value;
 
-        await this._authService.signUp({ email, password }).then((item) => {
-          this.form_2.controls.uid.setValue(item);
-        });
+    if (!email || !password || !username || !profilePicture) return;
 
-        this.form_2.controls.email.setValue(email);
-        this.next = true;
-        await this._authService.signIn({ email, password });
-      } catch (error) {
-        toast.error('Hubo un error al crear el usuario. Intentelo nuevamente.');
+    try {
+      const response: ApiResponse<any> = await firstValueFrom(
+        this._authService.signUp({ email, password })
+      );
+
+      if (!response.success) {
+        toast.error('Error al registrar usuario en Firebase');
       }
-    } else {
-      if (!this.form_2.valid) return;
 
-      try {
-        const { uid, email, profile_url, username } = this.form_2.value;
+      const userToCreate: UserMSQL = {
+        uid: response.data.localId,
+        email: response.data.email,
+        username: username,
+        profilePicture: profilePicture,
+        biography: biography || '',
+      };
 
-        if (!uid || !email || !profile_url || !username) return;
+      const userResponse: ApiResponse<any> = await firstValueFrom(
+        this._userService.createUser(userToCreate)
+      );
 
-        const user: UserCreate = {
-          email: email,
-          profile_url: profile_url,
-          username: username,
-        };
-        await this._userService.createUser(uid, user);
-        toast.success('Usuario creado correctamente');
-        this.next = false;
-        this.router.navigateByUrl('/');
-        Router;
-      } catch (error) {
-        toast.error('Algo salió mal :( \nIntentalo nuevamente');
+      if (!userResponse.success) {
+        const deleteResponse: ApiResponse<any> = await firstValueFrom(
+          this._authService.deleteUser(response.data.localId)
+        );
+        console.error(deleteResponse);
+        toast.error('Error al crear usuario en MSQL');
       }
+
+      this.router.navigateByUrl('/auth/sign-in');
+      toast.success('Usuario creado correctamente');
+    } catch (error) {
+      toast.error(`Hubo un error al crear el usuario. Inténtalo nuevamente.`);
+      console.error('Error de tipo: ', error);
     }
   }
 }

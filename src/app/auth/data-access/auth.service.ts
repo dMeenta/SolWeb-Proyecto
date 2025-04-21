@@ -1,12 +1,10 @@
-import { inject, Injectable } from '@angular/core';
-import {
-  Auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from '@angular/fire/auth';
-import { UsersService } from './users.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { apiConf, getApiUrl } from '../../config/apiConfig';
+import ApiResponse from '../../models/ApiResponse';
+import { Observable } from 'rxjs'; // Importa Observable si no lo tienes
 
-export interface User {
+export interface BodyRequest {
   email: string;
   password: string;
 }
@@ -15,24 +13,32 @@ export interface User {
   providedIn: 'root',
 })
 export class AuthService {
-  private _auth = inject(Auth);
-  private _users = inject(UsersService);
+  constructor(private http: HttpClient) {}
 
-  async signUp(user: User) {
-    const userCredential = await createUserWithEmailAndPassword(
-      this._auth,
-      user.email,
-      user.password
+  signIn(bodyRequest: BodyRequest): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.auth.login),
+      bodyRequest
     );
-    this._users.createUser(userCredential.user.uid, {
-      email: '',
-      profile_url: '',
-      username: '',
-    });
-    return userCredential.user.uid;
   }
 
-  signIn(user: User) {
-    return signInWithEmailAndPassword(this._auth, user.email, user.password);
+  signUp(bodyRequest: BodyRequest): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.auth.register),
+      bodyRequest
+    );
+  }
+
+  logout(uid: string): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.auth.logout),
+      { uid }
+    );
+  }
+
+  deleteUser(uid: string): Observable<ApiResponse<any>> {
+    return this.http.delete<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.auth.delete(uid))
+    );
   }
 }

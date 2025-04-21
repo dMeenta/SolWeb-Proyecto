@@ -1,80 +1,85 @@
-<div class="absolute bg-linear-to-r from-black/70 via-black/50 to-transparent w-full p-2">
-    <app-home-button />
-</div>
-<div class="flex flex-col items-center justify-center h-screen lg:py-0 gap-5">
-    @if (!next) {
-    <div class="w-full rounded-lg shadow-sm border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-center text-xl font-medium md:text-2xl text-white">
-                Registrate!
-            </h1>
-            <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
-                <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
-                    <input type="email" name="email" id="email"
-                        class=" rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white"
-                        placeholder="usuario@correo.com" formControlName="email">
-                    @if (isRequired('email')) {
-                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
-                    }
-                    @if (isEmailRequired()) {
-                    <small class="text-rose-500 text-xs">El correo debe ser valido</small>
-                    }
+<form [formGroup]="signUpForm" (ngSubmit)="submit()">
+    <div *ngIf="!next"
+        class="w-full place-self-center max-w-11/12 sm:max-w-2/3 lg:max-w-2/5 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6">
+        <div class="w-full rounded-lg shadow-sm border md:mt-0 xl:p-0 bg-gray-800 border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-center text-2xl font-medium text-white mb-6">
+                    ¡Regístrate!
+                </h1>
+                <!-- Sección de Email y Password (primera página) -->
+                <div class="transition-all duration-300 ease-in-out space-y-4 md:space-y-6">
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                        <input type="email" id="email" formControlName="email" placeholder="usuario@correo.com"
+                            class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white" />
+                        <small *ngIf="isRequired('email')" class="text-rose-500 text-xs">Este campo es requerido</small>
+                        <small *ngIf="isEmailRequired()" class="text-rose-500 text-xs">El correo debe ser válido</small>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
+                        <input type="password" id="password" formControlName="password" placeholder="••••••••"
+                            class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white" />
+                        <small *ngIf="isRequired('password')" class="text-rose-500 text-xs">Este campo es
+                            requerido</small>
+                        <small *ngIf="passwordLong()" class="text-rose-500 text-xs">Mínimo 6 caracteres</small>
+                    </div>
+
+                    <button [disabled]="!canGoNext()" type="button" (click)="goToNextPage()"
+                        class="w-full py-2 text-white bg-violet-800 hover:bg-violet-900 disabled:opacity-35 disabled:bg-violet-950 disabled:hover:cursor-not-allowed rounded-lg text-sm font-medium transition-all hover:cursor-pointer">
+                        Siguiente
+                    </button>
+                    <p class="text-sm font-light text-gray-400 ">
+                        Ya tienes cuenta? <a (click)="redirectToLogin()"
+                            class="font-medium hover:cursor-pointer hover:text-violet-500 hover:underline transition-colors">Inicia
+                            sesión ahora!</a>
+                    </p>
                 </div>
-                <div>
-                    <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
-                    <input type="password" name="password" id="password" placeholder="••••••••"
-                        class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
-                        formControlName="password">
-                    @if (isRequired('password')) {
-                    <small class="text-rose-500 text-xs">Este campo es requerido</small>
-                    }
-                    @if (passwordLong()) {
-                    <small class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6 caracteres</small>
-                    }
-                </div>
-                <button type="submit"
-                    class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
-                    Registrarse
-                </button>
-            </form>
-            <div class="flex text-sm font-light text-gray-400 gap-2">
-                <p class="">
-                    Tienes cuenta?
-                </p>
-                <a (click)="redirectToLogin()"
-                    class="font-medium hover:cursor-pointer hover:text-violet-500 transition-colors">Iniciar
-                    sesión!</a>
             </div>
         </div>
     </div>
-    }@else {
-    <form class="w-2/4 flex flex-col gap-4" [formGroup]="form_2" (ngSubmit)="submit()">
-        <input hidden type="email" formControlName="email" name="email" id="email">
-        <div class="grid grid-cols-4 h-[150px]">
-            @for (image of profileUrls; track $index) {
-            <div class="flex flex-col justify-center items-center">
-                <label for="{{image}}" class="relative inline-block">
-                    <img [ngClass]="{'selected': isSelected(image)}" src="img/{{image}}.jpg"
-                        class="rounded-full h-[150px] w-[150px] object-cover" style="object-position: 50% 0%;"></label>
-                <input hidden (change)="onRadioChange($event)" type="radio" name="profile_url" value="{{image}}"
-                    id="{{image}}" formControlName="profile_url">
+    <div *ngIf="next"
+        class="w-full place-self-center max-w-2/3 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6">
+        <div class="w-full rounded-lg shadow-sm border md:mt-0 xl:p-0 bg-gray-800 border-gray-700">
+            <div class="w-full flex flex-col gap-4 p-6">
+                <div class="grid h-20 sm:h-25 md:h-30 lg:h-45 2xl:h-65 grid-cols-4  items-center place-items-center">
+                    <div *ngFor="let image of profileUrls">
+                        <label [for]=image>
+                            <img [ngClass]="{'selected': isSelected(image)}" src="img/{{image}}.jpg"
+                                class="rounded-full object-cover w-18 h-18 sm:w-20 sm:h-20 md:w-30 md:h-30 lg:w-40 lg:h-40 2xl:w-60 2xl:h-60"
+                                style="object-position: 50% 0%;"></label>
+                        <input hidden (change)="onRadioChange($event)" type="radio" [id]=image [value]=image
+                            name="profilePicture" formControlName="profilePicture">
+                    </div>
+                    <small *ngIf="isRequired('profilePicture')" class="text-rose-500 text-xs">Seleccione una
+                        imagen</small>
+                </div>
+
+                <div>
+                    <label for="username" class="block mb-2 font-medium text-white">Username</label>
+                    <input type="text" id="username" formControlName="username" placeholder="Tu usuario"
+                        class="w-full p-2 bg-gray-700 text-white rounded-lg placeholder-gray-400" />
+                    <small *ngIf="isRequired('username')" class="text-rose-500 text-xs">Este campo es
+                        requerido</small>
+                </div>
+
+                <div>
+                    <label for="biography" class="block mb-2 font-medium text-white">Biography</label>
+                    <textarea id="biography" formControlName="biography" rows="4" placeholder="Escribe algo sobre ti"
+                        class="w-full p-2 bg-gray-700 text-white rounded-lg resize-none placeholder-gray-400"></textarea>
+                </div>
+
+                <div class="flex justify-between gap-4">
+                    <button type="button" (click)="goToPreviousPage()"
+                        class="w-1/2 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-lg text-sm font-medium transition-all hover:cursor-pointer">
+                        Volver
+                    </button>
+                    <button type="submit"
+                        class="w-1/2 py-2 text-white bg-violet-800 hover:bg-violet-900 rounded-lg text-sm font-medium transition-all hover:cursor-pointer">
+                        Guardar
+                    </button>
+                </div>
             </div>
-            }
         </div>
-        <div>
-            <label for="username" class="block mb-2 font-medium text-white">Username</label>
-            <input type="text" name="username" id="username" placeholder="Ingresa tu usuario"
-                class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white "
-                formControlName="username">
-            @if (isRequired('username')) {
-            <small class="text-rose-500 text-xs">Este campo es requerido</small>
-            }
-        </div>
-        <button type="submit"
-            class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
-            Guardar
-        </button>
-    </form>
-    }
-</div>
+    </div>
+</form>
