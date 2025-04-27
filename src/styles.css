@@ -43,3 +43,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgb(159 18 57);
 }
+
+.text-validator {
+  @apply text-rose-500 text-xs 2xl:text-xl;
+}
+
+.form-label {
+  @apply text-sm 2xl:text-xl font-medium text-white;
+}
+
+.form-input {
+  @apply 2xl:text-xl rounded-lg p-2 bg-gray-700 placeholder-gray-400 text-white;
+}
