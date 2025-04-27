@@ -50,7 +50,7 @@ export default class SignUpComponent {
   private _userService = inject(UsersService);
   private _authService = inject(AuthService);
 
-  next: boolean = true;
+  next: boolean = false;
   profileUrls = [
     'profile_isagi',
     'profile_bachira',

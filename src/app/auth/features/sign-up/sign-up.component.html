@@ -1,28 +1,31 @@
-<form [formGroup]="signUpForm" (ngSubmit)="submit()">
-    <div *ngIf="!next"
-        class="w-full place-self-center max-w-11/12 sm:max-w-2/3 lg:max-w-2/5 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6">
+<form [formGroup]="signUpForm" class="relative w-full h-full overflow-hidden" (ngSubmit)="submit()">
+    <div [ngClass]="next ? 'left-0 -translate-x-full opacity-0' : 'opacity-100 left-1/2 -translate-x-1/2'"
+        class="absolute top-1/2 transform -translate-y-1/2 w-11/12 md:w-7/12 2xl:w-8/12 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-2 md:p-6 transition-all duration-500">
         <div class="w-full rounded-lg shadow-sm border md:mt-0 xl:p-0 bg-gray-800 border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-center text-2xl font-medium text-white mb-6">
+                <h1 class="text-center text-2xl 2xl:text-4xl font-medium text-white mb-6">
                     ¡Regístrate!
                 </h1>
                 <!-- Sección de Email y Password (primera página) -->
-                <div class="transition-all duration-300 ease-in-out space-y-4 md:space-y-6">
+                <div class="space-y-4 md:space-y-6">
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                        <label for="email" class="block mb-2 form-label">Email</label>
                         <input type="email" id="email" formControlName="email" placeholder="usuario@correo.com"
-                            class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 text-white" />
-                        <small *ngIf="isRequired('email')" class="text-rose-500 text-xs">Este campo es requerido</small>
-                        <small *ngIf="isEmailRequired()" class="text-rose-500 text-xs">El correo debe ser válido</small>
+                            class="block w-full form-input" />
+                        <small *ngIf="isRequired('email')" class="text-validator">Este campo es
+                            requerido</small>
+                        <small *ngIf="isEmailRequired()" class="text-validator">El correo debe ser
+                            válido</small>
                     </div>
 
                     <div>
-                        <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
+                        <label for="password" class="block mb-2 form-label">Password</label>
                         <input type="password" id="password" formControlName="password" placeholder="••••••••"
-                            class="rounded-lg block w-full p-2 bg-gray-700 placeholder-gray-400 dark:text-white" />
-                        <small *ngIf="isRequired('password')" class="text-rose-500 text-xs">Este campo es
+                            class="block w-full form-input" />
+                        <small *ngIf="isRequired('password')" class="text-validator">Este campo es
                             requerido</small>
-                        <small *ngIf="passwordLong()" class="text-rose-500 text-xs">Mínimo 6 caracteres</small>
+                        <small *ngIf="passwordLong()" class="text-validator">Mínimo 6
+                            caracteres</small>
                     </div>
 
                     <button [disabled]="!canGoNext()" type="button" (click)="goToNextPage()"
@@ -38,35 +41,35 @@
             </div>
         </div>
     </div>
-    <div *ngIf="next"
-        class="w-full place-self-center max-w-2/3 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-6">
+    <div [ngClass]="!next ? 'right-0 translate-x-full' : 'opacity-100 left-1/2 -translate-x-1/2'"
+        class="absolute opacity-0 top-1/2 transform -translate-y-1/2 w-11/12 md:w-8/12 2xl:w-8/12 bg-gray-800 border border-gray-700 rounded-lg shadow-sm p-2 md:p-6 transition-all duration-500">
         <div class="w-full rounded-lg shadow-sm border md:mt-0 xl:p-0 bg-gray-800 border-gray-700">
             <div class="w-full flex flex-col gap-4 p-6">
-                <div class="grid h-20 sm:h-25 md:h-30 lg:h-45 2xl:h-65 grid-cols-4  items-center place-items-center">
+                <div class="grid h-20 sm:h-25 md:h-30 lg:h-45 2xl:h-65 grid-cols-4 items-center place-items-center">
                     <div *ngFor="let image of profileUrls">
                         <label [for]=image>
                             <img [ngClass]="{'selected': isSelected(image)}" src="img/{{image}}.jpg"
-                                class="rounded-full object-cover w-18 h-18 sm:w-20 sm:h-20 md:w-30 md:h-30 lg:w-40 lg:h-40 2xl:w-60 2xl:h-60"
+                                class="rounded-full object-cover w-18 h-18 sm:w-26 sm:h-26 lg:w-36 lg:h-36 xl:w-45 xl:h-45 2xl:w-60 2xl:h-60"
                                 style="object-position: 50% 0%;"></label>
                         <input hidden (change)="onRadioChange($event)" type="radio" [id]=image [value]=image
                             name="profilePicture" formControlName="profilePicture">
                     </div>
-                    <small *ngIf="isRequired('profilePicture')" class="text-rose-500 text-xs">Seleccione una
+                    <small *ngIf="isRequired('profilePicture')" class="text-validator">Seleccione una
                         imagen</small>
                 </div>
 
                 <div>
-                    <label for="username" class="block mb-2 font-medium text-white">Username</label>
+                    <label for="username" class="block mb-2 form-label">Username</label>
                     <input type="text" id="username" formControlName="username" placeholder="Tu usuario"
-                        class="w-full p-2 bg-gray-700 text-white rounded-lg placeholder-gray-400" />
-                    <small *ngIf="isRequired('username')" class="text-rose-500 text-xs">Este campo es
+                        class="w-full form-input" />
+                    <small *ngIf="isRequired('username')" class="text-validator">Este campo es
                         requerido</small>
                 </div>
 
                 <div>
-                    <label for="biography" class="block mb-2 font-medium text-white">Biography</label>
-                    <textarea id="biography" formControlName="biography" rows="4" placeholder="Escribe algo sobre ti"
-                        class="w-full p-2 bg-gray-700 text-white rounded-lg resize-none placeholder-gray-400"></textarea>
+                    <label for="biography" class="block mb-2 form-label">Biography</label>
+                    <textarea id="biography" formControlName="biography" rows="2" placeholder="Escribe algo sobre ti"
+                        class="w-full resize-none form-input"></textarea>
                 </div>
 
                 <div class="flex justify-between gap-4">
@@ -75,7 +78,7 @@
                         Volver
                     </button>
                     <button type="submit"
-                        class="w-1/2 py-2 text-white bg-violet-800 hover:bg-violet-900 rounded-lg text-sm font-medium transition-all hover:cursor-pointer">
+                        class="w-1/2 py-2 text-white bg-violet-800 hover:bg-violet-900 rounded-lg text-sm 2xl:text-xl font-medium transition-all hover:cursor-pointer">
                         Guardar
                     </button>
                 </div>
