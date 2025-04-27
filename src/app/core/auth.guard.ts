@@ -4,9 +4,9 @@ import { CanActivateFn, Router } from '@angular/router';
 export function privateGuard(): CanActivateFn {
   return () => {
     const router = inject(Router);
-    const token = localStorage.getItem('token'); // o 'accessToken', según cómo lo guardaste
+    const user = localStorage.getItem('userLogged');
 
-    if (!token) {
+    if (!user) {
       router.navigateByUrl('/auth/sign-in');
       return false;
     }
@@ -18,9 +18,9 @@ export function privateGuard(): CanActivateFn {
 export function publicGuard(): CanActivateFn {
   return () => {
     const router = inject(Router);
-    const token = localStorage.getItem('token'); // o 'accessToken', según cómo lo guardaste
+    const user = localStorage.getItem('userLogged');
 
-    if (token) {
+    if (user) {
       router.navigateByUrl('/');
       return false;
     }
