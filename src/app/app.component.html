@@ -1,44 +1,4 @@
-@if (!shouldHideLayout) {
-<header
-    class="sticky z-40 top-0 bg-linear-to-t from-slate-900 to-slate-950 py-3 grid grid-rows-2 lg:grid-rows-1 grid-cols-2 lg:grid-cols-6 px-0 lg:px-3 items-center">
-    <div class="flex justify-center row-start-1">
-        <app-home-button />
-    </div>
-    <nav class="border-t-2 lg:border-t-0 col-span-2 row-start-2 lg:row-start-1 w-full flex justify-center">
-        <ul class="text-xl flex lg:gap-6 lg:justify-normal w-full gap-0 justify-evenly">
-            <li><a routerLink="categories" class="hover:text-violet-300 transition-colors"
-                    routerLinkActive="text-violet-300">CATEGORIAS</a></li>
-            <li><a routerLink="comunity" class="hover:text-violet-300 transition-colors"
-                    routerLinkActive="text-violet-300">COMUNIDAD</a></li>
-            <li><a routerLink="library" class="hover:text-violet-300 transition-colors"
-                    routerLinkActive="text-violet-300">BIBLIOTECA</a></li>
-        </ul>
-    </nav>
-    <div class="text-center col-start-2 col-end-7 lg:col-start-6 lg:col-end-7">
-        <a routerLink="profile/{{userId}}" class="w-fit">
-            <i [ngClass]="{
-    'border-2 border-sky-300 bg-sky-950 p-2 rounded-full shadow-md animate-pulse':
-      userConnected
-  }" class="text-3xl fa-solid fa-circle-user"></i>
-        </a>
-        @if (userConnected) {
-        <button (click)="salir()"><i class="text-rose-600 fa-solid fa-circle-xmark"></i></button>
-        }
-    </div>
-</header>
-}
-@if (shouldHideLayout) {
-<main class="w-screen h-screen bg-linear-to-b from-violet-900 via-violet-950 to-slate-950">
+<main class="w-screen h-dvh bg-linear-to-b from-violet-950 via-indigo-950 to-slate-950">
     <router-outlet></router-outlet>
 </main>
-}@else {
-<main class="float-left w-7/12 md:w-9/12 lg:w-10/12">
-    <router-outlet></router-outlet>
-</main>
-}
-@if (!shouldHideLayout) {
-<aside class="float-right w-5/12 md:w-3/12 lg:w-2/12 pt-3 px-4">
-    <app-friends />
-</aside>
-}
 <ngx-sonner-toaster position="bottom-right" />
