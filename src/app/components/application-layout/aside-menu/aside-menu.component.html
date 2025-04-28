@@ -1,0 +1,29 @@
+<aside
+    class="h-full py-2.5 text-center border border-t-0 border-violet-500 bg-linear-to-b from-indigo-950 to-violet-950/80">
+    <ul>
+        <li
+            class="w-full hover:bg-gradient-to-b hover:from-violet-950 hover:to-violet-900/60 transition-all duration-500">
+            <a [routerLink]="[`/profile/${uid}`]" [routerLinkActiveOptions]="{exact: true}"
+                routerLinkActive="text-violet-300" class="w-full px-3 py-1 mb-2 flex gap-2 text-lg items-center"><img
+                    class="object-[50%_0%] rounded-full object-cover h-5 w-5"
+                    [src]="[`img/${profilePicture}.jpg`]">{{username}}</a>
+        </li>
+        <li
+            class="w-full hover:bg-gradient-to-b hover:from-violet-950 hover:to-violet-900/60 transition-all duration-500">
+            <a [routerLink]="['/']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="text-violet-300"
+                class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+                    class="fa-solid fa-house-chimney"></i>Home</a>
+        </li>
+        <li
+            class="w-full hover:bg-gradient-to-b hover:from-violet-950 hover:to-violet-900/60 transition-all duration-500">
+            <a [routerLink]="['/categories']" [routerLinkActiveOptions]="{exact: true}"
+                routerLinkActive="text-violet-300" class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+                    class="fa-solid fa-layer-group"></i>Categories</a>
+        </li>
+        <li
+            class="w-full hover:bg-gradient-to-b hover:from-violet-950 hover:to-violet-900/60 transition-all duration-500">
+            <a class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+                    class="fa-solid fa-message"></i>Messages</a>
+        </li>
+    </ul>
+</aside>
