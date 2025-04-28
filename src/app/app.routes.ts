@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './routing/home/home.component';
 import { GameDetailsComponent } from './routing/game-details/game-details.component';
 import { CategoriesComponent } from './routing/categories/categories.component';
 import { CategoryPageComponent } from './routing/category-page/category-page.component';
@@ -9,12 +8,9 @@ import { ApplicationLayoutComponent } from './components/application-layout/appl
 export const routes: Routes = [
   {
     path: '',
+    component: ApplicationLayoutComponent,
     canActivate: [privateGuard()],
     children: [
-      {
-        path: '',
-        component: ApplicationLayoutComponent,
-      },
       {
         path: 'categories',
         component: CategoriesComponent,
