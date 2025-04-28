@@ -1,36 +1,40 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UsersService } from '../../auth/data-access/users.service';
-import { NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { UsersListComponent } from '../../components/users-list/users-list.component';
-import { AuthStateService } from '../../shared/auth-state.service';
+import { UserMSQL } from '../../models/UserMSQL';
+import ApiResponse from '../../models/ApiResponse';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-profile',
-    imports: [UsersListComponent],
-    templateUrl: './profile.component.html',
-    styleUrl: './profile.component.css'
+  selector: 'app-profile',
+  imports: [],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
   private _userData = inject(UsersService);
-  private _userAuth = inject(AuthStateService);
-  currentUserData!: any;
+  currentUserData!: UserMSQL;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const userId = this.route.snapshot.paramMap.get('id');
-    console.log(userId);
-    if (userId) this.getUser(userId);
+    const uid = this.route.snapshot.paramMap.get('id');
+    if (uid) this.getUser(uid);
   }
 
-  async getUser(id: string) {
-    const userSnapshot = await this._userData.getUser(id);
+  async getUser(uid: string) {
+    try {
+      const response: ApiResponse<any> = await firstValueFrom(
+        this._userData.getProfile(uid)
+      );
 
-    if (!userSnapshot.exists()) return;
+      if (!response.success) {
+        console.error('Error al obtener el perfil:', response.message);
+      }
 
-    const user = userSnapshot.data();
-
-    this.currentUserData = user;
+      this.currentUserData = response.data;
+    } catch (error) {
+      console.error('Error de red o del servidor:', error);
+    }
   }
 }
