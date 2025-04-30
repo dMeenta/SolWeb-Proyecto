@@ -3,7 +3,7 @@
     <div class="flex flex-1 overflow-hidden">
         <app-aside-menu class="w-2/12 overflow-auto" [profilePicture]="userLogged.profilePicture"
             [role]="userLogged.role" [username]="userLogged.username" [uid]="userLogged.uid" />
-        <div class="flex-1 overflow-auto p-4">
+        <div [ngClass]="isGamePage() ? '' :'p-4'" class="flex-1 overflow-auto">
             <router-outlet></router-outlet>
         </div>
     </div>
