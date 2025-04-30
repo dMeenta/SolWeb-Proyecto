@@ -5,10 +5,10 @@ import { GamesService } from '../../services/games.service';
 import { Game } from '../../models/Game';
 
 @Component({
-    selector: 'app-game-details',
-    imports: [CategoryComponent, RouterLink],
-    templateUrl: './game-details.component.html',
-    styleUrl: './game-details.component.css'
+  selector: 'app-game-details',
+  imports: [CategoryComponent, RouterLink],
+  templateUrl: './game-details.component.html',
+  styleUrl: './game-details.component.css',
 })
 export class GameDetailsComponent implements OnInit {
   game!: Game;
@@ -21,14 +21,16 @@ export class GameDetailsComponent implements OnInit {
   }
 
   gameId() {
-    let gameId = this.route.snapshot.paramMap.get('id');
+    const gameId = this.route.snapshot.paramMap.get('id');
     if (gameId) {
-      const id = +gameId;
+      const id = Number.parseInt(gameId);
       this.gameService.getGameById(id).subscribe((item) => {
-        this.game = item;
+        if (item.success) {
+          this.game = item.data;
+        }
       });
     } else {
-      console.error('No se ha proporcionado un ID válido');
+      console.error('ID invalido');
     }
   }
 

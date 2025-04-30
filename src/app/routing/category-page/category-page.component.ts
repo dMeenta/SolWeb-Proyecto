@@ -7,10 +7,10 @@ import { Category } from '../../models/Category';
 import { GameCardComponent } from '../../components/game-card/game-card.component';
 
 @Component({
-    selector: 'app-category-page',
-    imports: [GameCardComponent],
-    templateUrl: './category-page.component.html',
-    styleUrl: './category-page.component.css'
+  selector: 'app-category-page',
+  imports: [GameCardComponent],
+  templateUrl: './category-page.component.html',
+  styleUrl: './category-page.component.css',
 })
 export class CategoryPageComponent implements OnInit {
   gamesByCategoryArray!: Game[];
@@ -28,23 +28,27 @@ export class CategoryPageComponent implements OnInit {
 
   getCategory(categoryId: string | null) {
     if (categoryId) {
-      const id = +categoryId;
+      const id = Number.parseInt(categoryId);
       this.categoryService.getCategoryById(id).subscribe((item) => {
-        this.category = item;
+        if (item.success) {
+          this.category = item.data;
+        }
       });
     } else {
-      console.error('No se ha proporcionado un ID válido');
+      console.error('ID inválido');
     }
   }
 
   getGamesByCategory(categoryId: string | null) {
     if (categoryId) {
-      const id = +categoryId;
+      const id = Number.parseInt(categoryId);
       this.gameService.getGamesByCategory(id).subscribe((item) => {
-        this.gamesByCategoryArray = item;
+        if (item.success) {
+          this.gamesByCategoryArray = item.data;
+        }
       });
     } else {
-      console.error('No se ha proporcionado un ID válido');
+      console.error('ID inválido');
     }
   }
 }

@@ -17,6 +17,15 @@ export const apiConf = {
       create: '/users',
       list: '/users',
     },
+    games: {
+      list: '/games',
+      detail: (id: number) => `/games/${id}`,
+      filterByCategory: (id: number) => `/games/category/${id}`,
+    },
+    categories: {
+      list: '/categories',
+      detail: (id: number) => `/categories/${id}`,
+    },
   },
 };
 

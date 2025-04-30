@@ -11,7 +11,7 @@ export class GamesService {
   constructor(private http: HttpClient) {}
 
   getGames() {
-    return this.http.get<ApiResponse<Game>>(
+    return this.http.get<ApiResponse<Game[]>>(
       getApiUrl(apiConf.endpoints.games.list)
     );
   }
