@@ -1,24 +1,30 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Game } from '../models/Game';
-import { Observable } from 'rxjs';
+import ApiResponse from '../models/ApiResponse';
+import { apiConf, getApiUrl } from '../config/apiConfig';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GamesService {
-  url = 'http://localhost:8080/games';
   constructor(private http: HttpClient) {}
 
   getGames() {
-    return this.http.get<Game[]>(this.url);
+    return this.http.get<ApiResponse<Game>>(
+      getApiUrl(apiConf.endpoints.games.list)
+    );
   }
 
-  getGameById(id: number): Observable<Game> {
-    return this.http.get<Game>(this.url + `/${id}`);
+  getGameById(id: number) {
+    return this.http.get<ApiResponse<Game>>(
+      getApiUrl(apiConf.endpoints.games.detail(id))
+    );
   }
 
-  getGamesByCategory(id: number): Observable<Game[]> {
-    return this.http.get<Game[]>(this.url + `/category/${id}`);
+  getGamesByCategory(id: number) {
+    return this.http.get<ApiResponse<Game[]>>(
+      getApiUrl(apiConf.endpoints.games.filterByCategory(id))
+    );
   }
 }

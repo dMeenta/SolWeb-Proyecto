@@ -1,11 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-@theme {
-  --color-primary-black: #0e0717;
-  --color-primary-morado: #360278;
-}
-
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still

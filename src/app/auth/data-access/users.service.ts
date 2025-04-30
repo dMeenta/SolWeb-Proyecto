@@ -5,8 +5,6 @@ import { UserMSQL } from '../../models/UserMSQL';
 import ApiResponse from '../../models/ApiResponse';
 import { Observable } from 'rxjs';
 
-const PATH = 'users';
-
 @Injectable({
   providedIn: 'root',
 })
