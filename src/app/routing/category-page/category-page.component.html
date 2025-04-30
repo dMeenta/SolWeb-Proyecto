@@ -1,12 +1,11 @@
-<div class="w-full h-[83vh] overflow-y-auto bg-linear-to-t from-slate-900 via-violet-800 to-slate-900 my-5 py-3">
-    <div class="px-6 py-2 z-10">
-        <div>
-            <h1 class="text-2xl font-bold italic mb-2">{{category.name}}</h1>
-            <p>{{category.description}}</p>
-        </div>
-        <div class="my-4 p-4 flex flex-col gap-2">
-            @for (item of gamesByCategoryArray; track $index) {
-            <app-game-card [game]="item" />}
-        </div>
+<div class="w-full overflow-y-auto">
+    <div class="mb-2">
+        <h1 class="text-3xl font-semibold mb-3 text-violet-300">Categoría: <span
+                class="text-white italic font-bold">{{category.name}}</span></h1>
+        <p class="text-lg">{{category.description}}</p>
+    </div>
+    <div class="px-8 py-3 flex flex-col gap-4">
+        @for (item of gamesByCategoryArray; track $index) {
+        <app-game-card [game]="item" />}
     </div>
 </div>

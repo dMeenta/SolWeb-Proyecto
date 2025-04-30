@@ -1,5 +1,5 @@
-<div class="w-full bg-linear-to-t from-slate-900 via-violet-800 to-slate-900 my-5 py-3">
-    <div class="w-full max-h-[76vh] overflow-y-auto my-4 p-4 grid grid-cols-4 gap-2">
+<div class="w-full">
+    <div class="w-full overflow-y-auto grid grid-cols-4 gap-2 place-items-center py-3">
         @for (category of categoriesArray; track $index) {
         <app-category-card [category]="category" />
         }
