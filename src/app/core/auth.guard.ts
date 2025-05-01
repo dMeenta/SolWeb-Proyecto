@@ -1,29 +1,17 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
+import { AuthGuardService } from '../shared/auth-guard.service';
 
 export function privateGuard(): CanActivateFn {
   return () => {
-    const router = inject(Router);
-    const user = localStorage.getItem('userLogged');
-
-    if (!user) {
-      router.navigateByUrl('/auth/sign-in');
-      return false;
-    }
-
-    return true;
+    const _authGuardService = inject(AuthGuardService);
+    return _authGuardService.redirectIfNotLogged();
   };
 }
 
 export function publicGuard(): CanActivateFn {
   return () => {
-    const router = inject(Router);
-    const user = localStorage.getItem('userLogged');
-
-    if (user) {
-      router.navigateByUrl('/');
-      return false;
-    }
-    return true;
+    const _authGuardService = inject(AuthGuardService);
+    return _authGuardService.redirectIfLogged();
   };
 }
