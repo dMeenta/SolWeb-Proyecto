@@ -26,6 +26,9 @@ export const apiConf = {
       list: '/categories',
       detail: (id: number) => `/categories/${id}`,
     },
+    community: {
+      joinCommunity: `/community/join`,
+    },
   },
 };
 

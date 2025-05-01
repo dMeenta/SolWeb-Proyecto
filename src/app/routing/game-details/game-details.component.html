@@ -1,6 +1,9 @@
 <div class="h-full relative flex flex-col">
     <img src="img/{{game.name}}_wallpaper.jpg" class="object-cover object-top w-full h-full z-0 absolute"
         alt="{{game.name}}">
+    <button (click)="goBack()"
+        class="absolute right-3 top-3 z-50 bg-violet-800 w-7 h-7 opacity-75 rounded-lg hover:opacity-100 hover:cursor-pointer">
+        <i class="fa-solid fa-xmark"></i></button>
     <div
         class="relative bg-linear-to-t from-violet-950 via-violet-900/10 to-slate-900 px-6 py-3 z-10 h-3/4 flex flex-col justify-between">
         <div>
@@ -32,8 +35,8 @@
             }
         </div>
         <div class="flex items-center mt-6">
-            <button
-                class="rounded-2xl bg-radial from-white to-gray-500 hover:cursor-pointer hover:from-slate-700 hover:to-slate-950 hover:text-white transition-colors duration-300 text-black px-6 py-2 sm:py-3 text-xs sm:text-base">
+            <button (click)="joinCommunity()"
+                class="rounded-2xl bg-radial from-white to-gray-500 hover:cursor-pointer hover:from-slate-900 hover:to-slate-800 hover:text-white transition-colors duration-300 text-black px-6 py-2 sm:py-3 text-xs sm:text-base">
                 Unirse a la Comunidad
             </button>
         </div>
