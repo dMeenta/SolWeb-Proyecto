@@ -35,9 +35,23 @@
             }
         </div>
         <div class="flex items-center mt-6">
-            <button (click)="joinCommunity()"
-                class="rounded-2xl bg-radial from-white to-gray-500 hover:cursor-pointer hover:from-slate-900 hover:to-slate-800 hover:text-white transition-colors duration-300 text-black px-6 py-2 sm:py-3 text-xs sm:text-base">
-                Unirse a la Comunidad
+            <button (click)="handleButtonCommunityClick()" [disabled]="isLoading" [ngClass]="{
+                'hover:cursor-wait opacity-70': isLoading,
+                'from-slate-900 to-violet-900 text-white hover:from-slate-950 hover:to-violet-950': isInCommunity && !isLoading,
+                'from-slate-950 to-violet-950': isInCommunity && isLoading,
+                'from-white to-gray-500 text-black hover:text-white hover:from-violet-800 hover:to-indigo-800': !isInCommunity && !isLoading,
+                'from-violet-800 to-indigo-800': !isInCommunity && isLoading,
+                }"
+                class="w-1/4 h-full place-items-center rounded-2xl bg-linear-to-br px-6 py-2 sm:py-3 text-xs sm:text-base transition-colors duration-300 hover:cursor-pointer">
+                <span *ngIf="!isLoading">
+                    {{ isInCommunity ? 'Abandonar Comunidad' : 'Unirse a la Comunidad' }}
+                </span>
+                <svg *ngIf="isLoading" class="animate-spin h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25" />
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                        d="M4 12a8 8 0 018-8V4a10 10 0 00-10 10h2z" />
+                </svg>
             </button>
         </div>
     </div>

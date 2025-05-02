@@ -28,6 +28,9 @@ export const apiConf = {
     },
     community: {
       joinCommunity: `/community/join`,
+      leaveCommunity: `/community/leave`,
+      isMember: (uid: string, gameId: number) =>
+        `/community/isMember?userId=${uid}&gameId=${gameId}`,
     },
   },
 };
