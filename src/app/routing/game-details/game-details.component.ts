@@ -18,6 +18,7 @@ import { Location } from '@angular/common';
 })
 export class GameDetailsComponent implements OnInit {
   game!: Game;
+
   constructor(
     private route: ActivatedRoute,
     private _gameService: GamesService,

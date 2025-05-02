@@ -1,17 +1,22 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UsersService } from '../../auth/data-access/users.service';
-import { ActivatedRoute } from '@angular/router';
-import { UserMSQL } from '../../models/UserMSQL';
-import ApiResponse from '../../models/ApiResponse';
+import {
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { UsersService } from '../../../../auth/data-access/users.service';
+import ApiResponse from '../../../../models/ApiResponse';
+import { UserMSQL } from '../../../../models/UserMSQL';
 
 @Component({
-  selector: 'app-profile',
-  imports: [],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
+  selector: 'app-profile-layout',
+  imports: [RouterOutlet, RouterLinkActive, RouterLink],
+  templateUrl: './profile-layout.component.html',
+  styleUrl: './profile-layout.component.css',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileLayoutComponent implements OnInit {
   private _userData = inject(UsersService);
   currentUserData!: UserMSQL;
 

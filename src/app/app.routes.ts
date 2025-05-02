@@ -25,10 +25,7 @@ export const routes: Routes = [
       },
       {
         path: 'profile/:id',
-        loadComponent: () =>
-          import('./routing/profile/profile.component').then(
-            (m) => m.ProfileComponent
-          ),
+        loadChildren: () => import('./routing/profile/features/profile.routes'),
       },
       {
         path: 'library',
