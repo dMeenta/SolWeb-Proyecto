@@ -4,6 +4,7 @@ import { CategoriesComponent } from './routing/categories/categories.component';
 import { CategoryPageComponent } from './routing/category-page/category-page.component';
 import { privateGuard } from './core/auth.guard';
 import { ApplicationLayoutComponent } from './components/application-layout/application-layout.component';
+import { CommunityPageComponent } from './routing/community-page/community-page.component';
 
 export const routes: Routes = [
   {
@@ -28,11 +29,8 @@ export const routes: Routes = [
         loadChildren: () => import('./routing/profile/features/profile.routes'),
       },
       {
-        path: 'library',
-        loadComponent: () =>
-          import('./routing/library/library.component').then(
-            (m) => m.LibraryComponent
-          ),
+        path: 'community/:id',
+        component: CommunityPageComponent,
       },
     ],
   },

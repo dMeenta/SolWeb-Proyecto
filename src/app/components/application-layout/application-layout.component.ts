@@ -32,9 +32,9 @@ export class ApplicationLayoutComponent implements OnInit {
     this._authService.logout(uid);
   }
 
-  isGamePage() {
+  isPageWidthFull() {
     const url = this.router.url;
     const segments = url.split('/').filter((seg) => seg);
-    return segments[0] === 'game';
+    return segments[0] === 'game' || segments[0] === 'community';
   }
 }
