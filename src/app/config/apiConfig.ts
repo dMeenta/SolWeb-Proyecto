@@ -21,6 +21,7 @@ export const apiConf = {
       list: '/games',
       detail: (id: number) => `/games/${id}`,
       filterByCategory: (id: number) => `/games/category/${id}`,
+      getUserGames: `/games/user`,
     },
     categories: {
       list: '/categories',
@@ -31,6 +32,7 @@ export const apiConf = {
       leaveCommunity: `/community/leave`,
       isMember: (uid: string, gameId: number) =>
         `/community/isMember?userId=${uid}&gameId=${gameId}`,
+      getCommunitiesByUser: (uid: string) => `/community/${uid}`,
     },
   },
 };

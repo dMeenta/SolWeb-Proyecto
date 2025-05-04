@@ -27,4 +27,11 @@ export class GamesService {
       getApiUrl(apiConf.endpoints.games.filterByCategory(id))
     );
   }
+
+  getUserGames(idList: number[]) {
+    return this.http.post<ApiResponse<Game[]>>(
+      getApiUrl(apiConf.endpoints.games.getUserGames),
+      idList
+    );
+  }
 }

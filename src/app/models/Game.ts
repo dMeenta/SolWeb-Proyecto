@@ -4,8 +4,9 @@ export class Game {
   id!: number;
   name!: string;
   description!: string;
-  price!: number;
   release_date!: string;
   developer!: string;
+  game_minicard!: string;
+  game_wallpaper!: string;
   categories!: Category[];
 }

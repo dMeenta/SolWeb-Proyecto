@@ -38,4 +38,10 @@ export class CommunityService {
       getApiUrl(apiConf.endpoints.community.isMember(uid, gameId))
     );
   }
+
+  getCommunitiesByUser(uid: string): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.community.getCommunitiesByUser(uid))
+    );
+  }
 }

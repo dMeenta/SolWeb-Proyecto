@@ -33,25 +33,18 @@ export class GameDetailsComponent implements OnInit {
     this.getGame();
   }
 
-  async getGame() {
-    const gameId = this.route.snapshot.paramMap.get('id');
-    if (!gameId) return;
+  goBack() {
+    this.location.back();
+  }
 
-    const id = parseInt(gameId);
-    this.isLoading = true;
-    try {
-      const item = await firstValueFrom(this._gameService.getGameById(id));
-      if (item.success) {
-        this.game = item.data;
-        await this.checkMembership(); // luego de tener el juego
-      } else {
-        toast.error(item.message);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.isLoading = false;
-    }
+  getGameId() {
+    const idString = this.route.snapshot.paramMap.get('id');
+    if (!idString) return;
+    return Number.parseInt(idString);
+  }
+
+  getUserId() {
+    return this._sharedService.getUserLogged()?.uid;
   }
 
   gameYear() {
@@ -66,14 +59,37 @@ export class GameDetailsComponent implements OnInit {
     }
   }
 
+  async getGame() {
+    const gameId = this.getGameId();
+    if (!gameId) return;
+
+    this.isLoading = true;
+    try {
+      const item = await firstValueFrom(this._gameService.getGameById(gameId));
+      if (item.success) {
+        this.game = item.data;
+        await this.checkMembership(); // luego de tener el juego
+      } else {
+        toast.error(item.message);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
   async joinCommunity() {
-    const userId = this._sharedService.getUserLogged()?.uid;
+    const userId = this.getUserId();
     if (!userId) return;
 
     this.isLoading = true;
     try {
+      const gameId = this.getGameId();
+      if (!gameId) return;
+
       const response: ApiResponse<any> = await firstValueFrom(
-        this._communityService.joinCommunity(userId, this.game.id)
+        this._communityService.joinCommunity(userId, gameId)
       );
 
       if (!response.success) {
@@ -92,15 +108,17 @@ export class GameDetailsComponent implements OnInit {
   }
 
   async leaveCommunity() {
-    const userId = this._sharedService.getUserLogged()?.uid;
-
+    const userId = this.getUserId();
     if (!userId) return;
 
     this.isLoading = true;
 
     try {
+      const gameId = this.getGameId();
+      if (!gameId) return;
+
       const response: ApiResponse<any> = await firstValueFrom(
-        this._communityService.leaveCommunity(userId, this.game.id)
+        this._communityService.leaveCommunity(userId, gameId)
       );
 
       if (!response.success) {
@@ -119,21 +137,20 @@ export class GameDetailsComponent implements OnInit {
   }
 
   async checkMembership() {
-    const userId = this._sharedService.getUserLogged()?.uid;
+    const userId = this.getUserId();
     if (!userId) return;
 
     try {
+      const gameId = this.getGameId();
+      if (!gameId) return;
+
       const response = await firstValueFrom(
-        this._communityService.checkMembership(userId, this.game.id)
+        this._communityService.checkMembership(userId, gameId)
       );
       this.isInCommunity = response.success ? response.data : false;
       console.log(response);
     } catch (error) {
       console.error(error);
     }
-  }
-
-  goBack() {
-    this.location.back();
   }
 }
