@@ -1,32 +1,40 @@
 import { Injectable } from '@angular/core';
-import { SharedService } from './shared.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, catchError, of } from 'rxjs';
+import { getApiUrl, apiConf } from '../config/apiConfig';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService {
-  constructor(private _sharedService: SharedService, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  // Verifica si el usuario está logueado
-  isUserLogged(): boolean {
-    return this._sharedService.getUserLogged() !== null;
+  redirectIfNotLogged(): Observable<boolean> {
+    return this.http
+      .get(getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()), {
+        withCredentials: true,
+      })
+      .pipe(
+        map(() => true),
+        catchError(() => {
+          this.router.navigateByUrl('/auth/sign-in');
+          return of(false);
+        })
+      );
   }
 
-  redirectIfNotLogged(): boolean {
-    if (!this.isUserLogged()) {
-      this.router.navigateByUrl('/auth/sign-in');
-      return false;
-    }
-    return true;
-  }
-
-  // Redirige si el usuario ya está logueado
-  redirectIfLogged(): boolean {
-    if (this.isUserLogged()) {
-      this.router.navigateByUrl('/');
-      return false;
-    }
-    return true;
+  redirectIfLogged(): Observable<boolean> {
+    return this.http
+      .get(getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()), {
+        withCredentials: true,
+      })
+      .pipe(
+        map(() => {
+          this.router.navigateByUrl('/');
+          return false;
+        }),
+        catchError(() => of(true)) // si falla, significa que no está logueado → permitir acceso
+      );
   }
 }

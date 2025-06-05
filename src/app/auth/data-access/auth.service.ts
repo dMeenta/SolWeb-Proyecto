@@ -4,7 +4,15 @@ import { apiConf, getApiUrl } from '../../config/apiConfig';
 import ApiResponse from '../../models/ApiResponse';
 import { Observable } from 'rxjs'; // Importa Observable si no lo tienes
 
-export interface BodyRequest {
+export interface RegisterReq {
+  email: string;
+  username: string;
+  password: string;
+  biography: string | undefined | null;
+  profilePicture: string;
+}
+
+export interface LoginReq {
   email: string;
   password: string;
 }
@@ -15,30 +23,18 @@ export interface BodyRequest {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  signIn(bodyRequest: BodyRequest): Observable<ApiResponse<any>> {
+  signIn(bodyRequest: LoginReq) {
     return this.http.post<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.auth.login),
+      getApiUrl(apiConf.endpoints.auth.login()),
+      bodyRequest,
+      { withCredentials: true }
+    );
+  }
+
+  signUp(bodyRequest: RegisterReq) {
+    return this.http.post<ApiResponse<any>>(
+      getApiUrl(apiConf.endpoints.accounts.register()),
       bodyRequest
-    );
-  }
-
-  signUp(bodyRequest: BodyRequest): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.auth.register),
-      bodyRequest
-    );
-  }
-
-  logout(uid: string): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.auth.logout),
-      { uid }
-    );
-  }
-
-  deleteUser(uid: string): Observable<ApiResponse<any>> {
-    return this.http.delete<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.auth.delete(uid))
     );
   }
 }

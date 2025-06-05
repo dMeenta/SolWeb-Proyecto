@@ -1,12 +1,32 @@
 import { Injectable } from '@angular/core';
-import { UserMSQL } from '../models/UserMSQL';
+import { HttpClient } from '@angular/common/http';
+import { apiConf, getApiUrl } from '../config/apiConfig';
+import ApiResponse from '../models/ApiResponse';
+import { Observable } from 'rxjs';
+
+export enum ROLE {
+  USER,
+  ADMIN,
+}
+
+export type MinimalUserInfo = {
+  username: string;
+  profilePicture: string;
+  role: ROLE;
+  joinedCommunities: [];
+  friendsList: [];
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  getUserLogged(): UserMSQL | null {
-    const user = localStorage.getItem('userLogged');
-    return user ? JSON.parse(user) : null;
+  constructor(private http: HttpClient) {}
+
+  getUserLogged(): Observable<ApiResponse<MinimalUserInfo>> {
+    return this.http.get<ApiResponse<MinimalUserInfo>>(
+      getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()),
+      { withCredentials: true } // 👈 se enviará automáticamente la cookie
+    );
   }
 }
