@@ -1,0 +1,9 @@
+<div class="friends-list">
+  <app-friend-list-object class="w-full h-fit" *ngFor="let friend of friendsList" [friend]="friend" />
+
+  <!-- Sentinela invisible -->
+  <div #sentinel></div>
+
+  <p *ngIf="loading">Cargando...</p>
+  <p *ngIf="allLoaded && friendsList.length === 0">Aún no hay amigos aquí...</p>
+</div>
