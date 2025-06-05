@@ -3,7 +3,8 @@ import { apiConf, getApiUrl } from '../../config/apiConfig';
 import { HttpClient } from '@angular/common/http';
 import { UserMSQL } from '../../models/UserMSQL';
 import ApiResponse from '../../models/ApiResponse';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
+import { Friend } from '../../components/friend-list-object/friend-list-object.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +12,28 @@ import { Observable } from 'rxjs';
 export class UsersService {
   constructor(private http: HttpClient) {}
 
-  createUser(userToSend: UserMSQL): Observable<ApiResponse<UserMSQL>> {
-    return this.http.post<ApiResponse<UserMSQL>>(
-      getApiUrl(apiConf.endpoints.users.create),
-      userToSend
+  getProfile(username: string): Observable<ApiResponse<UserMSQL>> {
+    return this.http.get<ApiResponse<UserMSQL>>(
+      getApiUrl(apiConf.endpoints.user.findByUsername(username))
     );
   }
 
-  getProfile(uid: string): Observable<ApiResponse<UserMSQL>> {
-    return this.http.get<ApiResponse<UserMSQL>>(
-      getApiUrl(apiConf.endpoints.users.profile(uid))
+  isLoggedIn(): Observable<boolean> {
+    return this.http
+      .get<ApiResponse<any>>(
+        getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()),
+        { withCredentials: true }
+      )
+      .pipe(
+        map(() => true), // si responde correctamente, está logueado
+        catchError(() => of(false)) // si hay error, no está logueado
+      );
+  }
+
+  getFriendsList(offset = 0, limit = 10): Observable<ApiResponse<Friend[]>> {
+    return this.http.get<ApiResponse<Friend[]>>(
+      getApiUrl(apiConf.endpoints.user.getFriendsList(offset, limit)),
+      { withCredentials: true }
     );
   }
 }
