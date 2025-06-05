@@ -1,0 +1,20 @@
+<ul class="pb-4">
+  <li class="w-full hover:bg-violet-900 transition-all duration-300 ">
+    <a [routerLink]="[`/profile/${username}`]" [routerLinkActiveOptions]="{exact: true}"
+      routerLinkActive="text-violet-300" class="w-full px-3 mb-2 flex gap-2 text-lg items-center"><img
+        class="rounded-full object-cover object-top h-9 w-9" src="img/profiles/{{profilePicture}}.jpg">{{username}}</a>
+  </li>
+  <li class="w-full hover:bg-violet-900 transition-all duration-300">
+    <a [routerLink]="['/']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="text-violet-300"
+      class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i class="fa-solid fa-house-chimney"></i>Home</a>
+  </li>
+  <li class="w-full hover:bg-violet-900 transition-all duration-300 ">
+    <a [routerLink]="['/categories']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="text-violet-300"
+      class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+        class="fa-solid fa-layer-group"></i>Categories</a>
+  </li>
+  <li class="w-full hover:bg-violet-900 transition-all duration-300">
+    <a class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+        class="fa-solid fa-message"></i>Messages</a>
+  </li>
+</ul>
