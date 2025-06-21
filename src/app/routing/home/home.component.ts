@@ -15,10 +15,11 @@ export class HomeComponent implements OnInit {
   offersArray!: Offers[];
   constructor(private gameService: GamesService) {}
   ngOnInit(): void {
+    /* 
     this.gameService.getGames().subscribe((item) => {
       if (item.success) {
         this.gamesArray = item.data;
       }
-    });
+    }); */
   }
 }
