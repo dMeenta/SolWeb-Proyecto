@@ -43,20 +43,20 @@ export class GameDetailsComponent implements OnInit {
     return Number.parseInt(idString);
   }
 
-  getUserId() {
+  /*  getUserId() {
     return this._sharedService.getUserLogged()?.uid;
   }
-
+ */
   gameYear() {
     return this.game.release_date.slice(0, 4);
   }
 
   handleButtonCommunityClick() {
-    if (this.isInCommunity) {
+    /* if (this.isInCommunity) {
       this.leaveCommunity();
     } else {
       this.joinCommunity();
-    }
+    } */
   }
 
   async getGame() {
@@ -79,7 +79,7 @@ export class GameDetailsComponent implements OnInit {
     }
   }
 
-  async joinCommunity() {
+  /* async joinCommunity() {
     const userId = this.getUserId();
     if (!userId) return;
 
@@ -134,10 +134,11 @@ export class GameDetailsComponent implements OnInit {
       console.error(error);
       this.isLoading = false;
     }
-  }
+  } */
 
   async checkMembership() {
-    const userId = this.getUserId();
+    console.log('Quizas');
+    /* const userId = this.getUserId();
     if (!userId) return;
 
     try {
@@ -151,6 +152,6 @@ export class GameDetailsComponent implements OnInit {
       console.log(response);
     } catch (error) {
       console.error(error);
-    }
+    } */
   }
 }
