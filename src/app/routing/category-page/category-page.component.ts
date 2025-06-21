@@ -15,40 +15,34 @@ import { GameCardComponent } from '../../components/game-card/game-card.componen
 export class CategoryPageComponent implements OnInit {
   gamesByCategoryArray!: Game[];
   category!: Category;
+
   constructor(
     private categoryService: CategoriesService,
     private gameService: GamesService,
     private route: ActivatedRoute
   ) {}
+
   ngOnInit(): void {
-    const categoryId = this.route.snapshot.paramMap.get('id');
-    this.getGamesByCategory(categoryId);
-    this.getCategory(categoryId);
-  }
-
-  getCategory(categoryId: string | null) {
-    if (categoryId) {
-      const id = Number.parseInt(categoryId);
-      this.categoryService.getCategoryById(id).subscribe((item) => {
-        if (item.success) {
-          this.category = item.data;
-        }
-      });
-    } else {
-      console.error('ID inválido');
+    const categoryName = this.route.snapshot.paramMap.get('categoryName');
+    if (categoryName) {
+      this.getGamesByCategoryName(categoryName);
+      this.getCategoryByName(categoryName);
     }
   }
 
-  getGamesByCategory(categoryId: string | null) {
-    if (categoryId) {
-      const id = Number.parseInt(categoryId);
-      this.gameService.getGamesByCategory(id).subscribe((item) => {
-        if (item.success) {
-          this.gamesByCategoryArray = item.data;
-        }
-      });
-    } else {
-      console.error('ID inválido');
-    }
+  getCategoryByName(categoryName: string) {
+    this.categoryService.getCategoryByName(categoryName).subscribe((item) => {
+      if (item.success) {
+        this.category = item.data;
+      }
+    });
+  }
+
+  getGamesByCategoryName(categoryName: string) {
+    this.gameService.getGamesByCategoryName(categoryName).subscribe((item) => {
+      if (item.success) {
+        this.gamesByCategoryArray = item.data;
+      }
+    });
   }
 }
