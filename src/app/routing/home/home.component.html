@@ -1,1 +1,55 @@
-<app-games-panel [games]="gamesArray" />
+<section class="p-4">
+  <div class="relative">
+    <!-- Botón izquierdo -->
+    <button
+      class="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-violet-700 text-white rounded-full shadow-md hover:bg-violet-800"
+      (click)="scrollIzquierda()"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Contenedor deslizable -->
+    <div
+      #scrollContainer
+      class="flex overflow-x-auto gap-6 px-10 scrollbar-hide scroll-smooth"
+      style="scroll-behavior: smooth"
+    >
+      <div
+        *ngFor="let game of games"
+        class="flex-shrink-0 flex flex-col items-center w-24 mt-5"
+      >
+        <div
+          class="w-20 h-20 rounded-full bg-green-300 flex items-center justify-center text-white text-3xl shadow-md hover:scale-105 transition-transform cursor-pointer overflow-hidden select-none"
+        >
+          <img
+            *ngIf="game.name"
+            [src]="'img/' + game.name + '_wallpaper.jpg'"
+            alt="{{ game.name }}"
+            class="object-cover w-full h-full rounded-full border-3 hover:blur-xs transition duration-120 select-none"
+          />
+        </div>
+        <span class="mt-2 text-sm font-medium text-center select-none">{{
+          game.name
+        }}</span>
+      </div>
+    </div>
+
+    <!-- Botón derecho -->
+    <button
+      class="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-violet-700 text-white rounded-full shadow-md hover:bg-violet-800"
+      (click)="scrollDerecha()"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+<div>
+  <div class="relative">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, adipisci
+      numquam quod unde corrupti cum cupiditate placeat nisi tempora at expedita
+      voluptate doloremque nostrum sed asperiores corporis cumque? Delectus, id.
+    </p>
+  </div>
+</div>
