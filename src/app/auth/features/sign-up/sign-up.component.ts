@@ -47,7 +47,6 @@ export default class SignUpComponent {
   constructor(private router: Router) {}
 
   private formBuilder = inject(FormBuilder);
-  private _userService = inject(UsersService);
   private _authService = inject(AuthService);
 
   next: boolean = false;
@@ -114,31 +113,19 @@ export default class SignUpComponent {
 
     try {
       const response: ApiResponse<any> = await firstValueFrom(
-        this._authService.signUp({ email, password })
+        this._authService.signUp({
+          email,
+          username,
+          password,
+          biography,
+          profilePicture,
+        })
       );
 
       if (!response.success) {
-        toast.error('Error al registrar usuario en Firebase');
-      }
-
-      const userToCreate: UserMSQL = {
-        uid: response.data.localId,
-        email: response.data.email,
-        username: username,
-        profilePicture: profilePicture,
-        biography: biography || '',
-      };
-
-      const userResponse: ApiResponse<any> = await firstValueFrom(
-        this._userService.createUser(userToCreate)
-      );
-
-      if (!userResponse.success) {
-        const deleteResponse: ApiResponse<any> = await firstValueFrom(
-          this._authService.deleteUser(response.data.localId)
-        );
-        console.error(deleteResponse);
-        toast.error('Error al crear usuario en MSQL');
+        toast.error('Error al registrar el usuario en LoudlyGmz');
+        console.error('Error Data: ' + response.data);
+        console.error('Error Message: ' + response.message);
       }
 
       this.router.navigateByUrl('/auth/sign-in');
