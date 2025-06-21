@@ -52,26 +52,27 @@ export class CommunitiesComponent implements OnInit {
     this.loadUserCommunities(); // llamada desde OnInit
   }
 
-  getUser() {
+  /* getUser() {
     return this._sharedService.getUserLogged();
-  }
+  } */
 
   goToCommunity(idGame: number) {
     this.router.navigateByUrl(`/community/${idGame}`);
   }
 
   async loadUserCommunities() {
-    const firebaseData = await this.getFirebaseData();
+    console.log('Aquí deberían haber comunidades');
+    /* const firebaseData = await this.getFirebaseData();
     if (!firebaseData) return;
     console.log(firebaseData);
 
     const mysqlData = await this.getMsqlData(firebaseData);
     if (!mysqlData) return;
 
-    this.userCommunities = mysqlData;
+    this.userCommunities = mysqlData; */
   }
 
-  async getMsqlData(
+  /* async getMsqlData(
     firebaseData: Formatted[]
   ): Promise<FinalFormatted[] | null> {
     const idList = firebaseData.map((item) => item.gameId);
@@ -103,9 +104,9 @@ export class CommunitiesComponent implements OnInit {
       console.error(error);
       return null;
     }
-  }
+  } */
 
-  async getFirebaseData(): Promise<Formatted[] | null> {
+  /* async getFirebaseData(): Promise<Formatted[] | null> {
     const userId = this.getUser()?.uid;
     if (!userId) return null;
 
@@ -135,5 +136,5 @@ export class CommunitiesComponent implements OnInit {
       console.error(error);
       return null;
     }
-  }
+  } */
 }
