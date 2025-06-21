@@ -11,13 +11,13 @@ export class CategoriesService {
   constructor(private http: HttpClient) {}
   getCategories() {
     return this.http.get<ApiResponse<Category[]>>(
-      getApiUrl(apiConf.endpoints.categories.list)
+      getApiUrl(apiConf.endpoints.category.listAll())
     );
   }
 
-  getCategoryById(id: number) {
+  getCategoryByName(categoryName: string) {
     return this.http.get<ApiResponse<Category>>(
-      getApiUrl(apiConf.endpoints.categories.detail(id))
+      getApiUrl(apiConf.endpoints.category.findByCategoryName(categoryName))
     );
   }
 }

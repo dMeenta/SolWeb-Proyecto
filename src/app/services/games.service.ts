@@ -12,26 +12,28 @@ export class GamesService {
 
   getGames() {
     return this.http.get<ApiResponse<Game[]>>(
-      getApiUrl(apiConf.endpoints.games.list)
+      getApiUrl(apiConf.endpoints.game.listAll())
     );
   }
 
   getGameById(id: number) {
     return this.http.get<ApiResponse<Game>>(
-      getApiUrl(apiConf.endpoints.games.detail(id))
+      getApiUrl(apiConf.endpoints.game.findById(id))
     );
   }
 
-  getGamesByCategory(id: number) {
+  getGamesByCategoryName(categoryName: string) {
     return this.http.get<ApiResponse<Game[]>>(
-      getApiUrl(apiConf.endpoints.games.filterByCategory(id))
+      getApiUrl(apiConf.endpoints.game.findAllByCategoryName(categoryName))
     );
   }
 
+  /* @FALTA IMPLEMENTAR *****
+*****************************
   getUserGames(idList: number[]) {
     return this.http.post<ApiResponse<Game[]>>(
       getApiUrl(apiConf.endpoints.games.getUserGames),
       idList
     );
-  }
+  } */
 }

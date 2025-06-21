@@ -19,7 +19,7 @@ export class CommunityService {
     const body: CommunityRequest = { userId: uid, gameId: gameId };
 
     return this.http.post<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.community.joinCommunity),
+      getApiUrl(apiConf.endpoints.community.joinCommunity()),
       body
     );
   }
@@ -28,20 +28,25 @@ export class CommunityService {
     const body: CommunityRequest = { userId: uid, gameId: gameId };
 
     return this.http.post<ApiResponse<any>>(
-      getApiUrl(apiConf.endpoints.community.leaveCommunity),
+      getApiUrl(apiConf.endpoints.community.leaveCommunity()),
       body
     );
   }
 
+  /* @DEPRECATED *********
+  ************************
   checkMembership(uid: string, gameId: number): Observable<ApiResponse<any>> {
     return this.http.get<ApiResponse<any>>(
       getApiUrl(apiConf.endpoints.community.isMember(uid, gameId))
     );
-  }
+  } */
+
+  /* @DEPRECATED *********
+  ************************
 
   getCommunitiesByUser(uid: string): Observable<ApiResponse<any>> {
     return this.http.get<ApiResponse<any>>(
       getApiUrl(apiConf.endpoints.community.getCommunitiesByUser(uid))
     );
-  }
+  } */
 }
