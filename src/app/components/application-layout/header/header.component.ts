@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { HomeButtonComponent } from '../../home-button/home-button.component';
-import { UserMSQL } from '../../../models/UserMSQL';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { MinimalUserInfo } from '../../../shared/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +10,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  @Input() userLogged!: UserMSQL;
+  @Input() userLogged!: MinimalUserInfo;
 
   logout(uid: string) {
     console.log(this.userLogged);
