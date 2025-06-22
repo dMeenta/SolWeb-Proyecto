@@ -14,7 +14,8 @@
         class="fa-solid fa-layer-group"></i>Categories</a>
   </li>
   <li class="w-full hover:bg-violet-900 transition-all duration-300">
-    <a class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+    <a [routerLink]="['/messages']" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="text-violet-300"
+      class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
         class="fa-solid fa-message"></i>Messages</a>
   </li>
 </ul>
