@@ -23,9 +23,7 @@
         />
         <div>
           <h2 class="font-bold text-2xl">{{ game.name }}</h2>
-          <p class="text-sm text-emerald-300 font-medium">
-            {{ currentUserName }}
-          </p>
+          <p class="text-sm text-emerald-300 font-medium">elnormalPublicador</p>
         </div>
       </div>
 
@@ -78,10 +76,17 @@
             *ngFor="let comentario of comentarios[game.name]; let i = index"
             class="flex justify-between items-center mb-2 border-b border-gray-300 pb-1 px-3 text-white shadow-violet-500 shadow-md p-4"
           >
-            <p class="text-sm">
-              <b class="text-emerald-400">{{ currentUserName + ":" }} </b
-              >{{ comentario }}
-            </p>
+            <div class="flex items-center gap-2">
+              <img
+                [src]="'img/profiles/' + comentario.profilePicture + '.jpg'"
+                alt="avatar"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <p>
+                <b class="text-emerald-400">{{ comentario.username }}:</b>
+                {{ comentario.text }}
+              </p>
+            </div>
             <button
               (click)="toggleCommentLike(game.name, i)"
               class="text-xl transition"

@@ -25,14 +25,21 @@ export class UsersService {
         { withCredentials: true }
       )
       .pipe(
-        map(() => true), // si responde correctamente, está logueado
-        catchError(() => of(false)) // si hay error, no está logueado
+        map(() => true),
+        catchError(() => of(false))
       );
   }
 
   getFriendsList(offset = 0, limit = 10): Observable<ApiResponse<Friend[]>> {
     return this.http.get<ApiResponse<Friend[]>>(
       getApiUrl(apiConf.endpoints.user.getFriendsList(offset, limit)),
+      { withCredentials: true }
+    );
+  }
+
+  getCurrentUser(): Observable<ApiResponse<UserMSQL>> {
+    return this.http.get<ApiResponse<UserMSQL>>(
+      getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()),
       { withCredentials: true }
     );
   }

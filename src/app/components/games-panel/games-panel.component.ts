@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../../models/Game';
-import { GameCardComponent } from '../game-card/game-card.component';
 import { GamesService } from '../../services/games.service';
+import { UsersService } from '../../auth/data-access/users.service';
+import { UserMSQL } from '../../models/UserMSQL';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -16,11 +17,18 @@ export class GamesPanelComponent implements OnInit {
   games: Game[] = [];
   likedComments: { [gameName: string]: { [index: number]: boolean } } = {};
   likedGames: { [key: string]: boolean } = {};
-  currentUserName = 'elnormalpotoski';
-  comentarios: { [key: string]: string[] } = {};
   newComment: { [key: string]: string } = {};
 
-  constructor(private gameService: GamesService) {}
+  currentUser: UserMSQL | null = null;
+
+  comentarios: {
+    [key: string]: { text: string; username: string; profilePicture: string }[];
+  } = {};
+
+  constructor(
+    private gameService: GamesService,
+    private userService: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.gameService.getGames().subscribe({
@@ -31,15 +39,33 @@ export class GamesPanelComponent implements OnInit {
         console.error('Error al cargar las comunidades', err);
       },
     });
+
+    // Obtener el usuario autenticado directamente
+    this.userService.getCurrentUser().subscribe({
+      next: (response) => {
+        this.currentUser = response.data;
+      },
+      error: (err) => {
+        console.error('Error al obtener usuario actual', err);
+      },
+    });
   }
 
   publicarComentario(gameName: string): void {
-    const comentario = this.newComment[gameName]?.trim();
-    if (comentario) {
+    const comentarioTexto = this.newComment[gameName]?.trim();
+
+    if (comentarioTexto && this.currentUser) {
+      const nuevoComentario = {
+        text: comentarioTexto,
+        username: this.currentUser.username,
+        profilePicture: this.currentUser.profilePicture,
+      };
+
       if (!this.comentarios[gameName]) {
         this.comentarios[gameName] = [];
       }
-      this.comentarios[gameName].push(comentario);
+
+      this.comentarios[gameName].push(nuevoComentario);
       this.newComment[gameName] = '';
     }
   }
@@ -47,6 +73,7 @@ export class GamesPanelComponent implements OnInit {
   toggleLike(gameName: string): void {
     this.likedGames[gameName] = !this.likedGames[gameName];
   }
+
   toggleCommentLike(gameName: string, index: number): void {
     if (!this.likedComments[gameName]) {
       this.likedComments[gameName] = {};
