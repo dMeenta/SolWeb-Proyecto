@@ -10,12 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    GamesPanelComponent,
-    CommunityPageComponent,
-    GameCardComponent,
-    CommonModule,
-  ],
+  imports: [GamesPanelComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
