@@ -47,6 +47,8 @@ export const apiConf = {
     community: createEndpointGroup('community', {
       joinCommunity: () => '/join',
       leaveCommunity: () => '/leave',
+      currentUserCommunities: (offset: number, limit: number) =>
+        `/userLogged?offset=${offset}&limit=${limit}`,
     }),
     game: createEndpointGroup('games', {
       listAll: () => '',

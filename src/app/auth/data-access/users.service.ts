@@ -36,4 +36,11 @@ export class UsersService {
       { withCredentials: true }
     );
   }
+
+  getCurrentUser(): Observable<ApiResponse<UserMSQL>> {
+    return this.http.get<ApiResponse<UserMSQL>>(
+      getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()),
+      { withCredentials: true }
+    );
+  }
 }

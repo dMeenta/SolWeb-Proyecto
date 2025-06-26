@@ -50,3 +50,7 @@
 .form-input {
   @apply 2xl:text-xl rounded-lg p-2 bg-gray-700 placeholder-gray-400 text-white;
 }
+
+.scroll-btn {
+  @apply px-3 py-1 bg-violet-700 text-xl text-white rounded-full shadow-md hover:bg-violet-800 hover:cursor-pointer;
+}
