@@ -1,0 +1,36 @@
+<section class="min-h-10">
+  <div class="grid grid-cols-[auto_1fr_auto] h-full items-center gap-2" *ngIf="games.length > 0; else noCommunities">
+    <!-- Botón izquierdo -->
+    <button class="scroll-btn" data-aos="fade-left" (click)="scrollIzquierda()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Contenedor deslizable -->
+    <div #scrollContainer class="px-2 h-full flex overflow-hidden scroll-smooth gap-3">
+      <button (click)="goToCommunityPage(game.name)" *ngFor="let game of games"
+        class="py-2 flex-shrink-0 flex flex-col items-center w-20 sm:w-24 md:w-28 group" data-aos="fade-down">
+        <div
+          class="w-10/12 aspect-square relative overflow-hidden rounded-full border transition group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-300 group-hover:border-2">
+          <img [src]="'img/' + game.name + '_wallpaper.jpg'" alt="{{ game.name }}"
+            class="w-full h-full object-cover rounded-full aspect-square opacity-70 transition duration-200 group-hover:opacity-100 select-none group-hover:cursor-pointer"
+            loading="lazy" />
+        </div>
+        <span
+          class="mt-2 text-sm font-medium text-center select-none opacity-70 group-hover:opacity-100 group-hover:cursor-pointer break-words leading-tight">
+          {{ game.name }}
+        </span>
+      </button>
+    </div>
+
+    <!-- Botón derecho -->
+    <button class="scroll-btn" data-aos="fade-right" (click)="scrollDerecha()">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <ng-template #noCommunities data-aos="fade-bottom">
+    <div class="text-center text-slate-400">
+      Aún no tienes comunidades aquí.
+    </div>
+  </ng-template>
+</section>

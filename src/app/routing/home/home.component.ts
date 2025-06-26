@@ -6,44 +6,13 @@ import { Offers } from '../../models/Offers';
 import { CommunityPageComponent } from '../community-page/community-page.component';
 import { GameCardComponent } from '../../components/game-card/game-card.component';
 import { CommonModule } from '@angular/common';
+import { UserCommunitiesBubblesComponent } from '../../components/user-communities-bubbles/user-communities-bubbles.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [GamesPanelComponent, CommonModule],
+  imports: [GamesPanelComponent, CommonModule, UserCommunitiesBubblesComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('scrollContainer', { static: false })
-  scrollContainer!: ElementRef;
-
-  scrollIzquierda() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: -500,
-      behavior: 'smooth',
-    });
-  }
-
-  scrollDerecha() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: 500,
-      behavior: 'smooth',
-    });
-  }
-
-  games: Game[] = [];
-
-  constructor(private gameService: GamesService) {}
-  ngOnInit(): void {
-    this.gameService.getGames().subscribe({
-      next: (listaGames) => {
-        console.log('Juegos cargados:', listaGames);
-        this.games = listaGames;
-      },
-      error: (error) => {
-        console.error('Error al cargar los juegos:', error);
-      },
-    });
-  }
-}
+export class HomeComponent {}
