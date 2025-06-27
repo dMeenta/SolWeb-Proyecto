@@ -6,7 +6,7 @@ import { privateGuard } from './core/auth.guard';
 import { ApplicationLayoutComponent } from './components/application-layout/application-layout.component';
 import { CommunityPageComponent } from './routing/community-page/community-page.component';
 import { HomeComponent } from './routing/home/home.component';
-import { MessagesPageComponent } from './routing/messages-page/messages-page.component';
+import { ConnectWithOthersComponent } from './routing/connect-with-others/connect-with-others.component';
 
 export const routes: Routes = [
   {
@@ -39,8 +39,8 @@ export const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'messages',
-        component: MessagesPageComponent,
+        path: 'users',
+        component: ConnectWithOthersComponent,
       },
     ],
   },
