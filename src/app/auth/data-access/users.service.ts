@@ -5,6 +5,14 @@ import { UserMSQL } from '../../models/UserMSQL';
 import ApiResponse from '../../models/ApiResponse';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Friend } from '../../components/friend-list-object/friend-list-object.component';
+import { MinimalUserInfo } from '../../shared/shared.service';
+import PaginatedResponse from '../../models/PaginatedResponse';
+
+export interface UserMinimal {
+  username: string;
+  profilePicture: string;
+  role?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +48,23 @@ export class UsersService {
   getCurrentUser(): Observable<ApiResponse<UserMSQL>> {
     return this.http.get<ApiResponse<UserMSQL>>(
       getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()),
+      { withCredentials: true }
+    );
+  }
+
+  getAllNotFriends(
+    offset = 0,
+    limit = 10
+  ): Observable<ApiResponse<PaginatedResponse<UserMinimal>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<UserMinimal>>>(
+      getApiUrl(apiConf.endpoints.user.listAllNotFriends(offset, limit)),
+      { withCredentials: true }
+    );
+  }
+
+  getUserByUsername(username: string): Observable<ApiResponse<UserMinimal>> {
+    return this.http.get<ApiResponse<UserMinimal>>(
+      getApiUrl(apiConf.endpoints.user.findByUsername(username)),
       { withCredentials: true }
     );
   }

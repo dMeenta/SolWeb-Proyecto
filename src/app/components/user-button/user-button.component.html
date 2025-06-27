@@ -1,0 +1,18 @@
+<div (click)="goToUserProfile()"
+  class="w-full bg-gradient-to-t from-slate-950 to-slate-900 rounded-lg py-4 px-2 flex items-center shadow-md hover:to-purple-950 transition duration-300 hover:cursor-pointer group">
+  <!-- Imagen del usuario -->
+  <div class="w-2/6 aspect-square me-2">
+    <img [src]="`img/profiles/${userProfilePicture}.jpg`"
+      class="w-full aspect-square rounded-full object-cover border-2 border-purple-900 group-hover:border-purple-500 transition-colors duration-500" />
+  </div>
+  <!-- Contenido a la derecha -->
+  <div class="grid grid-rows-2 gap-1">
+    <span
+      class="text-purple-400 group-hover:text-white xl:text-base 2xl:text-2xl duration-300 transition-colors font-semibold text-sm truncate max-w-[150px] block">{{username}}</span>
+
+    <button class="bg-purple-800 text-purple-300 text-xs px-3 py-1 rounded w-max hover:bg-purple-600 hover:text-white
+      hover:cursor-pointer transition-all duration-300" (click)="agregarAmigo($event)">
+      Agregar amigo
+    </button>
+  </div>
+</div>
