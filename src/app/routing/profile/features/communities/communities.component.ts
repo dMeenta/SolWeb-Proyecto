@@ -56,7 +56,7 @@ export class CommunitiesComponent implements OnInit {
     return this._sharedService.getUserLogged();
   } */
 
-  goToCommunity(idGame: number) {
+  goToCommunity(idGame: String) {
     this.router.navigateByUrl(`/community/${idGame}`);
   }
 

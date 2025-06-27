@@ -8,7 +8,6 @@ import {
 import { Game } from '../../models/Game';
 import { CommunityService } from '../../services/community.service';
 import { NgFor, NgIf } from '@angular/common';
-import { GamesService } from '../../services/games.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,13 +27,14 @@ export class UserCommunitiesBubblesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private communityService: CommunityService,
-    private mom: GamesService,
     private router: Router
   ) {}
   ngAfterViewInit(): void {
-    this.scrollContainer.nativeElement.addEventListener('scroll', () => {
-      this.onScroll();
-    });
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.addEventListener('scroll', () => {
+        this.onScroll();
+      });
+    }
   }
 
   ngOnInit(): void {
