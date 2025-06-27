@@ -1,0 +1,30 @@
+<div class="grid grid-cols-[1fr_auto] mb-4 gap-3" data-aos="fade-down">
+  <form class="w-full h-full" (ngSubmit)="submit()" novalidate>
+    <div class="relative group transition-all duration-300">
+      <input type="text" placeholder="Busque el username a buscar..." [value]="searchTerm()"
+        (input)="searchTerm.set($any($event.target).value)" name="username"
+        class="w-full py-3 pl-5 pr-14 rounded-full bg-violet-900 shadow-md focus:outline-none focus:ring-2 transition-all duration-300 placeholder-purple-300 group-hover:shadow-lg" />
+      <button type="submit" [disabled]="!searchTerm().trim()"
+        class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1011.5 19.5a7.5 7.5 0 005.15-2.85z" />
+        </svg>
+      </button>
+    </div>
+  </form>
+  <button [disabled]="!searchMode()" (click)="clearSearch()"
+    class="shadow-md rounded-full px-5 text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 transition-all duration-300">
+    Limpiar búsqueda
+  </button>
+</div>
+
+<div *ngIf="!isLoading() && usersList().length === 0" class="text-center text-purple-300 mt-6" data-aos="fade-up">
+  No se encontró ningún usuario con ese nombre.
+</div>
+
+<div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center">
+  <app-user-button *ngFor="let user of usersList()" class="max-w-3xs w-full" [username]="user.username"
+    [userProfilePicture]="user.profilePicture" data-aos="fade-down" />
+</div>

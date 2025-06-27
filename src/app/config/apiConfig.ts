@@ -66,6 +66,8 @@ export const apiConf = {
       }),
     }),
     user: createEndpointGroup('users', {
+      listAllNotFriends: (offset: number, limit: number) =>
+        `?offset=${offset}&limit=${limit}`,
       findByUsername: (username: string) => `/${username}`,
       getCurrentUserLogged: () => '/me',
       getFriendsList: (offset: number, limit: number) =>
