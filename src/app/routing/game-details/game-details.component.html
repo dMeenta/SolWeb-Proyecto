@@ -11,13 +11,13 @@
                 <a href="/" class=" hover:text-white transition-colors">Todos los juegos</a>
                 >
                 @for (cat of game.categories; track $index) {
-                <a routerLink="/categories/{{cat.id}}" class="hover:text-white transition-colors">{{cat.name}}</a>
+                <a routerLink="/categories/{{cat}}" class="hover:text-white transition-colors">{{cat}}</a>
                 @if ($index < game.categories.length-1) {<span> - </span>}
                     }
                     >
                     <a routerLink="/" class="hover:text-white transition-colors">{{game.developer}}</a>
                     >
-                    <a href="/game/{{game.id}}" class="hover:text-white transition-colors">{{game.name}}</a>
+                    <a href="/game/{{game.name}}" class="hover:text-white transition-colors">{{game.name}}</a>
             </p>
             <h2 class="text-xl md:text-2xl xl:text-3xl">{{game.name}}</h2>
             <p class="italic text-sm">{{game.developer}} -
@@ -31,7 +31,7 @@
         <p class="mb-2">Categorías:</p>
         <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-1">
             @for (cat of game.categories; track $index) {
-            <app-category [category]="cat" />
+            <app-category [categoryName]="cat" />
             }
         </div>
         <div class="flex items-center mt-6">

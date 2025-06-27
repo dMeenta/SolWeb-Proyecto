@@ -19,11 +19,11 @@ export const routes: Routes = [
         component: CategoriesComponent,
       },
       {
-        path: 'categories/:id',
+        path: 'categories/:categoryName',
         component: CategoryPageComponent,
       },
       {
-        path: 'game/:id',
+        path: 'game/:name',
         component: GameDetailsComponent,
       },
       {

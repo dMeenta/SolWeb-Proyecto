@@ -1,7 +1,7 @@
 <div>
     <h3 class="text-2xl mb-4"><span class="font-semibold"><!-- {{getUser()?.username}} --></span> es miembro de:</h3>
     <div class="p-2 w-full flex gap-10 flex-wrap justify-evenly">
-        <button (click)="goToCommunity(item.game.id)" *ngFor="let item of userCommunities"
+        <button (click)="goToCommunity(item.game.name)" *ngFor="let item of userCommunities"
             class="text-ellipsis flex flex-col w-45 p-3 rounded-3xl group border bg-gradient-to-t from-violet-800 to-indigo-950 border-white  shadow-violet-950 shadow-lg hover:cursor-pointer hover:from-violet-950 hover:to-slate-900 transition-all duration-300 hover:scale-105">
             <div
                 class="w-full h-45 rounded-3xl overflow-hidden opacity-70 group-hover:opacity-100 transition-opacity duration-300 mb-2">

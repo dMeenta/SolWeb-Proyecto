@@ -6,7 +6,6 @@ import { Game } from '../../models/Game';
 import { SharedService } from '../../shared/shared.service';
 import { CommunityService } from '../../services/community.service';
 import { firstValueFrom } from 'rxjs';
-import ApiResponse from '../../models/ApiResponse';
 import { toast } from 'ngx-sonner';
 import { Location, NgClass, NgIf } from '@angular/common';
 
@@ -37,16 +36,10 @@ export class GameDetailsComponent implements OnInit {
     this.location.back();
   }
 
-  getGameId() {
-    const idString = this.route.snapshot.paramMap.get('id');
-    if (!idString) return;
-    return Number.parseInt(idString);
+  getGameName() {
+    return decodeURIComponent(this.route.snapshot.paramMap.get('name')!);
   }
 
-  /*  getUserId() {
-    return this._sharedService.getUserLogged()?.uid;
-  }
- */
   gameYear() {
     return this.game.release_date.slice(0, 4);
   }
@@ -60,15 +53,19 @@ export class GameDetailsComponent implements OnInit {
   }
 
   async getGame() {
-    const gameId = this.getGameId();
-    if (!gameId) return;
+    const gameName = this.getGameName();
 
     this.isLoading = true;
     try {
-      const item = await firstValueFrom(this._gameService.getGameById(gameId));
+      const item = await firstValueFrom(
+        this._gameService.getGameByName(gameName)
+      );
       if (item.success) {
         this.game = item.data;
         await this.checkMembership(); // luego de tener el juego
+        console.log(item);
+        console.log(item.data);
+        console.log(item.data.categories);
       } else {
         toast.error(item.message);
       }

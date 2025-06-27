@@ -34,6 +34,12 @@ export class GamesService {
     );
   }
 
+  getGameByName(gameName: string) {
+    return this.http.get<ApiResponse<Game>>(
+      getApiUrl(apiConf.endpoints.game.findByName(gameName))
+    );
+  }
+
   /* @FALTA IMPLEMENTAR *****
   *****************************
   getUserGames(idList: number[]) {
