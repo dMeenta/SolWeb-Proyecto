@@ -5,13 +5,19 @@ import { UserMSQL } from '../../models/UserMSQL';
 import ApiResponse from '../../models/ApiResponse';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Friend } from '../../components/friend-list-object/friend-list-object.component';
-import { MinimalUserInfo } from '../../shared/shared.service';
 import PaginatedResponse from '../../models/PaginatedResponse';
 
 export interface UserMinimal {
   username: string;
   profilePicture: string;
-  role?: string;
+  friendshipStatus: FriendshipStatus;
+}
+
+export enum FriendshipStatus {
+  NONE = 'NONE',
+  PENDING_RECEIVED = 'PENDING_RECEIVED',
+  PENDING_SENT = 'PENDING_SENT',
+  FRIENDS = 'FRIENDS',
 }
 
 @Injectable({
@@ -22,7 +28,7 @@ export class UsersService {
 
   getProfile(username: string): Observable<ApiResponse<UserMSQL>> {
     return this.http.get<ApiResponse<UserMSQL>>(
-      getApiUrl(apiConf.endpoints.user.findByUsername(username))
+      getApiUrl(apiConf.endpoints.user.getProfile(username))
     );
   }
 

@@ -61,6 +61,7 @@ export const apiConf = {
     social: createEndpointGroup('social', {
       friendRequest: createEndpointGroup('/friend-request', {
         send: () => '/send',
+        cancel: () => '/cancel',
         accept: () => '/accept',
         reject: () => '/reject',
       }),
@@ -68,7 +69,8 @@ export const apiConf = {
     user: createEndpointGroup('users', {
       listAllNotFriends: (offset: number, limit: number) =>
         `?offset=${offset}&limit=${limit}`,
-      findByUsername: (username: string) => `/${username}`,
+      findByUsername: (username: string) => `/user/${username}`,
+      getProfile: (username: string) => `/${username}`,
       getCurrentUserLogged: () => '/me',
       getFriendsList: (offset: number, limit: number) =>
         `/friends?offset=${offset}&limit=${limit}`,

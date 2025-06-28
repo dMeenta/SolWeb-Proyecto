@@ -63,7 +63,7 @@ export class ConnectWithOthersComponent implements OnInit {
             {
               username: res.data.username,
               profilePicture: res.data.profilePicture,
-              role: res.data.role,
+              friendshipStatus: res.data.friendshipStatus,
             },
           ]);
         } else {

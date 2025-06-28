@@ -26,5 +26,5 @@
 
 <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] justify-center">
   <app-user-button *ngFor="let user of usersList()" class="max-w-3xs w-full" [username]="user.username"
-    [userProfilePicture]="user.profilePicture" data-aos="fade-down" />
+    [userProfilePicture]="user.profilePicture" [friendshipStatus]="user.friendshipStatus" data-aos="fade-down" />
 </div>

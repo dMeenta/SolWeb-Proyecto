@@ -1,33 +1,106 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocialService } from '../../services/social.service';
 import { toast } from 'ngx-sonner';
+import { NgClass, NgIf } from '@angular/common';
+import { FriendshipStatus } from '../../auth/data-access/users.service';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-user-button',
-  imports: [],
+  imports: [NgIf, NgClass],
   templateUrl: './user-button.component.html',
   styleUrl: './user-button.component.css',
+  animations: [
+    trigger('slideDown', [
+      state(
+        'hidden',
+        style({
+          height: '0px',
+          opacity: 0,
+          overflow: 'hidden',
+        })
+      ),
+      state(
+        'visible',
+        style({
+          height: '*',
+          opacity: 1,
+        })
+      ),
+      transition('hidden <=> visible', [animate('200ms ease-in-out')]),
+    ]),
+  ],
 })
 export class UserButtonComponent {
+  @Input() friendshipStatus!: FriendshipStatus;
   @Input() username!: string;
   @Input() userProfilePicture!: string;
+  showingRequestOptions = false;
+  hovering: boolean = false;
+  FriendshipStatus = FriendshipStatus;
 
   constructor(private router: Router, private socialService: SocialService) {}
 
   goToUserProfile() {
     this.router.navigateByUrl(`/profile/${this.username}`);
   }
-  agregarAmigo(event: Event) {
-    event.stopPropagation(); // evita que se dispare verPerfil()
-    // lógica para enviar solicitud de amistad
 
-    this.socialService.sendFriendRequest(this.username).subscribe((item) => {
-      if (!item.success) {
-        console.error(item);
-        toast.error(`${item.message}`);
+  addFriend(event: Event) {
+    event.stopPropagation();
+    this.socialService.sendFriendRequest(this.username).subscribe((res) => {
+      if (!res.success) {
+        toast.error(`${res.message}`);
       }
-      toast.success(`${item.data}`);
+      toast.success(`${res.data}`);
+      this.friendshipStatus = FriendshipStatus.PENDING_SENT;
     });
+  }
+
+  cancelFriendRequest(event: Event) {
+    event.stopPropagation();
+    this.socialService.cancelFriendRequest(this.username).subscribe((res) => {
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(`${res.data}`);
+        this.friendshipStatus = FriendshipStatus.NONE;
+      }
+    });
+  }
+
+  acceptFriendRequest(event: Event) {
+    event.stopPropagation();
+    this.socialService.acceptFriendRequest(this.username).subscribe((res) => {
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(`${res.data}`);
+        this.friendshipStatus = FriendshipStatus.FRIENDS;
+      }
+    });
+  }
+
+  rejectFriendRequest(event: Event) {
+    event.stopPropagation();
+    this.socialService.rejectFriendRequest(this.username).subscribe((res) => {
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(`${res.data}`);
+        this.friendshipStatus = FriendshipStatus.NONE;
+      }
+    });
+  }
+
+  switchShowingFriendRequestOptions(event: Event) {
+    event.stopPropagation();
+    this.showingRequestOptions = !this.showingRequestOptions;
   }
 }

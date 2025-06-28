@@ -17,6 +17,14 @@ export class SocialService {
     );
   }
 
+  cancelFriendRequest(cancelledUsername: string) {
+    return this.http.post<ApiResponse<string>>(
+      getApiUrl(apiConf.endpoints.social.friendRequest.cancel()),
+      cancelledUsername,
+      { withCredentials: true }
+    );
+  }
+
   acceptFriendRequest(acceptedUsername: string) {
     return this.http.post<ApiResponse<string>>(
       getApiUrl(apiConf.endpoints.social.friendRequest.accept()),

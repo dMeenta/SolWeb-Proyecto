@@ -10,9 +10,49 @@
     <span
       class="text-purple-400 group-hover:text-white xl:text-base 2xl:text-2xl duration-300 transition-colors font-semibold text-sm truncate max-w-[150px] block">{{username}}</span>
 
-    <button class="bg-purple-800 text-purple-300 text-xs px-3 py-1 rounded w-max hover:bg-purple-600 hover:text-white
-      hover:cursor-pointer transition-all duration-300" (click)="agregarAmigo($event)">
-      Agregar amigo
+    <!-- Add Friend -->
+    <button *ngIf="friendshipStatus === FriendshipStatus.NONE"
+      class="hover:cursor-pointer bg-purple-800 text-purple-300 text-xs px-3 py-1 rounded w-max min-w-[120px] text-center hover:bg-purple-600 hover:text-white transition-all duration-300"
+      (click)="addFriend($event)">
+      Add friend
     </button>
+
+    <!-- Pending / Cancel Request -->
+    <button *ngIf="friendshipStatus === FriendshipStatus.PENDING_SENT" (mouseenter)="hovering = true"
+      (mouseleave)="hovering = false" (click)="cancelFriendRequest($event)"
+      class="bg-purple-950 text-purple-500 text-xs px-3 py-1 rounded w-max min-w-[120px] text-center hover:cursor-pointer hover:bg-purple-900 hover:text-white transition-all duration-300 relative overflow-hidden">
+
+      <span class="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+        [ngClass]="{ 'opacity-0': hovering, 'opacity-100': !hovering }">
+        Pending
+      </span>
+      <span class="opacity-0" [ngClass]="{ 'opacity-100': hovering, 'opacity-0': !hovering }">
+        Cancel request
+      </span>
+    </button>
+
+    <div class="relative inline-block">
+      <button *ngIf="friendshipStatus === FriendshipStatus.PENDING_RECEIVED"
+        (click)="switchShowingFriendRequestOptions($event)" [ngClass]="{'rounded-b-none': showingRequestOptions}"
+        class="bg-purple-800 text-purple-300 text-xs px-3 py-1 rounded w-max hover:bg-purple-600 hover:text-white hover:cursor-pointer transition-all duration-300">
+        {{ showingRequestOptions ? 'Ocultar opciones' : 'Mostrar opciones' }}
+      </button>
+
+      <!-- Menú desplegable con animación -->
+      <div [@slideDown]="showingRequestOptions ? 'visible' : 'hidden'"
+        class="absolute left-0 w-full rounded-b-lg shadow-lg z-50 flex flex-col overflow-hidden transition-all duration-300">
+        <button
+          class="hover:cursor-pointer text-xs px-3 py-1 bg-gray-600 text-gray-400 hover:text-white hover:bg-emerald-700 transition duration-300"
+          (click)="acceptFriendRequest($event)">
+          Accept
+        </button>
+
+        <button
+          class="hover:cursor-pointer text-xs px-3 py-1 bg-gray-600 text-gray-400 hover:text-white hover:bg-rose-700 transition duration-300"
+          (click)="rejectFriendRequest($event)">
+          Reject
+        </button>
+      </div>
+    </div>
   </div>
 </div>
