@@ -1,0 +1,14 @@
+<span class="h-full w-full px-5 text-center content-center text-purple-400 text-shadow-lg/20 text-shadow-white"
+  *ngIf="requests().length === 0;else friendshipRequestsList">
+  Here should be some friendship requests...
+</span>
+
+<ng-template #friendshipRequestsList>
+  <div class="w-full h-full overflow-y-auto rounded-lg relative" (scroll)="onScroll($event)">
+    <div *ngFor="let r of requests(); trackBy: trackByUsername" @fadeOutSlideUp>
+      <app-user-button [username]="r.username" [userProfilePicture]="r.profilePicture"
+        [friendshipStatus]="r.friendshipStatus" wrapperClass="h-2/6 rounded-none" wrapperImageClass="w-3/12"
+        class="text-sm" />
+    </div>
+  </div>
+</ng-template>

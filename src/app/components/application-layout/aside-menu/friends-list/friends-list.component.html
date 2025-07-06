@@ -1,9 +1,16 @@
-<div class="friends-list">
-  <app-friend-list-object class="w-full h-fit" *ngFor="let friend of friendsList" [friend]="friend" />
+<div class="h-full overflow-y-auto overflow-x-hidden relative" (scroll)="onScroll($event)">
+  <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
+    *ngIf="friends().length === 0 && !isLoading(); else friendsListContainer">
+    Here you should have some friends... If you have
+  </span>
 
-  <!-- Sentinela invisible -->
-  <div #sentinel></div>
+  <ng-template #friendsListContainer>
+    <div *ngFor="let f of friends(); trackBy: trackByUsername" @fadeInSlideRight>
+      <app-friend-list-object class="w-full h-fit" [friend]="f" />
+    </div>
+    <div *ngIf="isLoading()" class="h-20 w-full content-center place-items-center bg-violet-950 py-2">
+      <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-violet-500"></div>
+    </div>
+  </ng-template>
 
-  <p *ngIf="loading">Cargando...</p>
-  <p *ngIf="allLoaded && friendsList.length === 0">Aún no hay amigos aquí...</p>
 </div>

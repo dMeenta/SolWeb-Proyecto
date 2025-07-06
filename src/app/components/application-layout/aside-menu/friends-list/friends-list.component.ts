@@ -1,9 +1,10 @@
 import {
   Component,
-  ElementRef,
-  Inject,
+  Signal,
+  signal,
+  computed,
+  effect,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import {
@@ -11,65 +12,102 @@ import {
   FriendListObjectComponent,
 } from '../../../friend-list-object/friend-list-object.component';
 import { UsersService } from '../../../../auth/data-access/users.service';
-import ApiResponse from '../../../../models/ApiResponse';
+import { newFriendInfoSignal } from '../../../../shared/ui/signals/friendRequestChange.signal';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-friends-list',
   imports: [NgIf, FriendListObjectComponent, NgFor],
   templateUrl: './friends-list.component.html',
   styleUrl: './friends-list.component.css',
+  animations: [
+    trigger('fadeInSlideRight', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(100px)' }),
+        animate(
+          '400ms ease-out',
+          style({ opacity: 1, transform: 'translateX(0)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class FriendsListComponent implements OnInit {
-  @ViewChild('sentinel', { static: true }) sentinel!: ElementRef;
-  friendsList: Friend[] = [];
-  offset = 0;
-  limit = 10;
-  loading = false;
-  allLoaded = false;
-  observer!: IntersectionObserver;
-  constructor(private userService: UsersService) {}
-  ngOnInit(): void {
-    this.loadFriends(); // carga inicial
-    this.setupObserver();
-  }
+  private allFriends = signal<Friend[]>([]);
+  private offset = signal(0);
+  private limit = 8;
+  private loading = signal(false);
+  private noMore = signal(false);
 
-  setupObserver(): void {
-    this.observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !this.loading && !this.allLoaded) {
-          this.loadFriends();
+  readonly friends: Signal<Friend[]> = computed(() => this.allFriends());
+  readonly isLoading: Signal<boolean> = computed(() => this.loading());
+
+  constructor(private userService: UsersService) {
+    effect(() => {
+      const queue = newFriendInfoSignal();
+      if (queue.length > 0) {
+        const newFriendInfo = queue[0];
+        const alreadyExists = this.allFriends().some(
+          (f) => f.friendUsername === newFriendInfo.friendUsername
+        );
+        if (!alreadyExists) {
+          const newFriend: Friend = {
+            friendUsername: newFriendInfo.friendUsername,
+            friendProfilePicture: newFriendInfo.friendProfilePicture,
+          };
+          this.allFriends.set([newFriend, ...this.allFriends()]);
         }
-      },
-      {
-        rootMargin: '100px', // empieza a cargar antes de llegar al fondo
+        newFriendInfoSignal.update((prev) =>
+          prev.filter((f) => f.friendUsername !== newFriendInfo.friendUsername)
+        );
       }
-    );
-    this.observer.observe(this.sentinel.nativeElement);
+    });
   }
 
-  loadFriends(): void {
-    this.loading = true;
+  ngOnInit(): void {
+    this.getFriends();
+  }
 
-    this.userService.getFriendsList(this.offset, this.limit).subscribe({
-      next: (res: ApiResponse<Friend[]>) => {
+  getFriends() {
+    if (this.loading() || this.noMore()) return;
+
+    this.loading.set(true);
+
+    this.userService
+      .getFriendsList(this.offset(), this.limit)
+      .subscribe((res) => {
         if (!res.success) {
-          console.error('Error al cargar amigos:', res.message);
-          this.loading = false;
+          console.error(res);
+          this.loading.set(false);
+          return;
         }
 
-        console.log(res.data);
+        const page = res.data;
+        const current = this.allFriends();
+        this.allFriends.set([...current, ...page.content]);
 
-        const newFriends = res.data;
-        this.friendsList = [...this.friendsList, ...newFriends];
+        this.offset.set(this.offset() + this.limit);
 
-        this.offset += this.limit;
-        if (newFriends.length < this.limit) {
-          this.allLoaded = true;
-          this.observer.unobserve(this.sentinel.nativeElement); // detiene la observación
+        if (page.content.length < this.limit) {
+          this.noMore.set(true);
         }
 
-        this.loading = false;
-      },
-    });
+        this.loading.set(false);
+      });
+  }
+
+  onScroll(event: Event) {
+    const target = event.target as HTMLElement;
+
+    const bottomReached =
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 10;
+
+    if (bottomReached) {
+      this.getFriends();
+    }
+  }
+
+  trackByUsername(index: number, friend: Friend): string {
+    return friend.friendUsername;
   }
 }

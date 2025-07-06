@@ -44,8 +44,11 @@ export class UsersService {
       );
   }
 
-  getFriendsList(offset = 0, limit = 10): Observable<ApiResponse<Friend[]>> {
-    return this.http.get<ApiResponse<Friend[]>>(
+  getFriendsList(
+    offset = 0,
+    limit = 8
+  ): Observable<ApiResponse<PaginatedResponse<Friend>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<Friend>>>(
       getApiUrl(apiConf.endpoints.user.getFriendsList(offset, limit)),
       { withCredentials: true }
     );
@@ -71,6 +74,16 @@ export class UsersService {
   getUserByUsername(username: string): Observable<ApiResponse<UserMinimal>> {
     return this.http.get<ApiResponse<UserMinimal>>(
       getApiUrl(apiConf.endpoints.user.findByUsername(username)),
+      { withCredentials: true }
+    );
+  }
+
+  getFriendshipRequests(
+    offset = 0,
+    limit = 5
+  ): Observable<ApiResponse<PaginatedResponse<UserMinimal>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<UserMinimal>>>(
+      getApiUrl(apiConf.endpoints.user.friendShipRequests(offset, limit)),
       { withCredentials: true }
     );
   }

@@ -1,8 +1,15 @@
-<button
-  class="w-full h-10 flex items-center gap-2 px-2 hover:bg-violet-900 transition-all duration-300 hover:cursor-pointer group">
-  <div class="w-6.5 h-6.5 rounded-full overflow-hidden">
-    <img src="img/profiles/{{friend.friendProfilePicture}}.jpg" alt="Foto de perfil"
-      class="h-full w-full opacity-80 group-hover:opacity-100" />
+<button (click)="openChatWith()" style="-webkit-mask-image: linear-gradient(to left, black 95%, transparent);
+      mask-image: linear-gradient(to left, black 95%, transparent);" class=" w-full h-15 flex items-center gap-2 opacity-60 hover:opacity-100 transition-all duration-300
+  hover:cursor-pointer group select-none"
+  [ngStyle]="dominantColor ? { 'background-color':'rgb('+ dominantColor.join(',') +')'} : null">
+  <div class="w-2/5 h-full flex-shrink-0 relative overflow-hidden" style="
+      -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
+      mask-image: linear-gradient(to right, black 60%, transparent);">
+    <img #imgRef src="img/profiles/{{friend.friendProfilePicture}}.jpg" crossorigin="anonymous"
+      alt="{{friend.friendUsername}}"
+      class="w-full h-full object-cover group-hover:scale-125 transition-all duration-300" />
   </div>
-  <span class="text-sm italic text-gray-300 group-hover:text-white">{{ friend.friendUsername }}</span>
+  <span [ngStyle]="dominantColor ? { 'color': getTextColor(dominantColor) } : null"
+    class="text-xs font-semibold lg:text-sm italic">{{
+    friend.friendUsername }}</span>
 </button>
