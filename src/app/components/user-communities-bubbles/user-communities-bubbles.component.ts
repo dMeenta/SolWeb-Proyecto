@@ -16,12 +16,12 @@ import { Router } from '@angular/router';
   templateUrl: './user-communities-bubbles.component.html',
   styleUrl: './user-communities-bubbles.component.css',
 })
-export class UserCommunitiesBubblesComponent implements OnInit, AfterViewInit {
+export class UserCommunitiesBubblesComponent implements OnInit {
   games: Game[] = [];
   offset = 0;
   limit = 10;
   isLoading = false;
-  hasMore = true;
+  noMore = false;
   @ViewChild('scrollContainer', { static: false })
   scrollContainer!: ElementRef;
 
@@ -29,25 +29,17 @@ export class UserCommunitiesBubblesComponent implements OnInit, AfterViewInit {
     private communityService: CommunityService,
     private router: Router
   ) {}
-  ngAfterViewInit(): void {
-    if (this.scrollContainer) {
-      this.scrollContainer.nativeElement.addEventListener('scroll', () => {
-        this.onScroll();
-      });
-    }
-  }
 
   ngOnInit(): void {
     this.getUserCommunities();
   }
 
-  onScroll() {
-    const container = this.scrollContainer.nativeElement;
+  onScroll(event: Event) {
+    const target = event.target as HTMLElement;
     const nearEnd =
-      container.scrollLeft + container.clientWidth >=
-      container.scrollWidth - 100;
+      target.scrollLeft + target.clientWidth >= target.scrollWidth - 10;
 
-    if (nearEnd && !this.isLoading && this.hasMore) {
+    if (nearEnd) {
       this.getUserCommunities();
     }
   }
@@ -67,27 +59,25 @@ export class UserCommunitiesBubblesComponent implements OnInit, AfterViewInit {
   }
 
   getUserCommunities() {
-    if (this.isLoading || !this.hasMore) return;
+    if (this.isLoading || this.noMore) return;
     this.isLoading = true;
 
     this.communityService
       .getCommunitiesByUser(this.offset, this.limit)
-      .subscribe({
-        next: (res) => {
-          const newGames: Game[] = res.data;
-          this.games.push(...newGames);
-          this.offset += this.limit;
-          this.hasMore = newGames.length === this.limit;
-          this.isLoading = false;
-        },
-        error: (err) => {
-          console.error('Error al cargar comunidades:', err);
-          this.isLoading = false;
-        },
+      .subscribe((res) => {
+        if (!res.success) {
+          console.error(res);
+        }
+        const page = res.data;
+        const newGames: Game[] = page.content;
+        this.games.push(...newGames);
+        this.offset += this.limit;
+        this.noMore = page.content.length < this.limit;
+        this.isLoading = false;
       });
   }
 
   goToCommunityPage(gameName: String) {
-    this.router.navigateByUrl(`game/${gameName}`);
+    this.router.navigateByUrl(`community/${gameName}`);
   }
 }

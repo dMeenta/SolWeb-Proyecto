@@ -6,7 +6,8 @@
     </button>
 
     <!-- Contenedor deslizable -->
-    <div #scrollContainer class="px-2 h-full flex overflow-hidden scroll-smooth gap-3">
+    <div #scrollContainer (scroll)="onScroll($event)"
+      class="px-2 h-full flex overflow-x-auto overflow-y-hidden scroll-smooth gap-3">
       <button (click)="goToCommunityPage(game.name)" *ngFor="let game of games"
         class="py-2 flex-shrink-0 flex flex-col items-center w-20 sm:w-24 md:w-28 group" data-aos="fade-down">
         <div
@@ -29,7 +30,7 @@
   </div>
 
   <ng-template #noCommunities data-aos="fade-down">
-    <div class="text-center text-slate-400">
+    <div class="h-full w-full text-center px-5 text-lg text-purple-400 text-shadow-lg/20 text-shadow-white">
       Aún no tienes comunidades aquí.
     </div>
   </ng-template>
