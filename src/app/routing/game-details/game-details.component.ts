@@ -23,8 +23,8 @@ export class GameDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private _sharedService: SharedService,
-    private _communityService: CommunityService,
+    private sharedService: SharedService,
+    private communityService: CommunityService,
     private _gameService: GamesService
   ) {}
 
@@ -45,110 +45,65 @@ export class GameDetailsComponent implements OnInit {
   }
 
   handleButtonCommunityClick() {
-    /* if (this.isInCommunity) {
+    if (this.isInCommunity) {
       this.leaveCommunity();
     } else {
       this.joinCommunity();
-    } */
+    }
   }
 
-  async getGame() {
+  getGame() {
     const gameName = this.getGameName();
 
     this.isLoading = true;
-    try {
-      const item = await firstValueFrom(
-        this._gameService.getGameByName(gameName)
-      );
-      if (item.success) {
-        this.game = item.data;
-        await this.checkMembership(); // luego de tener el juego
-        console.log(item);
-        console.log(item.data);
-        console.log(item.data.categories);
-      } else {
-        toast.error(item.message);
+
+    this._gameService.getGameByName(gameName).subscribe((res) => {
+      if (!res.success) {
+        console.error(res);
+        toast.error(res.message);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      this.isLoading = false;
-    }
+      this.game = res.data;
+      this.checkMembership();
+    });
   }
 
-  /* async joinCommunity() {
-    const userId = this.getUserId();
-    if (!userId) return;
-
+  joinCommunity() {
     this.isLoading = true;
-    try {
-      const gameId = this.getGameId();
-      if (!gameId) return;
-
-      const response: ApiResponse<any> = await firstValueFrom(
-        this._communityService.joinCommunity(userId, gameId)
-      );
-
-      if (!response.success) {
-        toast.error(response.message);
+    this.communityService.joinCommunity(this.game.name).subscribe((res) => {
+      if (!res.success) {
+        console.error(res);
         this.isLoading = false;
-        return;
       }
 
-      toast.success(response.message);
+      toast.success(res.message);
       this.isLoading = false;
       this.isInCommunity = true;
-    } catch (error) {
-      console.error(error);
-      this.isLoading = false;
-    }
+    });
   }
 
-  async leaveCommunity() {
-    const userId = this.getUserId();
-    if (!userId) return;
-
+  leaveCommunity() {
     this.isLoading = true;
-
-    try {
-      const gameId = this.getGameId();
-      if (!gameId) return;
-
-      const response: ApiResponse<any> = await firstValueFrom(
-        this._communityService.leaveCommunity(userId, gameId)
-      );
-
-      if (!response.success) {
-        toast.error(response.message);
+    this.communityService.leaveCommunity(this.game.name).subscribe((res) => {
+      if (!res.success) {
+        console.error(res);
         this.isLoading = false;
-        return;
       }
 
-      toast.success(response.message);
+      toast.success(res.message);
       this.isLoading = false;
       this.isInCommunity = false;
-    } catch (error) {
-      console.error(error);
+    });
+  }
+
+  checkMembership() {
+    this.isLoading = true;
+    this.sharedService.isCommunityMember(this.game.name).subscribe((res) => {
+      if (!res.success) {
+        console.error(res);
+        this.isLoading = false;
+      }
+      this.isInCommunity = res.data;
       this.isLoading = false;
-    }
-  } */
-
-  async checkMembership() {
-    console.log('Quizas');
-    /* const userId = this.getUserId();
-    if (!userId) return;
-
-    try {
-      const gameId = this.getGameId();
-      if (!gameId) return;
-
-      const response = await firstValueFrom(
-        this._communityService.checkMembership(userId, gameId)
-      );
-      this.isInCommunity = response.success ? response.data : false;
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    } */
+    });
   }
 }
