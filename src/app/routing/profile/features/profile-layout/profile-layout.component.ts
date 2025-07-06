@@ -17,14 +17,17 @@ import { UserMSQL } from '../../../../models/UserMSQL';
   styleUrl: './profile-layout.component.css',
 })
 export class ProfileLayoutComponent implements OnInit {
+  private username!: string;
   private _userData = inject(UsersService);
   currentUserData!: UserMSQL;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const uid = this.route.snapshot.paramMap.get('id');
-    if (uid) this.getUser(uid);
+    this.route.params.subscribe((params) => {
+      this.username = params['username'];
+      this.getUser(this.username);
+    });
   }
 
   async getUser(uid: string) {
