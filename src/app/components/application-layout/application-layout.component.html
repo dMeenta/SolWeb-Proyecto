@@ -1,10 +1,11 @@
-<div class="flex flex-col min-h-screen max-h-screen">
+<div class="flex flex-col min-h-screen max-h-screen relative">
     <app-header [userLogged]="userLogged" />
-    <div class="flex flex-1 overflow-hidden">
+    <div class="flex flex-1 min-h-0">
         <app-aside-menu class="w-2/12 overflow-auto" [profilePicture]="userLogged.profilePicture"
             [role]="userLogged.role" [username]="userLogged.username" />
-        <div [ngClass]="isPageWidthFull() ? '' :'p-4'" class="flex-1 overflow-auto">
+        <div [ngClass]="isPageWidthFull() ? '' :'p-4'" class="flex-1 overflow-auto" (scroll)="onCustomScroll($event)">
             <router-outlet></router-outlet>
         </div>
     </div>
+    <app-bubble-chat-container />
 </div>
