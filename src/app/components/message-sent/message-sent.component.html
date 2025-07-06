@@ -1,0 +1,6 @@
+<div class="flex flex-col gap-1 px-1 mb-2 items-end">
+  <p (click)="showTime()" class="text-sm rounded-tr-none rounded-lg bg-teal-900 shadow-sm px-2 py-1">
+    {{ msg.content }}
+  </p>
+  <small *ngIf="isShowingTime" class="ms-8 text-xs text-purple-400">{{ formattedTimestamp | date: 'shortTime' }}</small>
+</div>

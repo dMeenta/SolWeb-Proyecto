@@ -1,0 +1,4 @@
+<div class="absolute bottom-4 right-4 flex gap-3 h-16">
+  <app-bubble-chat @bubblePop *ngFor="let openedChat of openedChats(); trackBy:trackByUsername"
+    class="w-16 h-16 relative" [friend]="openedChat" />
+</div>

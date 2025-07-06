@@ -1,0 +1,15 @@
+<span class="h-full w-full px-5 text-center content-center text-purple-400 text-shadow-lg/20 text-shadow-white"
+  *ngIf="chatMessages().length === 0; else messagesList">
+  Start your story with {{ friend.friendUsername }}, send a message 😉!
+</span>
+
+<ng-template #messagesList>
+  <div class="w-full h-full rounded-b-2xl overflow-y-auto flex flex-col-reverse" (scroll)="onScroll($event)"
+    #scrollContainer>
+    <ng-container *ngFor="let msg of chatMessages(); trackBy: trackByMsgId">
+      <app-message-sent *ngIf="msg.sender !== friend.friendUsername" [msg]="msg" />
+      <app-message-received *ngIf="msg.sender === friend.friendUsername" [msg]="msg"
+        [friendProfilePicture]="friend.friendProfilePicture" />
+    </ng-container>
+  </div>
+</ng-template>
