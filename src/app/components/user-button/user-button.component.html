@@ -1,9 +1,9 @@
 <div (click)="goToUserProfile()"
-  class="w-full bg-gradient-to-t from-slate-950 to-slate-900 rounded-lg py-4 px-2 flex items-center shadow-md hover:to-purple-950 transition duration-300 hover:cursor-pointer group">
+  [ngClass]="['w-full bg-gradient-to-t from-slate-950 to-slate-900 rounded-lg py-4 px-2 flex items-center shadow-md hover:to-purple-950 transition duration-300 hover:cursor-pointer z-10 group', wrapperClass || '']">
   <!-- Imagen del usuario -->
-  <div class="w-2/6 aspect-square me-2">
+  <div [ngClass]="['w-2/6 h-full aspect-square me-2',wrapperImageClass || '']">
     <img [src]="`img/profiles/${userProfilePicture}.jpg`"
-      class="w-full aspect-square rounded-full object-cover border-2 border-purple-900 group-hover:border-purple-500 transition-colors duration-500" />
+      class="w-full h-full aspect-square rounded-full object-cover border-2 border-purple-900 group-hover:border-purple-500 transition-colors duration-500" />
   </div>
   <!-- Contenido a la derecha -->
   <div class="grid grid-rows-2 gap-1">
@@ -31,7 +31,7 @@
       </span>
     </button>
 
-    <div class="relative inline-block">
+    <div class="relative inline-block z-50">
       <button *ngIf="friendshipStatus === FriendshipStatus.PENDING_RECEIVED"
         (click)="switchShowingFriendRequestOptions($event)" [ngClass]="{'rounded-b-none': showingRequestOptions}"
         class="bg-purple-800 text-purple-300 text-xs px-3 py-1 rounded w-max hover:bg-purple-600 hover:text-white hover:cursor-pointer transition-all duration-300">

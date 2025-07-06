@@ -11,6 +11,10 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import {
+  newFriendInfoSignal,
+  usernameRequestOnActionSignal,
+} from '../../shared/ui/signals/friendRequestChange.signal';
 
 @Component({
   selector: 'app-user-button',
@@ -39,6 +43,8 @@ import {
   ],
 })
 export class UserButtonComponent {
+  @Input() wrapperClass?: string;
+  @Input() wrapperImageClass?: string;
   @Input() friendshipStatus!: FriendshipStatus;
   @Input() username!: string;
   @Input() userProfilePicture!: string;
@@ -80,10 +86,20 @@ export class UserButtonComponent {
     this.socialService.acceptFriendRequest(this.username).subscribe((res) => {
       if (!res.success) {
         toast.error(res.message);
-      } else {
-        toast.success(`${res.data}`);
-        this.friendshipStatus = FriendshipStatus.FRIENDS;
       }
+
+      toast.success(`${res.data}`);
+      this.friendshipStatus = FriendshipStatus.FRIENDS;
+
+      usernameRequestOnActionSignal.set(this.username);
+      newFriendInfoSignal.update((prev) => [
+        ...prev,
+        {
+          friendUsername: this.username,
+          friendProfilePicture: this.userProfilePicture,
+        },
+      ]);
+      this.showingRequestOptions = false;
     });
   }
 
@@ -92,10 +108,11 @@ export class UserButtonComponent {
     this.socialService.rejectFriendRequest(this.username).subscribe((res) => {
       if (!res.success) {
         toast.error(res.message);
-      } else {
-        toast.success(`${res.data}`);
-        this.friendshipStatus = FriendshipStatus.NONE;
       }
+      toast.success(`${res.data}`);
+      this.friendshipStatus = FriendshipStatus.NONE;
+      usernameRequestOnActionSignal.set(this.username);
+      this.showingRequestOptions = false;
     });
   }
 

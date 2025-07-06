@@ -47,6 +47,7 @@ export class ConnectWithOthersComponent implements OnInit {
           this.hasMore.set(!res.data.last);
         }
         this.isLoading.set(false);
+        this.checkIfNeedMore();
       });
   }
 
@@ -85,5 +86,16 @@ export class ConnectWithOthersComponent implements OnInit {
     this.usersList.set([]);
     this.hasMore.set(true);
     this.loadMoreUsers();
+  }
+
+  checkIfNeedMore() {
+    setTimeout(() => {
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+
+      if (docHeight <= winHeight && this.hasMore()) {
+        this.loadMoreUsers();
+      }
+    }, 50); // espera a que el DOM renderice
   }
 }
