@@ -29,4 +29,11 @@ export class SharedService {
       { withCredentials: true } // 👈 se enviará automáticamente la cookie
     );
   }
+
+  isCommunityMember(gameName: string): Observable<ApiResponse<boolean>> {
+    return this.http.get<ApiResponse<boolean>>(
+      getApiUrl(apiConf.endpoints.community.checkMembership(gameName)),
+      { withCredentials: true }
+    );
+  }
 }
