@@ -1,23 +1,23 @@
 <ul class="pb-4">
   <li class="w-full hover:bg-violet-900 transition-all duration-300">
     <a [routerLink]="[`/profile/${username}`]" routerLinkActive="text-shadow-lg/10 text-shadow-white"
-      class="flex flex-col items-center gap-1 mb-2 px-3 text-xl justify-center"><img
+      class="flex flex-col items-center gap-1 mb-2 px-3 text-xl font-semibold justify-center"><img
         class="aspect-square w-5/12 rounded-full object-cover object-top shadow-xl/20"
         src="img/profiles/{{profilePicture}}.jpg">{{username}}</a>
   </li>
   <li class="w-full hover:bg-violet-900 transition-all duration-300">
     <a [routerLink]="['/']" [routerLinkActiveOptions]="{exact: true}"
       routerLinkActive="text-shadow-lg/10 text-shadow-white"
-      class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i class="fa-solid fa-house-chimney"></i>Home</a>
+      class="w-full px-3 py-1 mb-2 flex gap-2 items-center lg:text-lg"><i class="fa-solid fa-house-chimney"></i>Home</a>
   </li>
   <li class="w-full hover:bg-violet-900 transition-all duration-300 ">
     <a [routerLink]="['/categories']" routerLinkActive="text-shadow-lg/10 text-shadow-white"
-      class="w-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i
+      class="w-full px-3 py-1 mb-2 flex gap-2 items-center lg:text-lg"><i
         class="fa-solid fa-layer-group"></i>Categories</a>
   </li>
   <li class="w-full hover:bg-violet-900 transition-all duration-300">
     <a [routerLink]="['/users']" routerLinkActive="text-shadow-lg/10 text-shadow-white"
-      class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center text-lg"><i class="fa-solid fa-users"></i>Connect
-      With Others</a>
+      class="w-full h-full px-3 py-1 mb-2 flex gap-2 items-center lg:text-lg"><i
+        class="fa-solid fa-users"></i>Connect</a>
   </li>
 </ul>

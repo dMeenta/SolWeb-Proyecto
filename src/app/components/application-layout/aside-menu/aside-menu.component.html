@@ -1,10 +1,10 @@
 <aside
-    class="h-full py-4 text-center border border-t-0 border-violet-500 bg-linear-to-b from-indigo-950 to-violet-950/80">
+    class="h-full flex flex-col py-4 text-center border border-t-0 border-violet-500 bg-linear-to-b from-indigo-950 to-violet-950/80">
     <app-navbar [profilePicture]="profilePicture" [role]="role" [username]="username" />
     <hr class="w-11/12 border-violet-500 place-self-center mb-4">
-    <div class="w-full px-3 py-1 mb-2 flex gap-2 items-center">
+    <div class="lg:text-lg w-full px-3 py-1 mb-2 flex gap-2 items-center">
         <i class="fas fa-user-friends"></i>
-        <span class="text-lg cursor-default"> Friends List</span>
+        <span class="cursor-default"> Friends List</span>
     </div>
-    <app-friends-list />
+    <app-friends-list class="flex-1 overflow-auto" />
 </aside>
