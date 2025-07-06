@@ -27,11 +27,11 @@ export const routes: Routes = [
         component: GameDetailsComponent,
       },
       {
-        path: 'profile/:id',
+        path: 'profile/:username',
         loadChildren: () => import('./routing/profile/features/profile.routes'),
       },
       {
-        path: 'community/:id',
+        path: 'community/:name',
         component: CommunityPageComponent,
       },
       {
