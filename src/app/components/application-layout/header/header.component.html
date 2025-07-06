@@ -1,10 +1,17 @@
 <header
     class="w-full bg-linear-to-r from-indigo-950 to-violet-950 border-b border-violet-500 py-2 px-10 flex justify-between items-center">
     <app-home-button />
-    <app-search-bar class="h-fit w-1/3" />
-    <i class="fa-solid fa-bell"></i>
-    <button class="flex">
-        <i class="fa-solid fa-plus"></i>
-        <p>Create</p>
-    </button>
+    <div class="relative inline-block">
+        <button
+            class="px-2 py-0.5 rounded-full aspect-square bg-violet-700 text-white shadow-md hover:bg-violet-800 hover:cursor-pointer transition-colors duration-200"
+            (click)="switchShowFriendRequests()">
+            <i class="fa-solid fa-user-plus"></i>
+        </button>
+
+        <!-- Menú desplegable con animación -->
+        <div [@slideDown]="showFriendRequests ? 'visible' : 'hidden'"
+            class="absolute mt-1.5 right-0 h-60 w-80 bg-gradient-to-b from-violet-700 to-violet-900 rounded-lg shadow-lg z-50 flex flex-col overflow-hidden transition-all duration-300 items-center px-1 py-2">
+            <app-friendship-requests-list class="bg-violet-950 w-full h-full flex flex-col rounded-lg" />
+        </div>
+    </div>
 </header>
