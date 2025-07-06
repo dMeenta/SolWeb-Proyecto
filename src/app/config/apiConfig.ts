@@ -42,13 +42,18 @@ export const apiConf = {
       findByCategoryName: (categoryName: string) => `/${categoryName}`,
     }),
     chats: createEndpointGroup('chats', {
-      findAllMessagesByChatId: (chatId: string) => `/${chatId}/messages`,
+      getChatMessages: (
+        usernameToChat: string,
+        offset: number,
+        limit: number
+      ) => `/messages/${usernameToChat}?offset=${offset}&limit=${limit}`,
     }),
     community: createEndpointGroup('community', {
       joinCommunity: () => '/join',
       leaveCommunity: () => '/leave',
       currentUserCommunities: (offset: number, limit: number) =>
         `/userLogged?offset=${offset}&limit=${limit}`,
+      checkMembership: (gameName: string) => `/is-community-member/${gameName}`,
     }),
     game: createEndpointGroup('games', {
       listAll: () => '',
@@ -67,6 +72,8 @@ export const apiConf = {
       }),
     }),
     user: createEndpointGroup('users', {
+      friendShipRequests: (offset: number, limit: number) =>
+        `/friend-request?offset=${offset}&limit=${limit}`,
       listAllNotFriends: (offset: number, limit: number) =>
         `?offset=${offset}&limit=${limit}`,
       findByUsername: (username: string) => `/user/${username}`,
@@ -74,6 +81,20 @@ export const apiConf = {
       getCurrentUserLogged: () => '/me',
       getFriendsList: (offset: number, limit: number) =>
         `/friends?offset=${offset}&limit=${limit}`,
+    }),
+    posts: createEndpointGroup('posts', {
+      create: () => '',
+      findByCommunityName: (gameName: string, offset: number, limit: number) =>
+        `/${gameName}?offset=${offset}&limit=${limit}`,
+      toggleLike: (postId: string) => `/${postId}/toggle-like`,
+      getUserFeed: (offset: number, limit: number) =>
+        `/feed?offset=${offset}&limit=${limit}`,
+    }),
+    comments: createEndpointGroup('comments', {
+      create: () => '',
+      findByPostId: (postId: string, offset: number, limit: number) =>
+        `/${postId}?offset=${offset}&limit=${limit}`,
+      toggleLike: (commentId: string) => `/${commentId}/toggle-like`,
     }),
   },
 } as const;
