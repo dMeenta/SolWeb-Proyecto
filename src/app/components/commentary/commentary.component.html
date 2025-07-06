@@ -1,0 +1,16 @@
+<div class="flex flex-col gap-2 mb-3">
+  <div class="flex gap-2">
+    <img role="button" src="img/profiles/{{comment.commenterProfilePicture}}.jpg" alt="avatar"
+      (click)="goToUserProfile()" class="cursor-pointer w-8 h-8 rounded-full object-cover" />
+    <div class="w-full flex flex-col gap-1 p-2 rounded-lg bg-black/30 shadow-sm shadow-violet-500 border-gray-300">
+      <span role="link" class="cursor-pointer font-bold"
+        (click)="goToUserProfile()">{{comment.commenterUsername}}</span>
+      <p>
+        {{comment.commentContent}}
+      </p>
+    </div>
+  </div>
+  <i aria-label="button" (click)="toggleLike()"
+    class="self-end me-1 text-base fa-heart transition duration-200 hover:cursor-pointer hover:scale-110"
+    [ngClass]="liked() ? 'fa-solid text-emerald-200 text-shadow-emerald-950 text-shadow-lg' : 'fa-regular'"></i>
+</div>

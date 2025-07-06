@@ -1,0 +1,7 @@
+<div class="mt-4 bg-black/30 rounded-t-2xl p-3 min-h-15 max-h-60 overflow-y-auto text-sm" (scroll)="onScroll($event)">
+  <app-commentary *ngFor="let comment of comments()" [comment]="comment" />
+  <span *ngIf="comments().length === 0"
+    class="flex flex-col h-full w-full text-center px-5 text-lg text-purple-400 text-shadow-lg/20 text-shadow-white">
+    Here are not comments yet. Be the first to comment🤗
+  </span>
+</div>
