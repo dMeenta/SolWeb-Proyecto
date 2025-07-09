@@ -36,6 +36,7 @@ export const apiConf = {
     }),
     auth: createEndpointGroup('auth', {
       login: () => '/login',
+      logout: () => '/logout',
     }),
     category: createEndpointGroup('category', {
       listAll: () => '',

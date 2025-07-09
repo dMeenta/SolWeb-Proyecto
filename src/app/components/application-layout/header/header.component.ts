@@ -9,6 +9,9 @@ import {
   animate,
 } from '@angular/animations';
 import { FriendshipRequestsListComponent } from '../../friendship-requests-list/friendship-requests-list.component';
+import { AuthService } from '../../../auth/data-access/auth.service';
+import { toast } from 'ngx-sonner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -40,8 +43,21 @@ export class HeaderComponent {
   @Input() userLogged!: MinimalUserInfo;
   showFriendRequests = false;
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   switchShowFriendRequests() {
     const newValue = !this.showFriendRequests;
     this.showFriendRequests = newValue;
+  }
+
+  logout() {
+    this.authService.logOut().subscribe((res) => {
+      if (!res.success) {
+        console.error(res);
+        toast.error(res.message);
+      }
+      toast.success(res.data);
+      this.router.navigateByUrl('/auth/sign-in');
+    });
   }
 }

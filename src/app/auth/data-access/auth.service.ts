@@ -37,4 +37,14 @@ export class AuthService {
       bodyRequest
     );
   }
+
+  logOut() {
+    return this.http.post<ApiResponse<string>>(
+      getApiUrl(apiConf.endpoints.auth.logout()),
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

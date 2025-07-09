@@ -7,6 +7,11 @@
             (click)="switchShowFriendRequests()">
             <i class="fa-solid fa-user-plus"></i>
         </button>
+        <button
+            class="ms-2 px-2 py-0.5 rounded-full aspect-square bg-rose-700 text-white shadow-md hover:bg-rose-800 hover:cursor-pointer transition-colors duration-200"
+            (click)="logout()">
+            <i class="fa-solid fa-door-open"></i>
+        </button>
 
         <!-- Menú desplegable con animación -->
         <div [@slideDown]="showFriendRequests ? 'visible' : 'hidden'"
