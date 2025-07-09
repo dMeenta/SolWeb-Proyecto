@@ -1,7 +1,23 @@
-<a routerLink="/categories/{{category.name}}"
-    class="hover:scale-105 transition-all mb-4 h-56 w-56 rounded-md text-center bg-linear-to-bl from-cyan-900 via-teal-700 to-emerald-800 shadow-2xl flex flex-col justify-between">
-    <h5 class="font-bold py-2 text-2xl border-b w-full">{{category.name}}</h5>
-    <p class="h-full px-6 pt-2 pb-3">
-        {{category.description}}
-    </p>
+<a
+  routerLink="/categories/{{ category.name }}"
+  class="group hover:scale-105 transition-all mb-4 h-56 w-56 rounded-4xl text-center shadow-none bg-gradient-to-bl from-white via-white to-white hover:shadow-lg shadow-indigo-400 flex flex-col justify-center relative overflow-hidden"
+  (mouseenter)="hovered = true"
+  (mouseleave)="hovered = false"
+>
+  <div
+    class="justify-center text-center absolute inset-0 flex flex-col items-center text-white"
+    [@contentAnim]="hovered ? 'hide' : 'show'"
+  >
+    <img src="img/gamepad.png" class="h-12 w-13 mb-2" alt="" />
+    <span class="font-bold text-2xl w-full text-black">{{
+      category.name
+    }}</span>
+  </div>
+
+  <p
+    class="absolute inset-0 flex items-center justify-center px-4 text-sm text-black text-center font-medium"
+    [@descriptionAnim]="hovered ? 'show' : 'hide'"
+  >
+    {{ category.description }}
+  </p>
 </a>
