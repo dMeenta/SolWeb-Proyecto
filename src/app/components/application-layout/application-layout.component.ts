@@ -30,7 +30,7 @@ export class ApplicationLayoutComponent implements OnInit {
   private _sharedService = inject(SharedService);
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
     private scrollEventService: ScrollEventService
   ) {}
 

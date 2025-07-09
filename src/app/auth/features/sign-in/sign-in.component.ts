@@ -27,8 +27,11 @@ interface FormSignIn {
   templateUrl: './sign-in.component.html',
 })
 export default class SignInComponent {
-  constructor(private router: Router, private authService: AuthService) {}
-  private formBuilder = inject(FormBuilder);
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
+  private readonly formBuilder = inject(FormBuilder);
 
   isRequired(field: 'email' | 'password') {
     return isRequired(field, this.form);

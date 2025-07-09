@@ -24,7 +24,7 @@ export enum FriendshipStatus {
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getProfile(username: string): Observable<ApiResponse<UserMSQL>> {
     return this.http.get<ApiResponse<UserMSQL>>(

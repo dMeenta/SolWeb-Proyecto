@@ -13,9 +13,7 @@ import {
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../data-access/auth.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { UsersService } from '../../data-access/users.service';
 import { Router } from '@angular/router';
-import { UserMSQL } from '../../../models/UserMSQL';
 import ApiResponse from '../../../models/ApiResponse';
 import { firstValueFrom } from 'rxjs';
 
@@ -36,6 +34,8 @@ interface SignUpForm {
 export default class SignUpComponent {
   selectedImage: string = '';
 
+  constructor(private readonly router: Router) {}
+
   onRadioChange(event: any): void {
     this.selectedImage = event.target.id;
   }
@@ -44,10 +44,8 @@ export default class SignUpComponent {
     return this.selectedImage === image;
   }
 
-  constructor(private router: Router) {}
-
   private formBuilder = inject(FormBuilder);
-  private _authService = inject(AuthService);
+  private readonly _authService = inject(AuthService);
 
   next: boolean = false;
   profileUrls = [

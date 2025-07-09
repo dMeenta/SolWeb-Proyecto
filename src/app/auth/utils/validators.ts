@@ -1,4 +1,4 @@
-import { Form, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export function isRequired(
   field: 'email' | 'password' | 'username' | 'profilePicture',

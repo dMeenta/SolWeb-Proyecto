@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiConf, getApiUrl } from '../../config/apiConfig';
 import ApiResponse from '../../models/ApiResponse';
-import { Observable } from 'rxjs'; // Importa Observable si no lo tienes
 
 export interface RegisterReq {
   email: string;
@@ -21,7 +20,7 @@ export interface LoginReq {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   signIn(bodyRequest: LoginReq) {
     return this.http.post<ApiResponse<any>>(

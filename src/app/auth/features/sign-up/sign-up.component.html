@@ -48,11 +48,13 @@
                 <div class="grid h-20 sm:h-25 md:h-30 lg:h-45 2xl:h-65 grid-cols-4 items-center place-items-center">
                     <div *ngFor="let image of profileUrls">
                         <label [for]=image>
-                            <img [ngClass]="{'selected': isSelected(image)}" src="img/profiles/{{image}}.jpg"
-                                class="rounded-full object-cover w-18 h-18 sm:w-26 sm:h-26 lg:w-36 lg:h-36 xl:w-45 xl:h-45 2xl:w-60 2xl:h-60"
-                                style="object-position: 50% 0%;"></label>
-                        <input hidden (change)="onRadioChange($event)" type="radio" [id]=image [value]=image
-                            name="profilePicture" formControlName="profilePicture">
+                            <img [ngClass]="{'shadow-lg shadow-emerald-500': isSelected(image)}"
+                                src="img/profiles/{{image}}.jpg" alt="{{image}}"
+                                class="transition-all duration-300 rounded-full object-cover w-18 h-18 sm:w-26 sm:h-26 lg:w-36 lg:h-36 xl:w-45 xl:h-45 2xl:w-60 2xl:h-60"
+                                style="object-position: 50% 0%;">
+                            <input hidden (change)="onRadioChange($event)" type="radio" [id]=image [value]=image
+                                name="profilePicture" formControlName="profilePicture">
+                        </label>
                     </div>
                     <small *ngIf="isRequired('profilePicture')" class="text-validator">Seleccione una
                         imagen</small>
