@@ -1,5 +1,9 @@
+<div *ngIf="isLoading()" class="h-full w-full content-center place-items-center bg-violet-950 py-2">
+  <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-violet-500"></div>
+</div>
+
 <span class="h-full w-full px-5 text-center content-center text-purple-400 text-shadow-lg/20 text-shadow-white"
-  *ngIf="chatMessages().length === 0; else messagesList">
+  *ngIf="chatMessages().length === 0 && !isLoading(); else messagesList">
   Start your story with {{ friend.friendUsername }}, send a message 😉!
 </span>
 

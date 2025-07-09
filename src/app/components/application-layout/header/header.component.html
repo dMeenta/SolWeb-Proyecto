@@ -16,7 +16,8 @@
         <!-- Menú desplegable con animación -->
         <div [@slideDown]="showFriendRequests ? 'visible' : 'hidden'"
             class="absolute mt-1.5 right-0 h-60 w-80 bg-gradient-to-b from-violet-700 to-violet-900 rounded-lg shadow-lg z-50 flex flex-col overflow-hidden transition-all duration-300 items-center px-1 py-2">
-            <app-friendship-requests-list class="bg-violet-950 w-full h-full flex flex-col rounded-lg" />
+            <app-friendship-requests-list class="bg-violet-950 w-full h-full flex flex-col rounded-lg"
+                [switcher]="showFriendRequests" />
         </div>
     </div>
 </header>

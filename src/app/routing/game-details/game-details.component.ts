@@ -5,7 +5,6 @@ import { GamesService } from '../../services/games.service';
 import { Game } from '../../models/Game';
 import { SharedService } from '../../shared/shared.service';
 import { CommunityService } from '../../services/community.service';
-import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
 import { Location, NgClass, NgIf } from '@angular/common';
 

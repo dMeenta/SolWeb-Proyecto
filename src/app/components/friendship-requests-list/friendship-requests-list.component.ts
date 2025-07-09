@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   effect,
+  Input,
   OnInit,
   Signal,
   signal,
@@ -33,6 +34,15 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ],
 })
 export class FriendshipRequestsListComponent implements OnInit {
+  @Input() set switcher(value: boolean) {
+    if (value) {
+      // Reset si deseas volver a cargar desde 0
+      this.offset.set(0);
+      this.noMore.set(false);
+      this.allRequests.set([]);
+      this.getFriendshipRequests();
+    }
+  }
   private allRequests = signal<UserMinimal[]>([]);
   private offset = signal(0);
   private limit = 5;
@@ -55,7 +65,7 @@ export class FriendshipRequestsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getFriendshipRequests(); // 🚀 Solo se hace una vez
+    if (this.switcher) this.getFriendshipRequests();
   }
 
   getFriendshipRequests() {

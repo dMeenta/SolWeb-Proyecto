@@ -33,6 +33,8 @@ export class MessagesContainerComponent implements OnInit {
     this.allChatMessages()
   );
 
+  readonly isLoading: Signal<boolean> = computed(() => this.loading());
+
   constructor(private chatService: ChatServiceService) {
     effect(() => {
       const newMsg = this.chatService.getNewMessageSignal()();
@@ -48,6 +50,7 @@ export class MessagesContainerComponent implements OnInit {
       const sentMsg = newSentMessageSignal();
       if (sentMsg) {
         this.allChatMessages.update((prev) => [sentMsg, ...prev]);
+        newSentMessageSignal.set(null);
       }
     });
   }

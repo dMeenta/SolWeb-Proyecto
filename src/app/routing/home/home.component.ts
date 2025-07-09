@@ -1,21 +1,5 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  OnInit,
-  signal,
-  Signal,
-  ViewChild,
-} from '@angular/core';
-import { GamesService } from '../../services/games.service';
-import { Game } from '../../models/Game';
-import { Offers } from '../../models/Offers';
-import {
-  CommunityPageComponent,
-  PostDTO,
-} from '../community-page/community-page.component';
-import { GameCardComponent } from '../../components/game-card/game-card.component';
+import { Component, computed, OnInit, signal, Signal } from '@angular/core';
+import { PostDTO } from '../community-page/community-page.component';
 import { CommonModule, NgForOf } from '@angular/common';
 import { UserCommunitiesBubblesComponent } from '../../components/user-communities-bubbles/user-communities-bubbles.component';
 import { toast } from 'ngx-sonner';

@@ -1,10 +1,6 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, Input, OnInit, signal } from '@angular/core';
-import { CommentaryComponent } from '../commentary/commentary.component';
-import {
-  Post,
-  PostDTO,
-} from '../../routing/community-page/community-page.component';
+import { PostDTO } from '../../routing/community-page/community-page.component';
 import { PostsService } from '../../services/posts.service';
 import { toast } from 'ngx-sonner';
 import { CommentaryContainerComponent } from '../commentary-container/commentary-container.component';

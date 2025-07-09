@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Game } from '../../models/Game';
 import { CommunityService } from '../../services/community.service';
 import { NgFor, NgIf } from '@angular/common';

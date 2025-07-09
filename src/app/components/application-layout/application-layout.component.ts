@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { Router, RouterOutlet } from '@angular/router';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';

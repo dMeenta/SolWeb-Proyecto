@@ -1,28 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommunityService } from '../../../../services/community.service';
-import { SharedService } from '../../../../shared/shared.service';
-import { firstValueFrom } from 'rxjs';
 import { CommonModule, NgFor } from '@angular/common';
-import { GamesService } from '../../../../services/games.service';
 import { Game } from '../../../../models/Game';
-import ApiResponse from '../../../../models/ApiResponse';
 import { Router } from '@angular/router';
-
-interface FirebaseData {
-  gameId: number;
-  joinedAt: {
-    seconds: number;
-    nanos: number;
-  };
-}
-
-interface Formatted {
-  gameId: number;
-  joinedAt: {
-    date: string;
-    time: string;
-  };
-}
 
 interface FinalFormatted {
   game: Game;
@@ -41,12 +20,7 @@ interface FinalFormatted {
 export class CommunitiesComponent implements OnInit {
   userCommunities: FinalFormatted[] = [];
 
-  constructor(
-    private _communityService: CommunityService,
-    private _sharedService: SharedService,
-    private _gameService: GamesService,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.loadUserCommunities(); // llamada desde OnInit
