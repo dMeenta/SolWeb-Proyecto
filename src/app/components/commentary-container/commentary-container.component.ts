@@ -38,8 +38,10 @@ export class CommentaryContainerComponent implements OnInit {
     effect(() => {
       const newComment = newCommentSignal();
       if (newComment) {
-        this.allComments.set([newComment, ...this.allComments()]);
-        newCommentSignal.set(null);
+        if (newComment.postId === this.postId) {
+          this.allComments.set([newComment, ...this.allComments()]);
+          newCommentSignal.set(null);
+        }
       }
     });
   }
