@@ -1,6 +1,15 @@
-import { Component, computed, OnInit, Signal, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Signal,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
-import { Router } from '@angular/router';
 import { CommunityService } from '../../../../services/community.service';
 import { toast } from 'ngx-sonner';
 import { UserCommunityDTO } from '../../../../components/user-communities-bubbles/user-communities-bubbles.component';
@@ -18,7 +27,7 @@ import { CommunityCardComponent } from '../../../../components/community-card/co
   templateUrl: './communities.component.html',
   styleUrl: './communities.component.css',
 })
-export class CommunitiesComponent implements OnInit {
+export class CommunitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   private allCommunities = signal<UserCommunityDTO[]>([]);
   private offset = signal(0);
   private limit = 10;
@@ -30,13 +39,26 @@ export class CommunitiesComponent implements OnInit {
   );
   readonly isLoading: Signal<boolean> = computed(() => this.loading());
 
-  constructor(
-    private readonly router: Router,
-    private readonly communityService: CommunityService
-  ) {}
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
+
+  onResize = () => {
+    this.checkIfNeedMore();
+  };
+
+  constructor(private readonly communityService: CommunityService) {}
 
   ngOnInit(): void {
     this.getUserCommunities();
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.checkIfNeedMore();
+    }, 0);
+    window.addEventListener('resize', this.onResize);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
   }
 
   getUserCommunities() {
@@ -56,11 +78,32 @@ export class CommunitiesComponent implements OnInit {
           }
 
           this.loading.set(false);
+          this.checkIfNeedMore();
         },
         error: (err) => {
           toast.error(err.error.message);
           this.loading.set(false);
         },
       });
+  }
+
+  checkIfNeedMore() {
+    setTimeout(() => {
+      const el = this.scrollContainer?.nativeElement;
+      if (!el || this.noMore()) return;
+      const hasScroll = el.scrollHeight > el.clientHeight;
+      if (!hasScroll) {
+        this.getUserCommunities();
+      }
+    }, 50);
+  }
+
+  onScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    const bottomReached =
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 50;
+    if (bottomReached) {
+      this.getUserCommunities();
+    }
   }
 }

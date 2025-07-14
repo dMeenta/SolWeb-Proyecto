@@ -1,8 +1,14 @@
-<div class="w-full h-full">
-    <h3 class="text-xl mb-4 italic">Este usuario es miembro de:</h3>
-    <app-loader-spinner *ngIf="isLoading()" class="h-full w-full content-center place-items-center"
-        loaderSize="w-10 h-10" />
-    <div *ngIf="!isLoading()" class="pe-2 grid gap-3 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
-        <app-community-card *ngFor="let community of communities()" [userCommunity]="community" />
-    </div>
+<div class="h-full overflow-y-auto" (scroll)="onScroll($event)" #scrollContainer>
+    <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
+        *ngIf="communities().length === 0 && !isLoading(); else communitiesContainer">
+        This user has no communities yet...
+    </span>
+    <ng-template #communitiesContainer>
+        <h3 class="text-xl mb-4 italic">This user is member of:</h3>
+        <div class="pe-2 grid gap-3 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+            <app-community-card *ngFor="let community of communities();" [userCommunity]="community" class="h-fit" />
+        </div>
+        <app-loader-spinner *ngIf="isLoading()" class="py-5 w-full flex justify-center items-center"
+            loaderSize="w-13 h-13" />
+    </ng-template>
 </div>

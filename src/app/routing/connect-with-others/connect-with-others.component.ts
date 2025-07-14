@@ -1,4 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   UserMinimal,
   UsersService,
@@ -6,6 +12,7 @@ import {
 import { NgForOf, NgIf } from '@angular/common';
 import { UserButtonComponent } from '../../components/user-button/user-button.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ScrollEventService } from '../../services/scroll-event.service';
 
 @Component({
   selector: 'app-connect-with-others',
@@ -19,7 +26,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './connect-with-others.component.html',
   styleUrl: './connect-with-others.component.css',
 })
-export class ConnectWithOthersComponent implements OnInit {
+export class ConnectWithOthersComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   usersList = signal<UserMinimal[]>([]);
   currentPage = signal(0);
   pageSize = signal(10);
@@ -28,10 +37,29 @@ export class ConnectWithOthersComponent implements OnInit {
   searchTerm = signal('');
   searchMode = signal(false);
 
-  constructor(private usersService: UsersService) {}
+  onResize = () => {
+    this.checkIfNeedMore();
+  };
 
+  constructor(
+    private usersService: UsersService,
+    private readonly scrollEventService: ScrollEventService
+  ) {}
   ngOnInit(): void {
     this.loadMoreUsers();
+    this.scrollEventService.scroll$.subscribe(() => {
+      this.loadMoreUsers();
+    });
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.checkIfNeedMore();
+    }, 0);
+
+    window.addEventListener('resize', this.onResize);
+  }
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
   }
 
   loadMoreUsers() {
@@ -90,12 +118,14 @@ export class ConnectWithOthersComponent implements OnInit {
 
   checkIfNeedMore() {
     setTimeout(() => {
-      const docHeight = document.documentElement.scrollHeight;
-      const winHeight = window.innerHeight;
+      const el = document.scrollingElement || document.documentElement;
+      if (!this.hasMore()) return;
 
-      if (docHeight <= winHeight && this.hasMore()) {
+      const hasScroll = el.scrollHeight > el.clientHeight;
+
+      if (!hasScroll) {
         this.loadMoreUsers();
       }
-    }, 50); // espera a que el DOM renderice
+    }, 50);
   }
 }
