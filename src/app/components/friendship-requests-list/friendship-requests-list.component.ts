@@ -15,6 +15,7 @@ import {
 import { NgForOf, NgIf } from '@angular/common';
 import { usernameRequestOnActionSignal } from '../../shared/ui/signals/friendRequestChange.signal';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-friendship-requests-list',
@@ -77,7 +78,7 @@ export class FriendshipRequestsListComponent implements OnInit {
       .getFriendshipRequests(this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
+          toast.error(res.message);
           this.loading.set(false);
           return;
         }

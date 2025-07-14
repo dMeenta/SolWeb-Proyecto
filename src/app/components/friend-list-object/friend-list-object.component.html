@@ -5,7 +5,7 @@
   <div class="w-2/5 h-full flex-shrink-0 relative overflow-hidden" style="
       -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
       mask-image: linear-gradient(to right, black 60%, transparent);">
-    <img #imgRef src="img/profiles/{{friend.friendProfilePicture}}.jpg" crossorigin="anonymous"
+    <img draggable="false" #imgRef src="img/profiles/{{friend.friendProfilePicture}}.jpg" crossorigin="anonymous"
       alt="{{friend.friendUsername}}"
       class="w-full h-full object-cover group-hover:scale-125 transition-all duration-300" />
   </div>

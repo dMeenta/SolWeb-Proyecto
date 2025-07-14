@@ -1,11 +1,9 @@
 <div (click)="goToUserProfile()"
   [ngClass]="['w-full bg-gradient-to-t from-slate-950 to-slate-900 rounded-lg py-4 px-2 flex items-center shadow-md hover:to-purple-950 transition duration-300 hover:cursor-pointer z-10 group', wrapperClass || '']">
-  <!-- Imagen del usuario -->
   <div [ngClass]="['w-2/6 h-full aspect-square me-2',wrapperImageClass || '']">
-    <img [src]="`img/profiles/${userProfilePicture}.jpg`"
+    <img draggable="false" [src]="`img/profiles/${userProfilePicture}.jpg`"
       class="w-full h-full aspect-square rounded-full object-cover border-2 border-purple-900 group-hover:border-purple-500 transition-colors duration-500" />
   </div>
-  <!-- Contenido a la derecha -->
   <div class="grid grid-rows-2 gap-1">
     <span
       class="text-purple-400 group-hover:text-white xl:text-base 2xl:text-2xl duration-300 transition-colors font-semibold text-sm truncate max-w-[150px] block">{{username}}</span>

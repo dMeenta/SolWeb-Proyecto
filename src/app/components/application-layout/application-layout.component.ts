@@ -6,6 +6,7 @@ import { NgClass } from '@angular/common';
 import { MinimalUserInfo, SharedService } from '../../shared/shared.service';
 import { BubbleChatContainerComponent } from '../bubble-chat-container/bubble-chat-container.component';
 import { ScrollEventService } from '../../services/scroll-event.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-application-layout',
@@ -32,10 +33,6 @@ export class ApplicationLayoutComponent implements OnInit {
     this.getUserLoggedInfo();
   }
 
-  async logout() {
-    console.log('u log out');
-  }
-
   isPageWidthFull() {
     const url = this.router.url;
     const segments = url.split('/').filter((seg) => seg);
@@ -46,7 +43,7 @@ export class ApplicationLayoutComponent implements OnInit {
     this._sharedService.getUserLogged().subscribe({
       next: (res) => {
         if (!res.success) {
-          console.error(res.message);
+          toast.error(res.message);
         }
         this.userLogged = res.data;
       },

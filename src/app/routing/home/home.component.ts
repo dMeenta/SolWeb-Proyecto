@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       .getUserFeed(this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
+          toast.error(res.message);
           this.loading.set(false);
           toast.error(res.message);
           return;

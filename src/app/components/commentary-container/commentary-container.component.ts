@@ -59,7 +59,6 @@ export class CommentaryContainerComponent implements OnInit {
       .findByPostId(this.postId, this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
           this.loading.set(false);
           return;
         }

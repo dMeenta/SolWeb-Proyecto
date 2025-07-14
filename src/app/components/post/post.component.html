@@ -2,11 +2,12 @@
   <div class="w-full rounded-xl p-2 bg-violet-950">
     <div class="flex gap-5 items-center">
       <div class="w-1/12 relative rounded-full">
-        <img role="button" src="img/{{post.communityName}}_mini_card.jpg" (click)="goToCommunityPage()"
+        <img draggable="false" role="button" src="img/{{post.communityName}}_mini_card.jpg"
+          (click)="goToCommunityPage()"
           class="select-none hover:cursor-pointer w-full rounded-full object-cover border-2 border-emerald-200 aspect-square">
         <div role="button" class="absolute bottom-0 right-0 w-7/12 cursor-pointer rounded-full"
           (click)="goToUserProfile()">
-          <img src="img/profiles/{{post.posterProfilePicture}}.jpg"
+          <img draggable="false" src="img/profiles/{{post.posterProfilePicture}}.jpg"
             class="w-full rounded-full object-cover border-2 aspect-square">
         </div>
       </div>

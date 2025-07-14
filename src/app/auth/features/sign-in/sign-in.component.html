@@ -23,9 +23,10 @@
                     <small *ngIf="passwordLong()" class="text-rose-500 text-xs">Ingresa una contraseña de minimo 6
                         caracteres</small>
                 </div>
-                <button type="submit"
-                    class="w-full text-white bg-violet-800 hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
-                    Ingresar
+                <button type="submit" [disabled]="isLoading()"
+                    class="w-full flex justify-center text-white bg-violet-800 disabled:cursor-progress not-disabled:hover:cursor-pointer not-disabled:hover:bg-violet-900 transition-colors focus:ring-4 font-medium rounded-lg text-sm py-2 text-center">
+                    <span *ngIf="!isLoading()">Ingresar</span>
+                    <app-loader-spinner loaderSize="w-5 h-5" *ngIf="isLoading()" />
                 </button>
                 <p class="text-sm font-light text-gray-400 ">
                     No tienes cuenta aún? <a (click)="redirectToRegister()"

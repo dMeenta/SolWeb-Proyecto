@@ -14,10 +14,18 @@ import { ChatServiceService } from '../../services/chat-service.service';
 import { MessageReceivedComponent } from '../message-received/message-received.component';
 import { MessageSentComponent } from '../message-sent/message-sent.component';
 import { newSentMessageSignal } from '../../shared/ui/signals/sentNewMessage.signal';
+import { toast } from 'ngx-sonner';
+import { LoaderSpinnerComponent } from '../loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-messages-container',
-  imports: [NgIf, NgForOf, MessageReceivedComponent, MessageSentComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    MessageReceivedComponent,
+    MessageSentComponent,
+    LoaderSpinnerComponent,
+  ],
   templateUrl: './messages-container.component.html',
   styleUrl: './messages-container.component.css',
 })
@@ -67,7 +75,7 @@ export class MessagesContainerComponent implements OnInit {
       .getMessages(this.friend.friendUsername, this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
+          toast.error(res.message);
           this.loading.set(false);
           return;
         }
@@ -82,7 +90,6 @@ export class MessagesContainerComponent implements OnInit {
         }
 
         this.loading.set(false);
-        console.log(res);
       });
   }
 

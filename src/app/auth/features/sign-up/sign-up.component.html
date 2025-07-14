@@ -6,7 +6,6 @@
                 <h1 class="text-center text-2xl 2xl:text-4xl font-medium text-white mb-6">
                     ¡Regístrate!
                 </h1>
-                <!-- Sección de Email y Password (primera página) -->
                 <div class="space-y-4 md:space-y-6">
                     <div>
                         <label for="email" class="block mb-2 form-label">Email</label>
@@ -17,7 +16,6 @@
                         <small *ngIf="isEmailRequired()" class="text-validator">El correo debe ser
                             válido</small>
                     </div>
-
                     <div>
                         <label for="password" class="block mb-2 form-label">Password</label>
                         <input type="password" id="password" formControlName="password" placeholder="••••••••"
@@ -27,7 +25,6 @@
                         <small *ngIf="passwordLong()" class="text-validator">Mínimo 6
                             caracteres</small>
                     </div>
-
                     <button [disabled]="!canGoNext()" type="button" (click)="goToNextPage()"
                         class="w-full py-2 text-white bg-violet-800 hover:bg-violet-900 disabled:opacity-35 disabled:bg-violet-950 disabled:hover:cursor-not-allowed rounded-lg text-sm font-medium transition-all hover:cursor-pointer">
                         Siguiente
@@ -48,7 +45,7 @@
                 <div class="grid h-20 sm:h-25 md:h-30 lg:h-45 2xl:h-65 grid-cols-4 items-center place-items-center">
                     <div *ngFor="let image of profileUrls">
                         <label [for]=image>
-                            <img [ngClass]="{'shadow-lg shadow-emerald-500': isSelected(image)}"
+                            <img draggable="false" [ngClass]="{'shadow-lg shadow-emerald-500': isSelected(image)}"
                                 src="img/profiles/{{image}}.jpg" alt="{{image}}"
                                 class="transition-all duration-300 rounded-full object-cover w-18 h-18 sm:w-26 sm:h-26 lg:w-36 lg:h-36 xl:w-45 xl:h-45 2xl:w-60 2xl:h-60"
                                 style="object-position: 50% 0%;">
@@ -59,7 +56,6 @@
                     <small *ngIf="isRequired('profilePicture')" class="text-validator">Seleccione una
                         imagen</small>
                 </div>
-
                 <div>
                     <label for="username" class="block mb-2 form-label">Username</label>
                     <input type="text" id="username" formControlName="username" placeholder="Tu usuario"
@@ -67,13 +63,11 @@
                     <small *ngIf="isRequired('username')" class="text-validator">Este campo es
                         requerido</small>
                 </div>
-
                 <div>
                     <label for="biography" class="block mb-2 form-label">Biography</label>
                     <textarea id="biography" formControlName="biography" rows="2" placeholder="Escribe algo sobre ti"
                         class="w-full resize-none form-input"></textarea>
                 </div>
-
                 <div class="flex justify-between gap-4">
                     <button type="button" (click)="goToPreviousPage()"
                         class="w-1/2 py-2 text-white bg-gray-600 hover:bg-gray-700 rounded-lg text-sm font-medium transition-all hover:cursor-pointer">

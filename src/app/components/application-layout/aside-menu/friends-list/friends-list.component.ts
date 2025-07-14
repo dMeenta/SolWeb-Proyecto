@@ -14,10 +14,12 @@ import {
 import { UsersService } from '../../../../auth/data-access/users.service';
 import { newFriendInfoSignal } from '../../../../shared/ui/signals/friendRequestChange.signal';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { toast } from 'ngx-sonner';
+import { LoaderSpinnerComponent } from '../../../loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-friends-list',
-  imports: [NgIf, FriendListObjectComponent, NgFor],
+  imports: [NgIf, FriendListObjectComponent, NgFor, LoaderSpinnerComponent],
   templateUrl: './friends-list.component.html',
   styleUrl: './friends-list.component.css',
   animations: [
@@ -77,7 +79,7 @@ export class FriendsListComponent implements OnInit {
       .getFriendsList(this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
+          toast.error(res.message);
           this.loading.set(false);
           return;
         }

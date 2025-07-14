@@ -45,7 +45,6 @@ export class PostComponent implements OnInit {
       .create(this.post.id, contentToComment)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
           toast.error(res.message);
         }
         toast.success(res.message);
@@ -69,7 +68,6 @@ export class PostComponent implements OnInit {
   toggleLike(): void {
     this.postService.toggleLike(this.post.id).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
         toast.error(res.message);
       }
       this.liked.update((prev) => {

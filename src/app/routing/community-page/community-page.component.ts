@@ -73,7 +73,7 @@ export class CommunityPageComponent implements OnInit {
       .findByCommunityName(gameName, this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
-          console.error(res);
+          toast.error(res.message);
           this.loading.set(false);
           return;
         }
@@ -100,7 +100,6 @@ export class CommunityPageComponent implements OnInit {
     }
     this.postsService.create(this.game.name, contentToPost).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
         toast.error(res.message);
       }
       toast.success(res.message);

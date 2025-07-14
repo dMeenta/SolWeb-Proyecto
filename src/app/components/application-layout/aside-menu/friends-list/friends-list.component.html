@@ -3,14 +3,11 @@
     *ngIf="friends().length === 0 && !isLoading(); else friendsListContainer">
     Here you should have some friends... If you have
   </span>
-
   <ng-template #friendsListContainer>
     <div *ngFor="let f of friends(); trackBy: trackByUsername" @fadeInSlideRight>
       <app-friend-list-object class="w-full h-fit" [friend]="f" />
     </div>
-    <div *ngIf="isLoading()" class="h-20 w-full content-center place-items-center bg-violet-950 py-2">
-      <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-violet-500"></div>
-    </div>
+    <app-loader-spinner *ngIf="isLoading()" class="h-20 w-full content-center place-items-center bg-violet-950 py-2"
+      loaderSize="w-7 h-7" />
   </ng-template>
-
 </div>

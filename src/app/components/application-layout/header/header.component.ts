@@ -53,7 +53,6 @@ export class HeaderComponent {
   logout() {
     this.authService.logOut().subscribe((res) => {
       if (!res.success) {
-        console.error(res);
         toast.error(res.message);
       }
       toast.success(res.data);

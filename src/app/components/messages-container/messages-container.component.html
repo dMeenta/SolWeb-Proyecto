@@ -1,12 +1,9 @@
-<div *ngIf="isLoading()" class="h-full w-full content-center place-items-center bg-violet-950 py-2">
-  <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-violet-500"></div>
-</div>
-
+<app-loader-spinner *ngIf="isLoading()" class="h-full w-full content-center place-items-center bg-violet-950 py-2"
+  loaderSize="w-7 h-7" />
 <span class="h-full w-full px-5 text-center content-center text-purple-400 text-shadow-lg/20 text-shadow-white"
   *ngIf="chatMessages().length === 0 && !isLoading(); else messagesList">
   Start your story with {{ friend.friendUsername }}, send a message 😉!
 </span>
-
 <ng-template #messagesList>
   <div class="w-full h-full rounded-b-2xl overflow-y-auto flex flex-col-reverse" (scroll)="onScroll($event)"
     #scrollContainer>

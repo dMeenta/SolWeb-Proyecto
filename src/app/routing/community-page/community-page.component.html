@@ -1,8 +1,9 @@
 <div class="w-full h-1/5 overflow-hidden relative">
     <div class="absolute bg-indigo-900/55 inset-0 px-4 py-1.5">
-        <img [src]="`img/${game.name}_logo.webp`" [alt]="game.name" class="h-full">
+        <img draggable="false" [src]="`img/${game.name}_logo.webp`" [alt]="game.name" class="h-full">
     </div>
-    <img [src]="`img/${game.name}_wallpaper.jpg`" [alt]="game.name" class="w-full h-full object-cover object-[50%_15%]">
+    <img draggable="false" [src]="`img/${game.name}_wallpaper.jpg`" [alt]="game.name"
+        class="w-full h-full object-cover object-[50%_15%]">
 </div>
 <div class="mt-3 px-10">
     <textarea [(ngModel)]="postContent" placeholder="What are you thinking today?" rows="3"

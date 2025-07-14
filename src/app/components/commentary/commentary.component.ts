@@ -30,7 +30,6 @@ export class CommentaryComponent implements OnInit {
   toggleLike(): void {
     this.commentService.toggleLike(this.comment.id).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
         toast.error(res.message);
       }
       this.liked.update((prev) => {

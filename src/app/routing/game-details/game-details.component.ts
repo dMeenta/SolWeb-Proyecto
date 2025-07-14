@@ -7,10 +7,17 @@ import { SharedService } from '../../shared/shared.service';
 import { CommunityService } from '../../services/community.service';
 import { toast } from 'ngx-sonner';
 import { Location, NgClass, NgIf } from '@angular/common';
+import { LoaderSpinnerComponent } from '../../components/loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-game-details',
-  imports: [CategoryComponent, RouterLink, NgIf, NgClass],
+  imports: [
+    CategoryComponent,
+    RouterLink,
+    NgIf,
+    NgClass,
+    LoaderSpinnerComponent,
+  ],
   templateUrl: './game-details.component.html',
   styleUrl: './game-details.component.css',
 })
@@ -58,7 +65,6 @@ export class GameDetailsComponent implements OnInit {
 
     this._gameService.getGameByName(gameName).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
         toast.error(res.message);
       }
       this.game = res.data;
@@ -70,7 +76,7 @@ export class GameDetailsComponent implements OnInit {
     this.isLoading = true;
     this.communityService.joinCommunity(this.game.name).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
+        toast.error(res.message);
         this.isLoading = false;
       }
 
@@ -84,7 +90,7 @@ export class GameDetailsComponent implements OnInit {
     this.isLoading = true;
     this.communityService.leaveCommunity(this.game.name).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
+        toast.error(res.message);
         this.isLoading = false;
       }
 
@@ -98,7 +104,7 @@ export class GameDetailsComponent implements OnInit {
     this.isLoading = true;
     this.sharedService.isCommunityMember(this.game.name).subscribe((res) => {
       if (!res.success) {
-        console.error(res);
+        toast.error(res.message);
         this.isLoading = false;
       }
       this.isInCommunity = res.data;

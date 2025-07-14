@@ -1,6 +1,6 @@
 <a routerLink="/game/{{game.name}}"
     class="bg-linear-to-t from-slate-950 to-slate-900 rounded-lg grid grid-cols-[100px_1fr] items-center hover:scale-105 transition-all duration-300 overflow-hidden">
-    <img src="img/{{game.name}}_mini_card.jpg" alt="{{game.name}} image" class="object-cover">
+    <img draggable="false" src="img/{{game.name}}_mini_card.jpg" alt="{{game.name}} image" class="object-cover">
     <div class="flex flex-col justify-between w-full h-full ps-4 pe-6 py-2">
         <h5 class="text-white text-lg">{{ game.name }}</h5>
         <div class="flex gap-2 text-center items-center">

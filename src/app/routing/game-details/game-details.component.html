@@ -1,6 +1,6 @@
 <div class="h-full relative flex flex-col">
-    <img src="img/{{game.name}}_wallpaper.jpg" class="object-cover object-top w-full h-full z-0 absolute"
-        alt="{{game.name}}">
+    <img draggable="false" src="img/{{game.name}}_wallpaper.jpg"
+        class="object-cover object-top w-full h-full z-0 absolute" alt="{{game.name}}">
     <button (click)="goBack()"
         class="absolute right-3 top-3 z-50 bg-violet-800 w-7 h-7 opacity-75 rounded-lg hover:opacity-100 hover:cursor-pointer">
         <i class="fa-solid fa-xmark"></i></button>
@@ -42,16 +42,12 @@
                 'from-white to-gray-500 text-black hover:text-white hover:from-violet-800 hover:to-indigo-800': !isInCommunity && !isLoading,
                 'from-violet-800 to-indigo-800': !isInCommunity && isLoading,
                 }"
-                class="w-1/4 h-full place-items-center rounded-2xl bg-linear-to-br px-6 py-2 sm:py-3 text-xs sm:text-base transition-colors duration-300 hover:cursor-pointer">
+                class="w-1/4 h-full rounded-2xl bg-linear-to-br px-6 py-2 sm:py-3 text-xs sm:text-base transition-all duration-300 hover:cursor-pointer">
                 <span *ngIf="!isLoading">
                     {{ isInCommunity ? 'Abandonar Comunidad' : 'Unirse a la Comunidad' }}
                 </span>
-                <svg *ngIf="isLoading" class="animate-spin h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25" />
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                        d="M4 12a8 8 0 018-8V4a10 10 0 00-10 10h2z" />
-                </svg>
+
+                <app-loader-spinner *ngIf="isLoading" class="h-full flex justify-center" loaderSize="w-5 h-5" />
             </button>
         </div>
     </div>
