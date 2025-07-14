@@ -1,23 +1,15 @@
-<a
-  routerLink="/categories/{{ category.name }}"
+<a routerLink="/categories/{{ category.name }}"
   class="group hover:scale-105 transition-all mb-4 h-56 w-56 rounded-4xl text-center shadow-none bg-gradient-to-bl from-white via-white to-white hover:shadow-lg shadow-indigo-400 flex flex-col justify-center relative overflow-hidden"
-  (mouseenter)="hovered = true"
-  (mouseleave)="hovered = false"
->
-  <div
-    class="justify-center text-center absolute inset-0 flex flex-col items-center text-white"
-    [@contentAnim]="hovered ? 'hide' : 'show'"
-  >
-    <img src="img/gamepad.png" class="h-12 w-13 mb-2" alt="" />
+  (mouseenter)="hovered = true" (mouseleave)="hovered = false">
+  <div class="justify-center text-center absolute inset-0 flex flex-col items-center text-white"
+    [@contentAnim]="hovered ? 'hide' : 'show'">
+    <img draggable="false" src="img/gamepad.png" class="h-12 w-13 mb-2" alt="" />
     <span class="font-bold text-2xl w-full text-black">{{
       category.name
-    }}</span>
+      }}</span>
   </div>
-
-  <p
-    class="absolute inset-0 flex items-center justify-center px-4 text-sm text-black text-center font-medium"
-    [@descriptionAnim]="hovered ? 'show' : 'hide'"
-  >
+  <p class="absolute inset-0 flex items-center justify-center px-4 text-sm text-black text-center font-medium"
+    [@descriptionAnim]="hovered ? 'show' : 'hide'">
     {{ category.description }}
   </p>
 </a>
