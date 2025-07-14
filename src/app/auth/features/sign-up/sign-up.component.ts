@@ -14,8 +14,6 @@ import { toast } from 'ngx-sonner';
 import { AuthService } from '../../data-access/auth.service';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import ApiResponse from '../../../models/ApiResponse';
-import { firstValueFrom } from 'rxjs';
 
 interface SignUpForm {
   email: FormControl<string | null>;
@@ -101,7 +99,7 @@ export default class SignUpComponent {
     biography: this.formBuilder.control(''),
   });
 
-  async submit() {
+  submit() {
     if (!this.signUpForm.valid) return;
 
     const { email, password, username, profilePicture, biography } =
@@ -109,28 +107,30 @@ export default class SignUpComponent {
 
     if (!email || !password || !username || !profilePicture) return;
 
-    try {
-      const response: ApiResponse<any> = await firstValueFrom(
-        this._authService.signUp({
-          email,
-          username,
-          password,
-          biography,
-          profilePicture,
-        })
-      );
-
-      if (!response.success) {
-        toast.error('Error al registrar el usuario en LoudlyGmz');
-        console.error('Error Data: ' + response.data);
-        console.error('Error Message: ' + response.message);
-      }
-
-      this.router.navigateByUrl('/auth/sign-in');
-      toast.success('Usuario creado correctamente');
-    } catch (error) {
-      toast.error(`Hubo un error al crear el usuario. Inténtalo nuevamente.`);
-      console.error('Error de tipo: ', error);
-    }
+    this._authService
+      .signUp({
+        email,
+        username,
+        password,
+        biography,
+        profilePicture,
+      })
+      .subscribe({
+        next: (res) => {
+          toast.success(res.message);
+          this._authService.signIn({ email, password }).subscribe({
+            next: () => {
+              this.router.navigateByUrl('/');
+            },
+            error: (loginErr) => {
+              toast.error(loginErr.error.message);
+              this.router.navigateByUrl('/auth/sign-in');
+            },
+          });
+        },
+        error: (err) => {
+          toast.error(err.error.message);
+        },
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,8 +14,7 @@ import {
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
-import ApiResponse from '../../../models/ApiResponse';
+import { LoaderSpinnerComponent } from '../../../components/loader-spinner/loader-spinner.component';
 
 interface FormSignIn {
   email: FormControl<string | null>;
@@ -23,10 +22,13 @@ interface FormSignIn {
 }
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, LoaderSpinnerComponent],
   templateUrl: './sign-in.component.html',
 })
 export default class SignInComponent {
+  private loading = signal(false);
+  readonly isLoading: Signal<boolean> = computed(() => this.loading());
+
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService
@@ -56,29 +58,25 @@ export default class SignInComponent {
     ]),
   });
 
-  async submit() {
+  submit() {
     if (!this.form.valid) return;
+    this.loading.set(true);
 
     const { email, password } = this.form.value;
 
     if (!email || !password) return;
 
-    try {
-      const authResponse: ApiResponse<any> = await firstValueFrom(
-        this.authService.signIn({ email, password })
-      );
-
-      if (!authResponse.success) {
-        toast.error('Credenciales invalidas.');
-      }
-
-      toast.success(`Inicio de sesión exitoso.`);
-
-      this.router.navigateByUrl('/');
-    } catch (error) {
-      toast.error('Hubo un error al iniciar sesión. Intentelo nuevamente.');
-      console.error(error);
-    }
+    this.authService.signIn({ email, password }).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        toast.success(res.message);
+        this.router.navigateByUrl('/');
+      },
+      error: (err) => {
+        toast.error(err.error.message);
+        this.loading.set(false);
+      },
+    });
   }
 
   redirectToRegister() {
