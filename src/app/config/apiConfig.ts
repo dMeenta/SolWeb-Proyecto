@@ -102,6 +102,7 @@ export const apiConf = {
 
 export const getApiUrl = (endpoint: string) => {
   const url = `${apiConf.apiUrl}${endpoint}`;
-  console.log(`[${apiConf.environment}] Requesting:`, url);
+  if (apiConf.environment === 'development')
+    console.log(`[${apiConf.environment}] Requesting:`, url);
   return url;
 };
