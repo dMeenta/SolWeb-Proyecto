@@ -1,34 +1,36 @@
-<section class="min-h-10">
-  <div class="grid grid-cols-[auto_1fr_auto] h-full items-center gap-2" *ngIf="games.length > 0; else noCommunities">
-    <!-- Botón izquierdo -->
-    <button class="scroll-btn" data-aos="fade-left" (click)="scrollIzquierda()">
+<section class="min-h-10 relative" data-aos="fade-down">
+  <div class="grid grid-cols-[auto_1fr_auto] h-full items-center gap-2"
+    *ngIf="communities().length > 0; else noCommunities">
+    <button [disabled]="!canScrollLeft()"
+      class="w-8 h-8 flex items-center justify-center text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300"
+      (click)="scrollLeft()">
       <i class="fa-solid fa-chevron-left"></i>
     </button>
 
-    <!-- Contenedor deslizable -->
-    <div #scrollContainer (scroll)="onScroll($event)"
-      class="px-2 h-full flex overflow-x-auto overflow-y-hidden scroll-smooth gap-3">
-      <button (click)="goToCommunityPage(game.name)" *ngFor="let game of games"
-        class="py-2 flex-shrink-0 flex flex-col items-center w-20 sm:w-24 md:w-28 group" data-aos="fade-down">
+    <div #scrollContainer (scroll)="handleScroll($event)"
+      class="h-full flex overflow-x-auto scroll-smooth gap-3 snap-x snap-mandatory no-scrollbar">
+      <button (click)="goToCommunityPage(community.name)" *ngFor="let community of communities()"
+        class="py-2 flex-shrink-0 flex flex-col items-center w-20 sm:w-24 md:w-28 group snap-start"
+        data-aos="fade-down">
         <div
           class="w-10/12 aspect-square relative overflow-hidden rounded-full border transition group-hover:scale-105 group-hover:shadow-md group-hover:shadow-emerald-300 group-hover:border-2">
-          <img [src]="'img/' + game.name + '_wallpaper.jpg'" alt="{{ game.name }}"
+          <img draggable="false" [src]="'img/' + community.name + '_wallpaper.jpg'" [alt]="community.name"
             class="w-full h-full object-cover rounded-full aspect-square opacity-70 transition duration-200 group-hover:opacity-100 select-none group-hover:cursor-pointer"
             loading="lazy" />
         </div>
         <span
-          class="mt-2 text-sm font-medium text-center select-none opacity-70 group-hover:opacity-100 group-hover:cursor-pointer break-words leading-tight">
-          {{ game.name }}
+          class="mt-2 text-sm font-medium text-center select-none opacity-70 group-hover:opacity-100 group-hover:cursor-pointer break-words leading-tight line-clamp-2 px-1">
+          {{ community.name }}
         </span>
       </button>
     </div>
 
-    <!-- Botón derecho -->
-    <button class="scroll-btn" data-aos="fade-right" (click)="scrollDerecha()">
+    <button [disabled]="!canScrollRight()"
+      class="w-8 h-8 flex items-center justify-center text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300"
+      (click)="scrollRight()">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
   </div>
-
   <ng-template #noCommunities data-aos="fade-down">
     <div class="h-full w-full text-center px-5 text-lg text-purple-400 text-shadow-lg/20 text-shadow-white">
       Aún no tienes comunidades aquí.
