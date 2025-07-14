@@ -1,6 +1,7 @@
 <main class="flex flex-col min-h-full max-h-full">
     <section class="flex w-full gap-4 border-b pb-4 mb-4 border-violet-500">
-        <img src="img/profiles/{{currentUserData.profilePicture}}.jpg" alt="{{currentUserData.username}}"
+        <img draggable="false" src="img/profiles/{{currentUserData.profilePicture}}.jpg"
+            alt="{{currentUserData.username}}"
             class="w-[13vw] h-[13vw] max-w-[270px] max-h-[270px] rounded-full shadow-2xl border-2 border-violet-500">
         <div class="relative pr-8 flex-1 flex flex-col">
             <h1 class="text-5xl font-bold mb-4">
@@ -18,7 +19,7 @@
         <div class="flex-1 overflow-auto">
             <router-outlet></router-outlet>
         </div>
-        <aside class="w-2/12">
+        <aside class="w-1/6 lg:w-1/9">
             <ul>
                 <li
                     class="w-full hover:cursor-pointer hover:bg-gradient-to-l hover:via-slate-950/50 hover:underline hover:text-emerald-300">
