@@ -1,18 +1,8 @@
-<div>
-    <h3 class="text-2xl mb-4"><span class="font-semibold"><!-- {{getUser()?.username}} --></span> es miembro de:</h3>
-    <div class="p-2 w-full flex gap-10 flex-wrap justify-evenly">
-        <button (click)="goToCommunity(item.game.name)" *ngFor="let item of userCommunities"
-            class="text-ellipsis flex flex-col w-45 p-3 rounded-3xl group border bg-gradient-to-t from-violet-800 to-indigo-950 border-white  shadow-violet-950 shadow-lg hover:cursor-pointer hover:from-violet-950 hover:to-slate-900 transition-all duration-300 hover:scale-105">
-            <div
-                class="w-full h-45 rounded-3xl overflow-hidden opacity-70 group-hover:opacity-100 transition-opacity duration-300 mb-2">
-                <img src="img/{{item.game.name}}_mini_card.jpg" alt="{{item.game.name}}"
-                    class="w-full h-full object-cover object-center">
-            </div>
-            <div class="text-violet-200 group-hover:text-white">
-                <p class="font-semibold">{{item.game.name}}</p>
-                <p>Desde: {{ item.joinedAt.date }}</p>
-                <p>A las: {{ item.joinedAt.time }}</p>
-            </div>
-        </button>
+<div class="w-full h-full">
+    <h3 class="text-xl mb-4 italic">Este usuario es miembro de:</h3>
+    <app-loader-spinner *ngIf="isLoading()" class="h-full w-full content-center place-items-center"
+        loaderSize="w-10 h-10" />
+    <div *ngIf="!isLoading()" class="pe-2 grid gap-3 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+        <app-community-card *ngFor="let community of communities()" [userCommunity]="community" />
     </div>
 </div>

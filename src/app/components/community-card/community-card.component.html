@@ -1,0 +1,12 @@
+<button (click)="goToCommunity()"
+  class="truncate text-ellipsis flex gap-3 w-full h-full px-2 py-3 rounded-3xl group bg-gradient-to-tr from-slate-300 via-slate-500 to-100% to-white hover:shadow-white/30 hover:shadow-lg hover:cursor-pointer transition-all duration-300 opacity-75 hover:opacity-100 items-center">
+  <div class="flex-shrink-0 shadow-md shadow-black h-23 w-23 rounded-3xl overflow-hidden">
+    <img draggable="false" src="img/{{userCommunity.name}}_mini_card.jpg" alt="{{userCommunity.name}}"
+      class="select-none w-full h-full object-cover object-center">
+  </div>
+  <div class="flex flex-col text-start text-sm font-light text-slate-700 group-hover:text-black min-w-0 w-full">
+    <span class="text-lg font-semibold truncate">{{userCommunity.name}}</span>
+    <span>Desde: {{ date() }}</span>
+    <span>A las: {{ time() }}</span>
+  </div>
+</button>

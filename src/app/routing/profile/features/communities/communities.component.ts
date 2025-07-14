@@ -1,114 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
-import { Game } from '../../../../models/Game';
+import { Component, computed, OnInit, Signal, signal } from '@angular/core';
+import { CommonModule, NgForOf } from '@angular/common';
 import { Router } from '@angular/router';
-
-interface FinalFormatted {
-  game: Game;
-  joinedAt: {
-    date: string;
-    time: string;
-  };
-}
+import { CommunityService } from '../../../../services/community.service';
+import { toast } from 'ngx-sonner';
+import { UserCommunityDTO } from '../../../../components/user-communities-bubbles/user-communities-bubbles.component';
+import { LoaderSpinnerComponent } from '../../../../components/loader-spinner/loader-spinner.component';
+import { CommunityCardComponent } from '../../../../components/community-card/community-card.component';
 
 @Component({
   selector: 'app-communities',
-  imports: [NgFor, CommonModule],
+  imports: [
+    NgForOf,
+    CommonModule,
+    LoaderSpinnerComponent,
+    CommunityCardComponent,
+  ],
   templateUrl: './communities.component.html',
   styleUrl: './communities.component.css',
 })
 export class CommunitiesComponent implements OnInit {
-  userCommunities: FinalFormatted[] = [];
+  private allCommunities = signal<UserCommunityDTO[]>([]);
+  private offset = signal(0);
+  private limit = 10;
+  private loading = signal(false);
+  private noMore = signal(false);
 
-  constructor(private router: Router) {}
+  readonly communities: Signal<UserCommunityDTO[]> = computed(() =>
+    this.allCommunities()
+  );
+  readonly isLoading: Signal<boolean> = computed(() => this.loading());
+
+  constructor(
+    private readonly router: Router,
+    private readonly communityService: CommunityService
+  ) {}
 
   ngOnInit(): void {
-    this.loadUserCommunities(); // llamada desde OnInit
+    this.getUserCommunities();
   }
 
-  /* getUser() {
-    return this._sharedService.getUserLogged();
-  } */
+  getUserCommunities() {
+    if (this.loading() || this.noMore()) return;
+    this.loading.set(true);
 
-  goToCommunity(idGame: String) {
-    this.router.navigateByUrl(`/community/${idGame}`);
-  }
+    this.communityService
+      .getCommunitiesByUser(this.offset(), this.limit)
+      .subscribe({
+        next: (res) => {
+          const page = res.data;
+          const current = this.allCommunities();
+          this.allCommunities.set([...current, ...page.content]);
+          this.offset.set(this.offset() + this.limit);
+          if (page.content.length < this.limit) {
+            this.noMore.set(true);
+          }
 
-  async loadUserCommunities() {
-    console.log('Aquí deberían haber comunidades');
-    /* const firebaseData = await this.getFirebaseData();
-    if (!firebaseData) return;
-    console.log(firebaseData);
-
-    const mysqlData = await this.getMsqlData(firebaseData);
-    if (!mysqlData) return;
-
-    this.userCommunities = mysqlData; */
-  }
-
-  /* async getMsqlData(
-    firebaseData: Formatted[]
-  ): Promise<FinalFormatted[] | null> {
-    const idList = firebaseData.map((item) => item.gameId);
-
-    try {
-      const response: ApiResponse<Game[]> = await firstValueFrom(
-        this._gameService.getUserGames(idList)
-      );
-
-      if (!response.success) {
-        console.error('Error al obtener juegos del usuario');
-        return null;
-      }
-
-      const games: Game[] = response.data;
-
-      console.log(games);
-      const result: FinalFormatted[] = firebaseData
-        .map((item) => {
-          const game = games.find((j) => j.id === item.gameId);
-          return {
-            game,
-            joinedAt: item.joinedAt,
-          };
-        })
-        .filter((item): item is FinalFormatted => item !== null);
-      return result;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  } */
-
-  /* async getFirebaseData(): Promise<Formatted[] | null> {
-    const userId = this.getUser()?.uid;
-    if (!userId) return null;
-
-    try {
-      const response: ApiResponse<any> = await firstValueFrom(
-        this._communityService.getCommunitiesByUser(userId)
-      );
-
-      if (!response.success) {
-        console.error(response.message);
-        return null;
-      }
-
-      const formatted: Formatted[] = response.data.map((item: FirebaseData) => {
-        const datetime = new Date(item.joinedAt.seconds * 1000);
-        return {
-          gameId: Number(item.gameId),
-          joinedAt: {
-            date: datetime.toLocaleDateString(),
-            time: datetime.toLocaleTimeString(),
-          },
-        };
+          this.loading.set(false);
+        },
+        error: (err) => {
+          toast.error(err.error.message);
+          this.loading.set(false);
+        },
       });
-
-      return formatted;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  } */
+  }
 }
