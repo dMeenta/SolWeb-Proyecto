@@ -4,11 +4,7 @@ import ApiResponse from '../models/ApiResponse';
 import { apiConf, getApiUrl } from '../config/apiConfig';
 import { Observable } from 'rxjs';
 import PaginatedResponse from '../models/PaginatedResponse';
-
-interface CommunityRequest {
-  userId: string;
-  gameId: number;
-}
+import { UserCommunityDTO } from '../components/user-communities-bubbles/user-communities-bubbles.component';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +31,7 @@ export class CommunityService {
   getCommunitiesByUser(
     offset = 0,
     limit = 10
-  ): Observable<ApiResponse<PaginatedResponse<any>>> {
+  ): Observable<ApiResponse<PaginatedResponse<UserCommunityDTO>>> {
     return this.http.get<ApiResponse<any>>(
       getApiUrl(
         apiConf.endpoints.community.currentUserCommunities(offset, limit)
