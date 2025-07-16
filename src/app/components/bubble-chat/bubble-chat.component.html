@@ -14,7 +14,7 @@
       <app-messages-container [friend]="friend" class="bg-violet-950 w-full h-full flex flex-col rounded-b-2xl p-1" />
     </div>
     <div class="relative group w-full p-2 bg-violet-900">
-      <input type="text" placeholder="Write a message..." [value]="messageContent()"
+      <input type="text" autocomplete="off" placeholder="Write a message..." [value]="messageContent()"
         (input)="messageContent.set($any($event.target).value)" name="message"
         class="w-full py-3 pl-5 pr-14 rounded-full bg-violet-800 text-white shadow-md focus:outline-none focus:ring-2 ring-violet-300 placeholder-purple-300" />
       <button type="button" (click)="submit()" [disabled]="!messageContent().trim()"
