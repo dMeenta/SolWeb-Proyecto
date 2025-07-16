@@ -79,11 +79,17 @@ export const apiConf = {
         `/friend-request?offset=${offset}&limit=${limit}`,
       listAllNotFriends: (offset: number, limit: number) =>
         `?offset=${offset}&limit=${limit}`,
-      findByUsername: (username: string) => `/user/${username}`,
+      searchUsersByUsername: (
+        username: string,
+        offset: number,
+        limit: number
+      ) => `/user/${username}?offset=${offset}&limit=${limit}`,
       getProfile: (username: string) => `/${username}`,
       getCurrentUserLogged: () => '/me',
       getFriendsList: (offset: number, limit: number) =>
         `/friends?offset=${offset}&limit=${limit}`,
+      getFriendsListByUser: (username: string, offset: number, limit: number) =>
+        `/${username}/friends?offset=${offset}&limit=${limit}`,
     }),
     posts: createEndpointGroup('posts', {
       create: () => '',

@@ -66,17 +66,35 @@ export class ConnectWithOthersComponent
     if (this.isLoading() || !this.hasMore()) return;
 
     this.isLoading.set(true);
-    this.usersService
-      .getAllNotFriends(this.currentPage(), this.pageSize())
-      .subscribe((res) => {
+
+    const page = this.currentPage();
+    const size = this.pageSize();
+
+    if (this.searchMode()) {
+      // Modo búsqueda con scroll infinito
+      this.usersService
+        .searchUsersByUsername(this.searchTerm(), page, size)
+        .subscribe((res) => {
+          if (res.success) {
+            this.usersList.update((prev) => [...prev, ...res.data.content]);
+            this.currentPage.set(page + 1);
+            this.hasMore.set(!res.data.last);
+          }
+          this.isLoading.set(false);
+          this.checkIfNeedMore();
+        });
+    } else {
+      // Modo normal
+      this.usersService.getAllNotFriends(page, size).subscribe((res) => {
         if (res.success) {
           this.usersList.update((prev) => [...prev, ...res.data.content]);
-          this.currentPage.set(this.currentPage() + 1);
+          this.currentPage.set(page + 1);
           this.hasMore.set(!res.data.last);
         }
         this.isLoading.set(false);
         this.checkIfNeedMore();
       });
+    }
   }
 
   submit() {
@@ -84,27 +102,11 @@ export class ConnectWithOthersComponent
     if (!username) return;
 
     this.searchMode.set(true);
-    this.isLoading.set(true);
-    this.usersService.getUserByUsername(username).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.usersList.set([
-            {
-              username: res.data.username,
-              profilePicture: res.data.profilePicture,
-              friendshipStatus: res.data.friendshipStatus,
-            },
-          ]);
-        } else {
-          this.usersList.set([]);
-        }
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.usersList.set([]);
-        this.isLoading.set(false);
-      },
-    });
+    this.usersList.set([]);
+    this.currentPage.set(0);
+    this.hasMore.set(true);
+
+    this.loadMoreUsers();
   }
 
   clearSearch() {

@@ -55,7 +55,6 @@ export class CommunitiesComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.route.parent?.params.subscribe((params) => {
       this.username = params['username'];
-      console.log(this.username);
       this.getUserCommunities();
     });
   }
