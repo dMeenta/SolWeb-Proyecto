@@ -29,12 +29,29 @@ export class CommunityService {
   }
 
   getCommunitiesByUser(
+    username: string,
     offset = 0,
     limit = 10
   ): Observable<ApiResponse<PaginatedResponse<UserCommunityDTO>>> {
-    return this.http.get<ApiResponse<any>>(
+    return this.http.get<ApiResponse<PaginatedResponse<UserCommunityDTO>>>(
       getApiUrl(
-        apiConf.endpoints.community.currentUserCommunities(offset, limit)
+        apiConf.endpoints.community.getCommunitiesByUser(
+          username,
+          offset,
+          limit
+        )
+      ),
+      { withCredentials: true }
+    );
+  }
+
+  getCurrentUserCommunities(
+    offset = 0,
+    limit = 10
+  ): Observable<ApiResponse<PaginatedResponse<UserCommunityDTO>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<UserCommunityDTO>>>(
+      getApiUrl(
+        apiConf.endpoints.community.getCurrentUserCommunities(offset, limit)
       ),
       { withCredentials: true }
     );

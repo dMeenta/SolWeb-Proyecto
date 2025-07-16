@@ -1,8 +1,8 @@
 <div class="h-full overflow-y-auto" (scroll)="onScroll($event)" #scrollContainer>
-    <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
+    <div class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center text-2xl"
         *ngIf="userPosts().length === 0 && !isLoading(); else postsContainer">
         Looks like this user has not post yet...
-    </span>
+    </div>
     <ng-template #postsContainer>
         <div class="pe-2">
             <app-post *ngFor="let post of userPosts();" [post]="post" />

@@ -94,7 +94,7 @@ export class UserCommunitiesBubblesComponent implements OnInit {
     this.loading.set(true);
 
     this.communityService
-      .getCommunitiesByUser(this.offset(), this.limit)
+      .getCurrentUserCommunities(this.offset(), this.limit)
       .subscribe((res) => {
         if (!res.success) {
           toast.error(res.message);

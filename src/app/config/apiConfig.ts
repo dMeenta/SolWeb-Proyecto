@@ -52,7 +52,9 @@ export const apiConf = {
     community: createEndpointGroup('community', {
       joinCommunity: () => '/join',
       leaveCommunity: () => '/leave',
-      currentUserCommunities: (offset: number, limit: number) =>
+      getCommunitiesByUser: (username: string, offset: number, limit: number) =>
+        `/${username}?offset=${offset}&limit=${limit}`,
+      getCurrentUserCommunities: (offset: number, limit: number) =>
         `/userLogged?offset=${offset}&limit=${limit}`,
       checkMembership: (gameName: string) => `/is-community-member/${gameName}`,
     }),
