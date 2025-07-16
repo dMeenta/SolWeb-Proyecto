@@ -1,3 +1,13 @@
-<div class="w-full h-full flex justify-center items-center">
-    <p class="text-2xl font-bold">Oops! Parece que aún no hay nada por aquí</p>
+<div class="h-full overflow-y-auto" (scroll)="onScroll($event)" #scrollContainer>
+    <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
+        *ngIf="userPosts().length === 0 && !isLoading(); else postsContainer">
+        Looks like this user has not post yet...
+    </span>
+    <ng-template #postsContainer>
+        <div class="pe-2">
+            <app-post *ngFor="let post of userPosts();" [post]="post" />
+        </div>
+        <app-loader-spinner *ngIf="isLoading()" class="py-5 w-full flex justify-center items-center"
+            loaderSize="w-13 h-13" />
+    </ng-template>
 </div>

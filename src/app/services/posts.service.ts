@@ -53,4 +53,27 @@ export class PostsService {
       { withCredentials: true }
     );
   }
+
+  getLikersListByPostId(
+    postId: string,
+    offset = 0,
+    limit = 10
+  ): Observable<ApiResponse<PaginatedResponse<string>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<string>>>(
+      getApiUrl(
+        apiConf.endpoints.posts.getLikersListByPostId(postId, offset, limit)
+      )
+    );
+  }
+
+  getUserPosts(
+    username: string,
+    offset = 0,
+    limit = 5
+  ): Observable<ApiResponse<PaginatedResponse<PostDTO>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<PostDTO>>>(
+      getApiUrl(apiConf.endpoints.posts.getUserPosts(username, offset, limit)),
+      { withCredentials: true }
+    );
+  }
 }
