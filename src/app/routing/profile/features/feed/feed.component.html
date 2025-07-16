@@ -5,7 +5,7 @@
     </div>
     <ng-template #postsContainer>
         <div class="pe-2">
-            <app-post *ngFor="let post of userPosts();" [post]="post" />
+            <app-post *ngFor="let post of userPosts();" [post]="post" (postDeleted)="removePost($event)" />
         </div>
         <app-loader-spinner *ngIf="isLoading()" class="py-5 w-full flex justify-center items-center"
             loaderSize="w-13 h-13" />

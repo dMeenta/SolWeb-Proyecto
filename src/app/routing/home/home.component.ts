@@ -68,4 +68,8 @@ export class HomeComponent implements OnInit {
         this.loading.set(false);
       });
   }
+
+  removePost(postId: string) {
+    this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
+  }
 }

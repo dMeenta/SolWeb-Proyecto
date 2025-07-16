@@ -1,9 +1,9 @@
 import { Component, computed, OnInit, Signal, signal } from '@angular/core';
 import { PostsService } from '../../services/posts.service';
-import { showLikesListSignal } from '../../shared/ui/signals/showLikesList.signal';
 import { toast } from 'ngx-sonner';
 import { NgForOf, NgIf } from '@angular/common';
 import { LoaderSpinnerComponent } from '../loader-spinner/loader-spinner.component';
+import { modalContentSignal } from '../../shared/ui/signals/showModal.signal';
 
 @Component({
   selector: 'app-post-likes-panel',
@@ -30,33 +30,36 @@ export class PostLikesPanelComponent implements OnInit {
   getLikersByPostId() {
     if (this.loading() || this.noMore()) return;
 
+    const modal = modalContentSignal();
+    if (modal?.type !== 'likes') return;
+
+    const postId = modal.postId;
+    if (!postId) return;
+
     this.loading.set(true);
 
-    const postId = showLikesListSignal();
-    if (postId) {
-      this.postService
-        .getLikersListByPostId(postId, this.offset(), this.limit)
-        .subscribe({
-          next: (res) => {
-            const page = res.data;
-            const current = this.allLikers();
-            this.allLikers.set([...current, ...page.content]);
+    this.postService
+      .getLikersListByPostId(postId, this.offset(), this.limit)
+      .subscribe({
+        next: (res) => {
+          const page = res.data;
+          const current = this.allLikers();
+          this.allLikers.set([...current, ...page.content]);
 
-            this.offset.set(this.offset() + this.limit);
+          this.offset.set(this.offset() + this.limit);
 
-            if (page.content.length < this.limit) {
-              this.noMore.set(true);
-            }
+          if (page.content.length < this.limit) {
+            this.noMore.set(true);
+          }
 
-            this.loading.set(false);
-          },
-          error: (err) => {
-            toast.error(err.error.message);
-            this.loading.set(false);
-            return;
-          },
-        });
-    }
+          this.loading.set(false);
+        },
+        error: (err) => {
+          toast.error(err.error.message);
+          this.loading.set(false);
+          return;
+        },
+      });
   }
 
   onScroll(event: Event) {
@@ -68,9 +71,5 @@ export class PostLikesPanelComponent implements OnInit {
     if (bottomReached) {
       this.getLikersByPostId();
     }
-  }
-
-  close() {
-    showLikesListSignal.set(null);
   }
 }

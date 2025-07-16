@@ -1,23 +1,17 @@
-<div class="absolute inset-0 z-50 bg-black/50 flex justify-center items-center gap-2">
-  <div class="bg-violet-950 py-4 px-2 rounded-2xl overflow-hidden w-2/7 h-[90vh] shadow-lg shadow-white/10">
-    <h2 class="text-xl font-semibold italic">People who liked this post:</h2>
-    <hr class="my-2">
-    <ul class="overflow-y-auto px-2 flex flex-col gap-1 w-full h-full" (scroll)="onScroll($event)">
-      <li class="select-none w-full flex" *ngFor="let username of likers();"><a
-          class="w-full h-full text-lg truncate bg-gradient-to-r from-black to-transparent px-3 py-0.5 rounded-2xl hover:from-teal-800"
-          href="/profile/{{username}}">
-          {{username}}
-        </a></li>
-      <app-loader-spinner *ngIf="isLoading()" class="h-full content-center place-items-center bg-black/35 rounded-2xl"
-        loaderSize="w-14 h-14" />
-      <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
-        *ngIf="likers().length === 0 && !isLoading();">
-        Be the first to like this post! 😁
-      </span>
-    </ul>
-  </div>
-  <button (click)="close()" title="Close window"
-    class="self-start mt-10 w-fit h-fit hover:bg-white overflow-hidden px-1 text-teal-950 text-shadow-md text-shadow-teal-200/10 bg-teal-700 rounded-full hover:text-teal-800 hover:shadow-md hover:shadow-white/30 text-2xl hover:cursor-pointer transition-all">
-    <i class="fa-solid fa-circle-xmark"></i>
-  </button>
+<div class="w-[28vw] py-4 px-2 h-[90vh]">
+  <h2 class="text-xl font-semibold italic">People who liked this post:</h2>
+  <hr class="my-2">
+  <ul class="overflow-y-auto px-2 flex flex-col gap-1 w-full h-full" (scroll)="onScroll($event)">
+    <li class="select-none w-full flex" *ngFor="let username of likers();"><a
+        class="w-full h-full text-lg truncate bg-gradient-to-r from-black to-transparent px-3 py-0.5 rounded-2xl hover:from-teal-800"
+        href="/profile/{{username}}">
+        {{username}}
+      </a></li>
+    <app-loader-spinner *ngIf="isLoading()" class="h-full content-center place-items-center bg-black/35 rounded-2xl"
+      loaderSize="w-14 h-14" />
+    <span class="w-full h-full text-center text-purple-400 text-shadow-lg/20 text-shadow-white content-center"
+      *ngIf="likers().length === 0 && !isLoading();">
+      Be the first to like this post! 😁
+    </span>
+  </ul>
 </div>

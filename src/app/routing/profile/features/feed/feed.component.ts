@@ -106,4 +106,8 @@ export class FeedComponent implements OnInit, OnDestroy {
       this.getUserPosts();
     }
   }
+
+  removePost(postId: string) {
+    this.allUserPosts.update((posts) => posts.filter((p) => p.id !== postId));
+  }
 }

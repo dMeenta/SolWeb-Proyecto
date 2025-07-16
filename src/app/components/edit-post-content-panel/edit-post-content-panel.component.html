@@ -1,0 +1,13 @@
+<div class="w-[50vw] px-4 py-5">
+  <h2 class="text-xl font-semibold italic">Edit the post content below <span class="not-italic">⬇</span></h2>
+  <hr class="my-2">
+  <textarea [(ngModel)]="newPostContent" placeholder="Write a comment, share your thoughts..." rows="4"
+    class="bg-slate-900 w-full p-2 overflow-y-auto resize-none placeholder:text-purple-400 placeholder:text-shadow-white text-white font-light rounded-xl transition duration-200"></textarea>
+  <button [disabled]="!newPostContent().trim() || newPostContent().trim() === initialContent || isLoading()"
+    (click)="submit()"
+    class="text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300 px-4 py-2 font-semibold flex items-center">
+    <app-loader-spinner *ngIf="isLoading()" loaderSize="w-5 h-5" loaderColor="border-emerald-200" />
+    <i *ngIf="!isLoading()" class="fa-solid fa-upload me-3"></i>
+    <span *ngIf="!isLoading()">Update</span>
+  </button>
+</div>

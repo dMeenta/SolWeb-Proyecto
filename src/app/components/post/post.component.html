@@ -17,16 +17,19 @@
       </div>
       <small class="absolute opacity-50 right-0 bottom-0">{{postedDate()}}</small>
       <div *ngIf="post.isOwner" class="absolute top-0 right-0 flex gap-3">
-        <button
-          class="rounded-lg text-emerald-200 bg-teal-950 hover:bg-teal-800 hover:text-white opacity-70 shadow-sm transition-all duration-300 hover:opacity-100 hover:cursor-pointer p-1.5 flex items-center gap-2">
-          <i class="fa-solid fa-pen"></i></button>
-        <button
-          class="rounded-lg text-emerald-200 bg-teal-950 hover:bg-teal-800 hover:text-white opacity-70 shadow-sm transition-all duration-300 hover:opacity-100 hover:cursor-pointer p-1.5 flex items-center gap-2">
-          <i class="fa-solid fa-trash"></i></button>
+        <button [disabled]="openingEditPanelIsLoading()" (click)="openEditPanel()"
+          class="rounded-lg text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 disabled:opacity-100 not-disabled:hover:text-white opacity-70 shadow-sm transition-all duration-300 not-disabled:hover:opacity-100 disabled:hover:cursor-progress not-disabled:hover:cursor-pointer p-1.5 flex items-center gap-2">
+          <app-loader-spinner *ngIf="openingEditPanelIsLoading()" loaderColor="border-emerald-200"
+            loaderSize="w-4 h-4" />
+          <i class="fa-solid fa-pen" *ngIf="!openingEditPanelIsLoading()"></i></button>
+        <button [disabled]="deletingIsLoading()" (click)="deletePost()"
+          class="rounded-lg text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 disabled:opacity-100 not-disabled:hover:text-white opacity-70 shadow-sm transition-all duration-300 not-disabled:hover:opacity-100 disabled:hover:cursor-progress not-disabled:hover:cursor-pointer p-1.5 flex items-center gap-2">
+          <app-loader-spinner *ngIf="deletingIsLoading()" loaderColor="border-emerald-200" loaderSize="w-4 h-4" />
+          <i class="fa-solid fa-trash" *ngIf="!deletingIsLoading()"></i></button>
       </div>
     </div>
     <div class=" mt-2 mb-3">
-      {{post.content}}
+      {{postContent()}}
     </div>
     <div class="flex justify-between items-center">
       <button (click)="toggleLike()" (mouseenter)="hovering.set(true)" (mouseleave)="hovering.set(false)"
@@ -41,7 +44,10 @@
       <button (click)="showLikesList()" class="font-bold text-emerald-200 hover:cursor-pointer h-fit w-fit">
         {{post.likes.length}} Likes!
       </button>
-      <app-post-likes-panel *ngIf="showLikesListSignal() === post.id" />
+      <app-modal-layout *ngIf="modalContentSignal() !== null">
+        <app-post-likes-panel *ngIf="modalContentSignal()?.type === 'likes'" />
+        <app-edit-post-content-panel *ngIf="modalContentSignal()?.type === 'edit'" />
+      </app-modal-layout>
     </div>
     <app-commentary-container [postId]="post.id" />
     <div class="bg-black/30 pt-1 pb-4 px-3 rounded-b-2xl">

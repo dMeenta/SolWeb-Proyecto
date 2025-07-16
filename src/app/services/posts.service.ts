@@ -76,4 +76,22 @@ export class PostsService {
       { withCredentials: true }
     );
   }
+
+  deletePostById(postId: string): Observable<ApiResponse<void>> {
+    return this.http.delete<ApiResponse<void>>(
+      getApiUrl(apiConf.endpoints.posts.deleteByPostId(postId)),
+      { withCredentials: true }
+    );
+  }
+
+  editPostContent(
+    postId: string,
+    newContent: string
+  ): Observable<ApiResponse<void>> {
+    return this.http.patch<ApiResponse<void>>(
+      getApiUrl(apiConf.endpoints.posts.editPostContent(postId)),
+      newContent,
+      { withCredentials: true }
+    );
+  }
 }

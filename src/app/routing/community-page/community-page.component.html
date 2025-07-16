@@ -15,5 +15,5 @@
     </button>
 </div>
 <section class="px-4">
-    <app-post *ngFor="let post of posts()" [post]="post" />
+    <app-post *ngFor="let post of posts()" [post]="post" (postDeleted)="removePost($event)" />
 </section>

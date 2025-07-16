@@ -136,4 +136,8 @@ export class CommunityPageComponent implements OnInit {
       this.game = res.data;
     });
   }
+
+  removePost(postId: string) {
+    this.allPosts.update((posts) => posts.filter((p) => p.id !== postId));
+  }
 }
