@@ -96,6 +96,8 @@ export const apiConf = {
         `/${postId}/likes?offset=${offset}&limit=${limit}`,
       getUserPosts: (username: string, offset: number, limit: number) =>
         `/user/${username}?offset=${offset}&limit=${limit}`,
+      deleteByPostId: (postId: string) => `/${postId}`,
+      editPostContent: (postId: string) => `/${postId}/edit-content`,
     }),
     comments: createEndpointGroup('comments', {
       create: () => '',
