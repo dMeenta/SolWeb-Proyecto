@@ -3,6 +3,7 @@
     <div class="relative group transition-all duration-300">
       <input type="text" placeholder="Busque el username a buscar..." [value]="searchTerm()"
         (input)="searchTerm.set($any($event.target).value)" name="username"
+        (keydown.enter)="searchTerm().trim() && submit()"
         class="w-full py-3 pl-5 pr-14 rounded-full bg-violet-900 shadow-md focus:outline-none focus:ring-2 transition-all duration-300 placeholder-purple-300 group-hover:shadow-lg" />
       <button type="submit" [disabled]="!searchTerm().trim()"
         class="px-3 absolute right-3 top-1/2 -translate-y-1/2 p-2 text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300">

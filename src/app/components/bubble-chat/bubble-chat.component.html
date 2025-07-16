@@ -16,6 +16,7 @@
     <div class="relative group w-full p-2 bg-violet-900">
       <input type="text" autocomplete="off" placeholder="Write a message..." [value]="messageContent()"
         (input)="messageContent.set($any($event.target).value)" name="message"
+        (keydown.enter)="messageContent().trim() && submit()"
         class="w-full py-3 pl-5 pr-14 rounded-full bg-violet-800 text-white shadow-md focus:outline-none focus:ring-2 ring-violet-300 placeholder-purple-300" />
       <button type="button" (click)="submit()" [disabled]="!messageContent().trim()"
         class="absolute right-3 top-1/2 transform -translate-y-1/2 px-2 py-1  text-emerald-200 bg-teal-950 not-disabled:hover:bg-teal-800 not-disabled:hover:text-white not-disabled:hover:cursor-pointer disabled:opacity-70 rounded-full shadow-sm transition-all duration-300">
