@@ -26,6 +26,7 @@ export interface PostDTO {
   likes: string[];
   content: string;
   currentUserLikedIt: boolean;
+  isOwner: boolean;
   postedAt: number;
 }
 
@@ -110,6 +111,7 @@ export class CommunityPageComponent implements OnInit {
         content: res.data.content,
         currentUserLikedIt: false,
         likes: res.data.likes,
+        isOwner: true,
         postedAt: res.data.postedAt,
         posterProfilePicture: res.data.posterProfilePicture,
         posterUsername: res.data.posterUsername,

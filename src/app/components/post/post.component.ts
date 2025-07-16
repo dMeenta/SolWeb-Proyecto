@@ -11,10 +11,19 @@ import {
 import { newCommentSignal } from '../../shared/ui/signals/newComment.signal';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PostLikesPanelComponent } from '../post-likes-panel/post-likes-panel.component';
+import { showLikesListSignal } from '../../shared/ui/signals/showLikesList.signal';
+import { getDateOnly } from '../../shared/ui/functions/formatDate';
 
 @Component({
   selector: 'app-post',
-  imports: [NgClass, NgIf, CommentaryContainerComponent, FormsModule],
+  imports: [
+    NgClass,
+    NgIf,
+    CommentaryContainerComponent,
+    FormsModule,
+    PostLikesPanelComponent,
+  ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
 })
@@ -23,6 +32,8 @@ export class PostComponent implements OnInit {
   commentContent = signal('');
   liked = signal(false);
   hovering = signal(false);
+  showLikesListSignal = showLikesListSignal;
+  postedDate = signal<string>('');
 
   constructor(
     private postService: PostsService,
@@ -32,6 +43,12 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     this.liked.set(this.post.currentUserLikedIt);
+    const date = getDateOnly(this.post.postedAt);
+    this.postedDate.set(date);
+  }
+
+  showLikesList() {
+    showLikesListSignal.set(this.post.id);
   }
 
   createCommentary() {
