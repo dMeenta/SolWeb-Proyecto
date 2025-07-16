@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class LoaderSpinnerComponent {
   @Input({ required: true }) loaderSize!: string;
+  @Input() loaderColor?: string;
 }
