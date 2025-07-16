@@ -90,6 +90,10 @@ export const apiConf = {
       toggleLike: (postId: string) => `/${postId}/toggle-like`,
       getUserFeed: (offset: number, limit: number) =>
         `/feed?offset=${offset}&limit=${limit}`,
+      getLikersListByPostId: (postId: string, offset: number, limit: number) =>
+        `/${postId}/likes?offset=${offset}&limit=${limit}`,
+      getUserPosts: (username: string, offset: number, limit: number) =>
+        `/user/${username}?offset=${offset}&limit=${limit}`,
     }),
     comments: createEndpointGroup('comments', {
       create: () => '',
