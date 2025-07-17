@@ -84,6 +84,19 @@ export class UsersService {
     );
   }
 
+  searchUserInFriendsList(
+    username: string,
+    offset = 0,
+    limit = 8
+  ): Observable<ApiResponse<PaginatedResponse<Friend>>> {
+    return this.http.get<ApiResponse<PaginatedResponse<Friend>>>(
+      getApiUrl(
+        apiConf.endpoints.user.searchUserInFriendsList(username, offset, limit)
+      ),
+      { withCredentials: true }
+    );
+  }
+
   getFriendshipRequests(
     offset = 0,
     limit = 5

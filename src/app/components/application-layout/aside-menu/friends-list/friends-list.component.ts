@@ -5,6 +5,9 @@ import {
   computed,
   effect,
   OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import {
@@ -34,7 +37,9 @@ import { LoaderSpinnerComponent } from '../../../loader-spinner/loader-spinner.c
     ]),
   ],
 })
-export class FriendsListComponent implements OnInit {
+export class FriendsListComponent implements OnInit, OnChanges {
+  @Input() searchTerm: string | null = null;
+
   private allFriends = signal<Friend[]>([]);
   private offset = signal(0);
   private limit = 8;
@@ -66,8 +71,52 @@ export class FriendsListComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
+      this.handleSearchChange();
+    }
+  }
+
+  private handleSearchChange() {
+    this.allFriends.set([]);
+    this.offset.set(0);
+    this.noMore.set(false);
+
+    if (this.searchTerm && this.searchTerm.trim()) {
+      this.getFriendsByUsername();
+    } else {
+      this.getFriends();
+    }
+  }
+
   ngOnInit(): void {
     this.getFriends();
+  }
+
+  getFriendsByUsername() {
+    if (this.loading() || this.noMore()) return;
+
+    const searchedFriend = this.searchTerm;
+    if (!searchedFriend) return;
+
+    this.loading.set(true);
+    this.userService
+      .searchUserInFriendsList(searchedFriend, this.offset(), this.limit)
+      .subscribe({
+        next: (res) => {
+          if (res.success) {
+            const newFriends = res.data.content;
+            this.allFriends.update((current) => [...current, ...newFriends]);
+            this.offset.update((o) => o + this.limit);
+            this.noMore.set(newFriends.length < this.limit);
+          }
+          this.loading.set(false);
+        },
+        error: (err) => {
+          toast.error(err.error.message);
+          this.loading.set(false);
+        },
+      });
   }
 
   getFriends() {
@@ -75,9 +124,8 @@ export class FriendsListComponent implements OnInit {
 
     this.loading.set(true);
 
-    this.userService
-      .getFriendsList(this.offset(), this.limit)
-      .subscribe((res) => {
+    this.userService.getFriendsList(this.offset(), this.limit).subscribe({
+      next: (res) => {
         if (!res.success) {
           toast.error(res.message);
           this.loading.set(false);
@@ -95,7 +143,12 @@ export class FriendsListComponent implements OnInit {
         }
 
         this.loading.set(false);
-      });
+      },
+      error: (err) => {
+        toast.error(err.error.message);
+        this.loading.set(false);
+      },
+    });
   }
 
   onScroll(event: Event) {

@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import {
   ColorThiefModule,
   ColorThiefService,
@@ -25,7 +31,10 @@ export class FriendListObjectComponent {
   @Input() friend!: Friend;
   dominantColor: number[] | null = null;
 
-  constructor(private colorThief: ColorThiefService) {}
+  constructor(
+    private colorThief: ColorThiefService,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
     const img = this.imgRef.nativeElement;
@@ -70,6 +79,7 @@ export class FriendListObjectComponent {
   private processImageColors(img: HTMLImageElement) {
     const palette = this.colorThief.getPalette(img, 10);
     this.dominantColor = this.getBestBackgroundColor(palette);
+    this.cdRef.detectChanges();
   }
 
   getTextColor(bgColor: number[]): string {

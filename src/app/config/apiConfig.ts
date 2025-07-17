@@ -88,6 +88,11 @@ export const apiConf = {
       getCurrentUserLogged: () => '/me',
       getFriendsList: (offset: number, limit: number) =>
         `/friends?offset=${offset}&limit=${limit}`,
+      searchUserInFriendsList: (
+        username: string,
+        offset: number,
+        limit: number
+      ) => `/friends/${username}?offset=${offset}&limit=${limit}`,
       getFriendsListByUser: (username: string, offset: number, limit: number) =>
         `/${username}/friends?offset=${offset}&limit=${limit}`,
     }),
