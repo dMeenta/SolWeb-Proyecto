@@ -9,6 +9,8 @@ import { LoadingService } from '../services/loading.service';
   providedIn: 'root',
 })
 export class AuthGuardService {
+  private hasCheckedSessionOnce = false;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -16,14 +18,22 @@ export class AuthGuardService {
   ) {}
 
   redirectIfNotLogged(): Observable<boolean> {
+    if (!this.hasCheckedSessionOnce) {
+      this.loadingService.show();
+    }
+
     this.loadingService.show();
     return this.http
       .get(getApiUrl(apiConf.endpoints.user.getCurrentUserLogged()), {
         withCredentials: true,
       })
       .pipe(
-        map(() => true),
+        map(() => {
+          this.hasCheckedSessionOnce = true;
+          return true;
+        }),
         catchError(() => {
+          this.hasCheckedSessionOnce = true;
           this.router.navigateByUrl('/auth/sign-in');
           return of(false);
         }),
