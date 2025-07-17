@@ -1,4 +1,4 @@
-import { Component, effect, Input, signal } from '@angular/core';
+import { Component, effect, HostListener, Input, signal } from '@angular/core';
 import { Friend } from '../friend-list-object/friend-list-object.component';
 import { NgIf } from '@angular/common';
 import { activeChatSignal } from '../../shared/ui/signals/openChat.signal';
@@ -128,5 +128,10 @@ export class BubbleChatComponent {
 
   clearMessageBar() {
     this.messageContent.set('');
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape(event: KeyboardEvent) {
+    this.closeChat();
   }
 }

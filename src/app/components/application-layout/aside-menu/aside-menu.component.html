@@ -12,7 +12,7 @@
     </div>
     <form class="h-10.5 w-full px-2 py-1 mb-2" *ngIf="searchMode()" (ngSubmit)="submit()" novalidate>
         <div class="text-sm 2xl:text-xl relative group transition-all duration-300">
-            <input type="text" placeholder="Friend username..." [value]="searchTerm()"
+            <input type="text" autocomplete="off" placeholder="Friend username..." [value]="searchTerm()"
                 (input)="searchTerm.set($any($event.target).value)" name="username"
                 (keydown.enter)="searchTerm().trim() && submit()"
                 class="w-full py-2 pl-3 pr-12 rounded-full bg-violet-900 shadow-md focus:outline-none focus:ring-2 transition-all duration-300 placeholder-purple-300 group-hover:shadow-lg" />

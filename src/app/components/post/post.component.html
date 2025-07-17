@@ -28,9 +28,7 @@
           <i class="fa-solid fa-trash" *ngIf="!deletingIsLoading()"></i></button>
       </div>
     </div>
-    <p class="mt-2 mb-3 max-h-30 overflow-y-auto whitespace-break-spaces">
-      {{postContent()}}
-    </p>
+    <p class="mt-2 mb-3 max-h-30 overflow-y-auto whitespace-break-spaces">{{postContent()}}</p>
     <div class="flex justify-between items-center">
       <button (click)="toggleLike()" (mouseenter)="hovering.set(true)" (mouseleave)="hovering.set(false)"
         class=" text-sm group hover:cursor-pointer px-4 py-2 rounded-2xl font-semibold transition-all duration-300 flex gap-2 items-center"

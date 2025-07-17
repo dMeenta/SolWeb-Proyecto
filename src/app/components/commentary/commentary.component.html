@@ -5,9 +5,7 @@
     <div class="w-full flex flex-col gap-1 p-2 rounded-lg bg-black/30 shadow-sm shadow-violet-500 border-gray-300">
       <span role="link" class="cursor-pointer font-bold"
         (click)="goToUserProfile()">{{comment.commenterUsername}}</span>
-      <p>
-        {{comment.commentContent}}
-      </p>
+      <p class="whitespace-break-spaces max-h-20 overflow-y-auto">{{comment.commentContent}}</p>
     </div>
   </div>
   <i aria-label="button" (click)="toggleLike()"

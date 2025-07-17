@@ -1,7 +1,7 @@
 <div class="grid grid-cols-[1fr_auto] mb-4 gap-3">
   <form class="w-full h-full" (ngSubmit)="submit()" novalidate>
     <div class="relative group transition-all duration-300">
-      <input type="text" placeholder="Busque el username a buscar..." [value]="searchTerm()"
+      <input type="text" placeholder="Look up for a user..." [value]="searchTerm()" autocomplete="off"
         (input)="searchTerm.set($any($event.target).value)" name="username"
         (keydown.enter)="searchTerm().trim() && submit()"
         class="w-full py-3 pl-5 pr-14 rounded-full bg-violet-900 shadow-md focus:outline-none focus:ring-2 transition-all duration-300 placeholder-purple-300 group-hover:shadow-lg" />
