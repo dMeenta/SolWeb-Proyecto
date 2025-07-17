@@ -1,4 +1,6 @@
 <main class="w-screen h-dvh bg-linear-to-b from-violet-950 via-indigo-950 to-slate-950">
+    <app-loader-spinner class="absolute inset-0 self-center place-self-center" *ngIf="loadingService.loading()"
+        loaderSize="w-20 h-20" />
     <router-outlet></router-outlet>
 </main>
 <ngx-sonner-toaster position="bottom-right" />
