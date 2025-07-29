@@ -97,10 +97,11 @@ export class BubbleChatComponent {
 
   closeChat() {
     activeChatSignal.set(null);
+    newSentMessageSignal.set(null);
   }
 
   submit(event?: Event) {
-    event?.preventDefault(); // ← evita el reload
+    event?.preventDefault();
 
     const messageContent = this.messageContent().trim();
     if (!messageContent) return;
