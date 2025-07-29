@@ -1,4 +1,4 @@
-<app-loader-spinner *ngIf="isLoading()" class="h-fit w-fit content-center place-items-center bg-violet-950 py-3"
+<app-loader-spinner *ngIf="isLoading()" class="h-fit w-full content-center place-items-center bg-violet-950 py-3"
   loaderSize="w-7 h-7" />
 <span class="h-full w-full px-5 text-center content-center text-purple-400 text-shadow-lg/20 text-shadow-white"
   *ngIf="chatMessages().length === 0 && !isLoading(); else messagesList">
